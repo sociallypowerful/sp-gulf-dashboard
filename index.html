@@ -165,15 +165,73 @@ button, input { font-family: inherit; }
 .chip:hover { border-color: var(--pink-border); color: var(--text); }
 .chip.on { background: var(--pink-dim); border-color: var(--pink-border); color: var(--pink); }
 
-.segment-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
-.segment-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
-.segment-head { font-size: 11px; color: var(--text); font-weight: 600; margin-bottom: 10px; }
-.seg-row { margin-bottom: 8px; }
+.ti-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.ti-tab {
+  background: var(--card2);
+  border: 1px solid var(--border2);
+  color: var(--muted2);
+  padding: 8px 13px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+}
+.ti-tab:hover { border-color: var(--pink-border); color: var(--text); }
+.ti-tab.active { background: var(--pink-dim); border-color: var(--pink-border); color: var(--pink); }
+.ti-pane { display: none; }
+.ti-pane.active { display: block; }
+
+.os-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.os-tab {
+  background: var(--card2);
+  border: 1px solid var(--border2);
+  color: var(--muted2);
+  padding: 8px 13px;
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 700;
+  cursor: pointer;
+}
+.os-tab:hover { border-color: var(--pink-border); color: var(--text); }
+.os-tab.active { background: var(--pink-dim); border-color: var(--pink-border); color: var(--pink); }
+.os-pane { display: none; }
+.os-pane.active { display: block; }
+
+.segment-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; }
+.seg-panel { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.seg-panel-head { padding: 14px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.seg-panel-title { display: flex; align-items: center; gap: 6px; }
+.seg-badge { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 700; letter-spacing: 0.04em; }
+.seg-country-uae { color: var(--pink); background: rgba(255, 0, 136, 0.12); border: 1px solid var(--pink-border); }
+.seg-country-ksa { color: #b68cff; background: rgba(182, 140, 255, 0.12); border: 1px solid rgba(182, 140, 255, 0.35); }
+.seg-platform-ig { color: var(--ig); background: rgba(225, 48, 108, 0.12); border: 1px solid rgba(225, 48, 108, 0.35); }
+.seg-platform-tt { color: var(--tt); background: rgba(105, 201, 208, 0.12); border: 1px solid rgba(105, 201, 208, 0.35); }
+.seg-total { font-family: "Playfair Display", serif; font-size: 22px; color: #fff; line-height: 1; }
+.seg-total-sub { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
+.seg-panel-body { padding: 12px 16px 16px; }
+.seg-group { margin-top: 10px; }
+.seg-group:first-child { margin-top: 0; }
+.seg-group-title { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; margin-bottom: 7px; }
+.seg-row { display: grid; grid-template-columns: minmax(85px, 1fr) minmax(80px, 3fr) auto; gap: 8px; align-items: center; margin-bottom: 6px; }
 .seg-row:last-child { margin-bottom: 0; }
-.seg-name { font-size: 11px; color: var(--muted2); display: flex; justify-content: space-between; gap: 8px; }
-.seg-value { font-size: 11px; color: #fff; font-weight: 600; }
-.mini-bar { height: 4px; margin-top: 4px; background: rgba(255,255,255,0.06); border-radius: 999px; overflow: hidden; }
-.mini-fill { height: 100%; border-radius: 999px; background: #ff2a9f; }
+.seg-name { font-size: 11px; color: var(--muted2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.seg-bar { height: 6px; background: rgba(255, 255, 255, 0.06); border-radius: 999px; overflow: hidden; }
+.seg-fill { height: 100%; border-radius: 999px; }
+.seg-value { font-size: 11px; color: #fff; font-weight: 700; }
 
 .overview-shell {
   display: grid;
@@ -397,69 +455,81 @@ footer { border-top: 1px solid var(--border); padding: 18px 36px; display: flex;
         <div class="stat-card top-amber"><div class="stat-val" id="ci-ksa-tt">-</div><div class="stat-label">KSA TikTok</div><div class="stat-sub">1K+ followers</div></div>
       </div>
 
-      <div class="section-block">
-        <div class="section-title">Creator Breakdown</div>
-        <div class="section-sub">Filter by market and platform</div>
-        <div class="filter-row">
-          <span class="fl">Market</span>
-          <button class="chip on" id="ci-all" onclick="ciMarket('all', this)">All</button>
-          <button class="chip" id="ci-uae" onclick="ciMarket('uae', this)">UAE</button>
-          <button class="chip" id="ci-ksa" onclick="ciMarket('ksa', this)">Saudi Arabia</button>
-          <span class="fl" style="margin-left:10px;">Platform</span>
-          <button class="chip on" id="ci-both" onclick="ciPlat('both', this)">Both</button>
-          <button class="chip" id="ci-ig" onclick="ciPlat('instagram', this)">Instagram</button>
-          <button class="chip" id="ci-tt" onclick="ciPlat('tiktok', this)">TikTok</button>
-        </div>
-        <div class="chart-grid">
-          <div class="chart-card"><div class="chart-label">Gender Split</div><div class="chart-title">Creator gender breakdown</div><div class="legend-row" id="ci-gender-leg"></div><div style="height:190px"><canvas id="ciGenderChart"></canvas></div></div>
-          <div class="chart-card"><div class="chart-label">Age Distribution</div><div class="chart-title">Influencer age brackets</div><div style="height:210px"><canvas id="ciAgeChart"></canvas></div></div>
-          <div class="chart-card"><div class="chart-label">Follower Tiers</div><div class="chart-title">Creator pool by tier</div><div class="legend-row" id="ci-tier-leg"></div><div style="height:190px"><canvas id="ciTierChart"></canvas></div></div>
-          <div class="chart-card"><div class="chart-label">Audience Age</div><div class="chart-title">>=30% audience threshold</div><div style="height:210px"><canvas id="ciAudAgeChart"></canvas></div></div>
+      <div class="ti-tabs" role="tablist" aria-label="Talent Pool sections">
+        <button class="ti-tab active" data-ti="overview" role="tab" aria-selected="true" onclick="switchTalentView('overview', this)">Overview</button>
+        <button class="ti-tab" data-ti="segmentation" role="tab" aria-selected="false" onclick="switchTalentView('segmentation', this)">Segmentation</button>
+        <button class="ti-tab" data-ti="spotlight" role="tab" aria-selected="false" onclick="switchTalentView('spotlight', this)">Creator Spotlight</button>
+      </div>
+
+      <div class="ti-pane active" id="ti-overview" role="tabpanel" aria-label="Talent Pool overview">
+        <div class="section-block">
+          <div class="section-title">Creator Breakdown</div>
+          <div class="section-sub">Filter by market and platform</div>
+          <div class="filter-row">
+            <span class="fl">Market</span>
+            <button class="chip on" id="ci-all" onclick="ciMarket('all', this)">All</button>
+            <button class="chip" id="ci-uae" onclick="ciMarket('uae', this)">UAE</button>
+            <button class="chip" id="ci-ksa" onclick="ciMarket('ksa', this)">Saudi Arabia</button>
+            <span class="fl" style="margin-left:10px;">Platform</span>
+            <button class="chip on" id="ci-both" onclick="ciPlat('both', this)">Both</button>
+            <button class="chip" id="ci-ig" onclick="ciPlat('instagram', this)">Instagram</button>
+            <button class="chip" id="ci-tt" onclick="ciPlat('tiktok', this)">TikTok</button>
+          </div>
+          <div class="chart-grid">
+            <div class="chart-card"><div class="chart-label">Gender Split</div><div class="chart-title">Creator gender breakdown</div><div class="legend-row" id="ci-gender-leg"></div><div style="height:190px"><canvas id="ciGenderChart"></canvas></div></div>
+            <div class="chart-card"><div class="chart-label">Age Distribution</div><div class="chart-title">Influencer age brackets</div><div style="height:210px"><canvas id="ciAgeChart"></canvas></div></div>
+            <div class="chart-card"><div class="chart-label">Follower Tiers</div><div class="chart-title">Creator pool by tier</div><div class="legend-row" id="ci-tier-leg"></div><div style="height:190px"><canvas id="ciTierChart"></canvas></div></div>
+            <div class="chart-card"><div class="chart-label">Audience Age</div><div class="chart-title">>=30% audience threshold</div><div style="height:210px"><canvas id="ciAudAgeChart"></canvas></div></div>
+          </div>
         </div>
       </div>
 
-      <div class="section-block">
-        <div class="section-title">Full Segmentation</div>
-        <div class="section-sub">Visual structure by segment type and top clusters</div>
-        <div class="filter-row">
-          <span class="fl">Market</span>
-          <button class="chip on" id="st-all" onclick="stMarket('all', this)">All</button>
-          <button class="chip" id="st-uae" onclick="stMarket('uae', this)">UAE</button>
-          <button class="chip" id="st-ksa" onclick="stMarket('ksa', this)">Saudi Arabia</button>
-          <span class="fl" style="margin-left:10px;">Platform</span>
-          <button class="chip on" id="st-both" onclick="stPlat('both', this)">Both</button>
-          <button class="chip" id="st-ig" onclick="stPlat('instagram', this)">Instagram</button>
-          <button class="chip" id="st-tt" onclick="stPlat('tiktok', this)">TikTok</button>
+      <div class="ti-pane" id="ti-segmentation" role="tabpanel" aria-label="Talent Pool segmentation">
+        <div class="section-block">
+          <div class="section-title">Full Segmentation</div>
+          <div class="section-sub">Visual structure by segment type and top clusters</div>
+          <div class="filter-row">
+            <span class="fl">Market</span>
+            <button class="chip on" id="st-all" onclick="stMarket('all', this)">All</button>
+            <button class="chip" id="st-uae" onclick="stMarket('uae', this)">UAE</button>
+            <button class="chip" id="st-ksa" onclick="stMarket('ksa', this)">Saudi Arabia</button>
+            <span class="fl" style="margin-left:10px;">Platform</span>
+            <button class="chip on" id="st-both" onclick="stPlat('both', this)">Both</button>
+            <button class="chip" id="st-ig" onclick="stPlat('instagram', this)">Instagram</button>
+            <button class="chip" id="st-tt" onclick="stPlat('tiktok', this)">TikTok</button>
+          </div>
+          <div class="stat-grid" id="stOverview"></div>
+          <div class="chart-grid" style="margin-bottom: 14px;">
+            <div class="chart-card"><div class="chart-label">By Segment Type</div><div class="chart-title">Volume contribution per dimension</div><div style="height:220px"><canvas id="stTypeChart"></canvas></div></div>
+            <div class="chart-card"><div class="chart-label">By Market x Platform</div><div class="chart-title">Total creator base distribution</div><div style="height:220px"><canvas id="stMarketPlatformChart"></canvas></div></div>
+            <div class="chart-card"><div class="chart-label">Top Segment Clusters</div><div class="chart-title">Largest segment + filter combinations</div><div style="height:220px"><canvas id="stTopSegmentsChart"></canvas></div></div>
+          </div>
+          <div class="segment-grid" id="stCards"></div>
         </div>
-        <div class="stat-grid" id="stOverview"></div>
-        <div class="chart-grid" style="margin-bottom: 14px;">
-          <div class="chart-card"><div class="chart-label">By Segment Type</div><div class="chart-title">Volume contribution per dimension</div><div style="height:220px"><canvas id="stTypeChart"></canvas></div></div>
-          <div class="chart-card"><div class="chart-label">By Market x Platform</div><div class="chart-title">Total creator base distribution</div><div style="height:220px"><canvas id="stMarketPlatformChart"></canvas></div></div>
-          <div class="chart-card"><div class="chart-label">Top Segment Clusters</div><div class="chart-title">Largest segment + filter combinations</div><div style="height:220px"><canvas id="stTopSegmentsChart"></canvas></div></div>
-        </div>
-        <div class="segment-grid" id="stCards"></div>
       </div>
 
-      <div class="section-block">
-        <div class="section-title">Creator Spotlight</div>
-        <div class="section-sub">Highlighted profiles</div>
-        <div class="filter-row">
-          <span class="fl">Market</span>
-          <button class="chip on" id="cr-all" onclick="crFilter('country','all',this)">All</button>
-          <button class="chip" id="cr-uae" onclick="crFilter('country','UAE',this)">UAE</button>
-          <button class="chip" id="cr-ksa" onclick="crFilter('country','Saudi Arabia',this)">KSA</button>
-          <span class="fl" style="margin-left:10px;">Platform</span>
-          <button class="chip on" id="cr-both" onclick="crFilter('platform','all',this)">Both</button>
-          <button class="chip" id="cr-ig" onclick="crFilter('platform','instagram',this)">Instagram</button>
-          <button class="chip" id="cr-tt" onclick="crFilter('platform','tiktok',this)">TikTok</button>
-          <span class="fl" style="margin-left:10px;">Gender</span>
-          <button class="chip on" id="cr-gall" onclick="crFilter('gender','all',this)">All</button>
-          <button class="chip" id="cr-gf" onclick="crFilter('gender','FEMALE',this)">Female</button>
-          <button class="chip" id="cr-gm" onclick="crFilter('gender','MALE',this)">Male</button>
+      <div class="ti-pane" id="ti-spotlight" role="tabpanel" aria-label="Talent Pool creator spotlight">
+        <div class="section-block">
+          <div class="section-title">Creator Spotlight</div>
+          <div class="section-sub">Highlighted profiles</div>
+          <div class="filter-row">
+            <span class="fl">Market</span>
+            <button class="chip on" id="cr-all" onclick="crFilter('country','all',this)">All</button>
+            <button class="chip" id="cr-uae" onclick="crFilter('country','UAE',this)">UAE</button>
+            <button class="chip" id="cr-ksa" onclick="crFilter('country','Saudi Arabia',this)">KSA</button>
+            <span class="fl" style="margin-left:10px;">Platform</span>
+            <button class="chip on" id="cr-both" onclick="crFilter('platform','all',this)">Both</button>
+            <button class="chip" id="cr-ig" onclick="crFilter('platform','instagram',this)">Instagram</button>
+            <button class="chip" id="cr-tt" onclick="crFilter('platform','tiktok',this)">TikTok</button>
+            <span class="fl" style="margin-left:10px;">Gender</span>
+            <button class="chip on" id="cr-gall" onclick="crFilter('gender','all',this)">All</button>
+            <button class="chip" id="cr-gf" onclick="crFilter('gender','FEMALE',this)">Female</button>
+            <button class="chip" id="cr-gm" onclick="crFilter('gender','MALE',this)">Male</button>
+          </div>
+          <div class="search-wrap"><span class="search-icon">🔍</span><input class="search-input" placeholder="Search by name or username" oninput="crSearch(this.value)"></div>
+          <div class="results-count" id="crCount"></div>
+          <div class="creators-grid" id="creatorsGrid"></div>
         </div>
-        <div class="search-wrap"><span class="search-icon">🔍</span><input class="search-input" placeholder="Search by name or username" oninput="crSearch(this.value)"></div>
-        <div class="results-count" id="crCount"></div>
-        <div class="creators-grid" id="creatorsGrid"></div>
       </div>
     </div>
     <footer><div class="f-logo">Socially Powerful</div><div>Talent Pool · April 2026</div></footer>
@@ -477,91 +547,103 @@ footer { border-top: 1px solid var(--border); padding: 18px 36px; display: flex;
         <div class="stat-card top-green"><div class="stat-val">$3</div><div class="stat-label">CPM Excluding Gifting</div><div class="stat-sub">$6 incl. gifting</div></div>
       </div>
 
-      <div class="section-block">
-        <div class="section-title">Overall Results Dashboard</div>
-        <div class="section-sub">Table A · across platforms</div>
-        <div class="table-wrap">
-          <table class="data-table">
-            <thead><tr><th>Metric</th><th>Total</th><th>Instagram</th><th>TikTok</th><th>Other</th></tr></thead>
-            <tbody id="seedOverviewTable"></tbody>
-          </table>
+      <div class="os-tabs" role="tablist" aria-label="Oversight sections">
+        <button class="os-tab active" data-os="summary" role="tab" aria-selected="true" onclick="switchOversightView('summary', this)">Summary</button>
+        <button class="os-tab" data-os="breakdowns" role="tab" aria-selected="false" onclick="switchOversightView('breakdowns', this)">Breakdowns</button>
+        <button class="os-tab" data-os="weekly" role="tab" aria-selected="false" onclick="switchOversightView('weekly', this)">Weekly</button>
+      </div>
+
+      <div class="os-pane active" id="os-summary" role="tabpanel" aria-label="Oversight summary">
+        <div class="section-block">
+          <div class="section-title">Overall Results Dashboard</div>
+          <div class="section-sub">Table A · across platforms</div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Metric</th><th>Total</th><th>Instagram</th><th>TikTok</th><th>Other</th></tr></thead>
+              <tbody id="seedOverviewTable"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="section-block">
+          <div class="section-title">Platform Performance</div>
+          <div class="section-sub">Instagram vs TikTok split</div>
+          <div class="chart-grid">
+            <div class="chart-card"><div class="chart-label">Impressions Split</div><div class="chart-title">Instagram 1.97M · TikTok 8.54M</div><div style="height:180px"><canvas id="seedImpressionsChart"></canvas></div></div>
+            <div class="chart-card"><div class="chart-label">Engagement Split</div><div class="chart-title">Instagram 155K · TikTok 818K</div><div style="height:180px"><canvas id="seedEngChart"></canvas></div></div>
+            <div class="chart-card"><div class="chart-label">Posting Rate</div><div class="chart-title">Percent who posted per platform</div><div style="height:180px"><canvas id="seedPostRateChart"></canvas></div></div>
+            <div class="chart-card"><div class="chart-label">Seeding Effectiveness</div><div class="chart-title">Impressions per seeded creator</div><div style="height:180px"><canvas id="seedEffChart"></canvas></div></div>
+          </div>
         </div>
       </div>
 
-      <div class="section-block">
-        <div class="section-title">Platform Performance</div>
-        <div class="section-sub">Instagram vs TikTok split</div>
-        <div class="chart-grid">
-          <div class="chart-card"><div class="chart-label">Impressions Split</div><div class="chart-title">Instagram 1.97M · TikTok 8.54M</div><div style="height:180px"><canvas id="seedImpressionsChart"></canvas></div></div>
-          <div class="chart-card"><div class="chart-label">Engagement Split</div><div class="chart-title">Instagram 155K · TikTok 818K</div><div style="height:180px"><canvas id="seedEngChart"></canvas></div></div>
-          <div class="chart-card"><div class="chart-label">Posting Rate</div><div class="chart-title">Percent who posted per platform</div><div style="height:180px"><canvas id="seedPostRateChart"></canvas></div></div>
-          <div class="chart-card"><div class="chart-label">Seeding Effectiveness</div><div class="chart-title">Impressions per seeded creator</div><div style="height:180px"><canvas id="seedEffChart"></canvas></div></div>
+      <div class="os-pane" id="os-breakdowns" role="tabpanel" aria-label="Oversight breakdowns">
+        <div class="section-block">
+          <div class="section-title">Tribe and Tier Analysis</div>
+          <div class="section-sub">Performance depth by audience groups</div>
+          <div class="chart-grid" style="margin-bottom: 12px;">
+            <div class="chart-card"><div class="chart-label">Tribe Impressions</div><div class="chart-title">Category reach contribution</div><div style="height:220px"><canvas id="tribeImpressionsChart"></canvas></div></div>
+            <div class="chart-card"><div class="chart-label">Tier Impressions</div><div class="chart-title">Impressions by follower tier</div><div style="height:220px"><canvas id="tierImpressionsChart"></canvas></div></div>
+          </div>
+          <div class="chart-grid">
+            <div class="chart-card"><div class="chart-label">Tribe Detail</div><div class="chart-title">Influencers, impressions, engagement, CPM</div><div class="table-wrap"><table class="data-table" id="tribeTable"></table></div></div>
+            <div class="chart-card"><div class="chart-label">Tier Detail</div><div class="chart-title">Influencers, impressions, engagement, CPM</div><div class="table-wrap"><table class="data-table" id="tierTable"></table></div></div>
+          </div>
+        </div>
+
+        <div class="section-block">
+          <div class="section-title">Platform View</div>
+          <div class="section-sub">Table H · platform posting and efficiency</div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Platform</th><th>Posts</th><th>Impressions</th><th>Engagements</th><th>Saves</th><th>Eng Rate</th><th>Save Rate</th><th>Posting Rate</th></tr></thead>
+              <tbody id="seedPlatformViewTable"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="section-block">
+          <div class="section-title">Skin Type Performance</div>
+          <div class="section-sub">Table D · female vs male output</div>
+          <div class="chart-grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="chart-card"><div class="chart-label">Skin Type Split</div><div class="chart-title">Impressions by gender in seeding output</div><div style="height:190px"><canvas id="seedSkinTypeChart"></canvas></div></div>
+            <div class="chart-card"><div class="chart-label">Skin Type Detail</div><div class="chart-title">Full metrics by gender</div><div class="table-wrap"><table class="data-table" id="seedSkinTypeTable"></table></div></div>
+          </div>
+        </div>
+
+        <div class="section-block">
+          <div class="section-title">Tribe x Tier Matrix</div>
+          <div class="section-sub">Creator count at each intersection</div>
+          <div class="table-wrap"><table class="data-table" id="tribeTierTable"></table></div>
         </div>
       </div>
 
-      <div class="section-block">
-        <div class="section-title">Tribe and Tier Analysis</div>
-        <div class="section-sub">Performance depth by audience groups</div>
-        <div class="chart-grid" style="margin-bottom: 12px;">
-          <div class="chart-card"><div class="chart-label">Tribe Impressions</div><div class="chart-title">Category reach contribution</div><div style="height:220px"><canvas id="tribeImpressionsChart"></canvas></div></div>
-          <div class="chart-card"><div class="chart-label">Tier Impressions</div><div class="chart-title">Impressions by follower tier</div><div style="height:220px"><canvas id="tierImpressionsChart"></canvas></div></div>
+      <div class="os-pane" id="os-weekly" role="tabpanel" aria-label="Oversight weekly trends">
+        <div class="section-block">
+          <div class="section-title">Week-on-Week Impressions</div>
+          <div class="section-sub">Most recent campaign weeks first</div>
+          <div class="chart-card"><div style="height:250px"><canvas id="seedWeeklyChart"></canvas></div></div>
         </div>
-        <div class="chart-grid">
-          <div class="chart-card"><div class="chart-label">Tribe Detail</div><div class="chart-title">Influencers, impressions, engagement, CPM</div><div class="table-wrap"><table class="data-table" id="tribeTable"></table></div></div>
-          <div class="chart-card"><div class="chart-label">Tier Detail</div><div class="chart-title">Influencers, impressions, engagement, CPM</div><div class="table-wrap"><table class="data-table" id="tierTable"></table></div></div>
+
+        <div class="section-block">
+          <div class="section-title">Week-on-Week Detailed Overview</div>
+          <div class="section-sub">Table F · posts, impressions, engagements, saves</div>
+          <div class="table-wrap">
+            <table class="data-table">
+              <thead><tr><th>Week</th><th>Posted</th><th>Total Posts</th><th>In-Feed</th><th>Stories</th><th>Impressions</th><th>Engagements</th><th>Saves</th></tr></thead>
+              <tbody id="seedWoWTable"></tbody>
+            </table>
+          </div>
         </div>
-      </div>
 
-      <div class="section-block">
-        <div class="section-title">Week-on-Week Impressions</div>
-        <div class="section-sub">Most recent campaign weeks first</div>
-        <div class="chart-card"><div style="height:250px"><canvas id="seedWeeklyChart"></canvas></div></div>
-      </div>
-
-      <div class="section-block">
-        <div class="section-title">Week-on-Week Detailed Overview</div>
-        <div class="section-sub">Table F · posts, impressions, engagements, saves</div>
-        <div class="table-wrap">
-          <table class="data-table">
-            <thead><tr><th>Week</th><th>Posted</th><th>Total Posts</th><th>In-Feed</th><th>Stories</th><th>Impressions</th><th>Engagements</th><th>Saves</th></tr></thead>
-            <tbody id="seedWoWTable"></tbody>
-          </table>
+        <div class="section-block">
+          <div class="section-title">Week-on-Week Tier Views</div>
+          <div class="section-sub">Table G · tier-level views by week</div>
+          <div class="chart-grid" style="grid-template-columns: 1fr 1.15fr;">
+            <div class="chart-card"><div class="chart-label">Tier Views Trend</div><div class="chart-title">Total weekly views from tier matrix</div><div style="height:220px"><canvas id="seedTierViewsChart"></canvas></div></div>
+            <div class="chart-card"><div class="chart-label">Tier Views Detail</div><div class="chart-title">Nano to VIP by week</div><div class="table-wrap"><table class="data-table" id="seedTierViewsTable"></table></div></div>
+          </div>
         </div>
-      </div>
-
-      <div class="section-block">
-        <div class="section-title">Week-on-Week Tier Views</div>
-        <div class="section-sub">Table G · tier-level views by week</div>
-        <div class="chart-grid" style="grid-template-columns: 1fr 1.15fr;">
-          <div class="chart-card"><div class="chart-label">Tier Views Trend</div><div class="chart-title">Total weekly views from tier matrix</div><div style="height:220px"><canvas id="seedTierViewsChart"></canvas></div></div>
-          <div class="chart-card"><div class="chart-label">Tier Views Detail</div><div class="chart-title">Nano to VIP by week</div><div class="table-wrap"><table class="data-table" id="seedTierViewsTable"></table></div></div>
-        </div>
-      </div>
-
-      <div class="section-block">
-        <div class="section-title">Platform View</div>
-        <div class="section-sub">Table H · platform posting and efficiency</div>
-        <div class="table-wrap">
-          <table class="data-table">
-            <thead><tr><th>Platform</th><th>Posts</th><th>Impressions</th><th>Engagements</th><th>Saves</th><th>Eng Rate</th><th>Save Rate</th><th>Posting Rate</th></tr></thead>
-            <tbody id="seedPlatformViewTable"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="section-block">
-        <div class="section-title">Skin Type Performance</div>
-        <div class="section-sub">Table D · female vs male output</div>
-        <div class="chart-grid" style="grid-template-columns: 1fr 1fr;">
-          <div class="chart-card"><div class="chart-label">Skin Type Split</div><div class="chart-title">Impressions by gender in seeding output</div><div style="height:190px"><canvas id="seedSkinTypeChart"></canvas></div></div>
-          <div class="chart-card"><div class="chart-label">Skin Type Detail</div><div class="chart-title">Full metrics by gender</div><div class="table-wrap"><table class="data-table" id="seedSkinTypeTable"></table></div></div>
-        </div>
-      </div>
-
-      <div class="section-block">
-        <div class="section-title">Tribe x Tier Matrix</div>
-        <div class="section-sub">Creator count at each intersection</div>
-        <div class="table-wrap"><table class="data-table" id="tribeTierTable"></table></div>
       </div>
     </div>
     <footer><div class="f-logo">Socially Powerful</div><div>Oversight Program 2025 · April 2026</div></footer>
@@ -1254,11 +1336,57 @@ const HIGHLIGHTED = [
   { country: 'UAE', platform: 'tiktok', fullName: 'Bessan Ismail', username: 'bessan_esmail', url: 'https://www.tiktok.com/@bessan_esmail', followers: 20200000, engRate: 5.15, igGender: 'FEMALE' },
   { country: 'UAE', platform: 'tiktok', fullName: 'Lishay', username: 'alishbahanjum', url: 'https://www.tiktok.com/@alishbahanjum', followers: 19200000, engRate: 8.56, igGender: 'FEMALE' },
   { country: 'Saudi Arabia', platform: 'instagram', fullName: 'Ahmed Alshugairi', username: 'ahmadalshugairi', url: 'https://www.instagram.com/ahmadalshugairi/', followers: 17493307, engRate: 0.08, igGender: 'MALE' },
+  { country: 'Saudi Arabia', platform: 'tiktok', fullName: 'Meto Alshamsi', username: 'iimeeto', url: 'https://www.tiktok.com/@iimeeto', followers: 19800000, engRate: 4.31, igGender: 'MALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'LM', username: 'ecn1a', url: 'https://www.tiktok.com/@ecn1a', followers: 19093460, engRate: 12.46, igGender: 'MALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Danya Milokhin', username: 'danya_milokhin', url: 'https://www.tiktok.com/@danya_milokhin', followers: 18500000, engRate: 7.31, igGender: 'MALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Aydas', username: 'aydas', url: 'https://www.tiktok.com/@aydas', followers: 17700000, engRate: 5.83, igGender: 'FEMALE' },
+  { country: 'Saudi Arabia', platform: 'tiktok', fullName: 'Ziba Gulley', username: 'xzayx89', url: 'https://www.tiktok.com/@xzayx89', followers: 15900000, engRate: 10.63, igGender: 'FEMALE' },
   { country: 'UAE', platform: 'instagram', fullName: 'Balqees', username: 'balqeesfathi', url: 'https://www.instagram.com/balqeesfathi/', followers: 15788348, engRate: 0.07, igGender: 'FEMALE' },
   { country: 'UAE', platform: 'instagram', fullName: 'Nesreen Tafesh', username: 'nesreentafesh', url: 'https://www.instagram.com/nesreentafesh/', followers: 15681682, engRate: 0.24, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Zamelect Properties', username: 'zamelectpropertiesllc', url: 'https://www.tiktok.com/@zamelectpropertiesllc', followers: 15600000, engRate: 5.95, igGender: 'MALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Om Saif', username: 'twin.cis', url: 'https://www.tiktok.com/@twin.cis', followers: 15500000, engRate: 2.61, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Nour Mar', username: 'nourmar5', url: 'https://www.tiktok.com/@nourmar5', followers: 15200000, engRate: 5.71, igGender: 'MALE' },
   { country: 'UAE', platform: 'instagram', fullName: 'Ahlam Alshamsi', username: 'ahlamalshamsi', url: 'https://www.instagram.com/ahlamalshamsi/', followers: 15149307, engRate: 0.05, igGender: 'FEMALE' },
+  { country: 'Saudi Arabia', platform: 'instagram', fullName: 'Model Roz', username: 'model_roz', url: 'https://www.instagram.com/model_roz/', followers: 14951230, engRate: 0.01, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Sunny Kalra', username: 'sunny_kalra55', url: 'https://www.tiktok.com/@sunny_kalra55', followers: 14500000, engRate: 4.57, igGender: 'MALE' },
+  { country: 'Saudi Arabia', platform: 'tiktok', fullName: 'Khalid Alolyan', username: 'olyan15k', url: 'https://www.tiktok.com/@olyan15k', followers: 14500000, engRate: 4.97, igGender: 'MALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Humaid Albuqaish', username: 'humaidalbuqaish', url: 'https://www.tiktok.com/@humaidalbuqaish', followers: 14100000, engRate: 2.32, igGender: 'MALE' },
   { country: 'UAE', platform: 'tiktok', fullName: 'Lana', username: 'lana_mohd89', url: 'https://www.tiktok.com/@lana_mohd89', followers: 13900000, engRate: 5.8, igGender: 'FEMALE' },
-  { country: 'UAE', platform: 'tiktok', fullName: 'Noorstars', username: 'noorstars', url: 'https://www.tiktok.com/@noorstars', followers: 12400000, engRate: 6.47, igGender: 'FEMALE' }
+  { country: 'UAE', platform: 'instagram', fullName: 'Asmaa Ibraheem', username: 'asmaa_ibraheemofficial', url: 'https://www.instagram.com/asmaa_ibraheemofficial/', followers: 13658533, engRate: 0.08, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Desi Rock', username: 'desirock_07', url: 'https://www.tiktok.com/@desirock_07', followers: 13500000, engRate: 5.56, igGender: 'MALE' },
+  { country: 'UAE', platform: 'instagram', fullName: 'Dr Alotaiba', username: 'dr_alotaiba', url: 'https://www.instagram.com/dr_alotaiba/', followers: 12870785, engRate: 0.0, igGender: 'MALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Angelx', username: 'dj.angelx', url: 'https://www.tiktok.com/@dj.angelx', followers: 12800000, engRate: 3.31, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Faryal', username: 'faryal_fairyyy', url: 'https://www.tiktok.com/@faryal_fairyyy', followers: 12500000, engRate: 8.06, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Beingshadabkhan', username: 'beingshadabkhan', url: 'https://www.tiktok.com/@beingshadabkhan', followers: 12500000, engRate: 5.55, igGender: 'MALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Noorstars', username: 'noorstars', url: 'https://www.tiktok.com/@noorstars', followers: 12400000, engRate: 6.47, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'instagram', fullName: 'Diana Haddad', username: 'dianahaddadofficial', url: 'https://www.instagram.com/dianahaddadofficial/', followers: 12341851, engRate: 0.0, igGender: 'FEMALE' },
+  { country: 'Saudi Arabia', platform: 'tiktok', fullName: 'Turki', username: '8mq_p', url: 'https://www.tiktok.com/@8mq_p', followers: 12300000, engRate: 1.32, igGender: 'MALE' },
+  { country: 'UAE', platform: 'instagram', fullName: 'Yara', username: 'yara', url: 'https://www.instagram.com/yara/', followers: 12239552, engRate: 0.02, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Huda Beauty', username: 'hudabeauty', url: 'https://www.tiktok.com/@hudabeauty', followers: 12100000, engRate: 5.72, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'instagram', fullName: 'Miss Global Peace', username: 'missglobalpeace', url: 'https://www.instagram.com/missglobalpeace/', followers: 11897459, engRate: 0.16, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'instagram', fullName: 'Mohammed Othman', username: '7amodkaa', url: 'https://www.instagram.com/7amodkaa/', followers: 11835818, engRate: 0.48, igGender: 'MALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Junaid Malik', username: 'mr_malikofficial', url: 'https://www.tiktok.com/@mr_malikofficial', followers: 11100000, engRate: 4.06, igGender: 'MALE' },
+  { country: 'Saudi Arabia', platform: 'tiktok', fullName: 'Sara Mohannad', username: 'saramohannad_', url: 'https://www.tiktok.com/@saramohannad_', followers: 10800000, engRate: 2.54, igGender: 'FEMALE' },
+  { country: 'Saudi Arabia', platform: 'instagram', fullName: 'Tareq Al Harbi', username: '6ar8o', url: 'https://www.instagram.com/6ar8o/', followers: 10692048, engRate: 0.0, igGender: 'MALE' },
+  { country: 'UAE', platform: 'instagram', fullName: 'Ahmed Hossam', username: 'ahmedhossam', url: 'https://www.instagram.com/ahmedhossam/', followers: 10669710, engRate: 2.79, igGender: 'MALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Leen', username: 'leen_mohd98', url: 'https://www.tiktok.com/@leen_mohd98', followers: 10500000, engRate: 6.7, igGender: 'FEMALE' },
+  { country: 'Saudi Arabia', platform: 'tiktok', fullName: 'Noor035official', username: 'noor035official', url: 'https://www.tiktok.com/@noor035official', followers: 10200000, engRate: 14.55, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'UAE Lion King', username: 'uae_lionking', url: 'https://www.tiktok.com/@uae_lionking', followers: 10100000, engRate: 2.29, igGender: 'MALE' },
+  { country: 'UAE', platform: 'instagram', fullName: 'Youmna Khoury Kiziloz', username: 'youmi', url: 'https://www.instagram.com/youmi/', followers: 10060686, engRate: 1.95, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'instagram', fullName: 'Ghaith Marwan', username: 'ghaith_marwan', url: 'https://www.instagram.com/ghaith_marwan/', followers: 9838509, engRate: 4.0, igGender: 'MALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Uzma', username: 'uzmarahil724', url: 'https://www.tiktok.com/@uzmarahil724', followers: 9300000, engRate: 1.28, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'instagram', fullName: 'Mohammed Bin Rashid', username: 'hhshkmohd', url: 'https://www.instagram.com/hhshkmohd/', followers: 9128562, engRate: 0.36, igGender: 'MALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Basmala Alaaeldin', username: 'bsmallaofficial', url: 'https://www.tiktok.com/@bsmallaofficial', followers: 9100000, engRate: 4.0, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Jumana', username: 'jumana', url: 'https://www.tiktok.com/@jumana', followers: 9100000, engRate: 4.61, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'instagram', fullName: 'Ossy Marwah', username: 'ossymarwah', url: 'https://www.instagram.com/ossymarwah/', followers: 9096697, engRate: 9.91, igGender: 'MALE' },
+  { country: 'Saudi Arabia', platform: 'tiktok', fullName: 'Abo 3aid', username: 'abo.3aid', url: 'https://www.tiktok.com/@abo.3aid', followers: 8900000, engRate: 19.82, igGender: 'MALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Nas Daily', username: 'nasdaily', url: 'https://www.tiktok.com/@nasdaily', followers: 8800000, engRate: 5.37, igGender: 'MALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Sean Freestyle', username: 'seanfreestyle', url: 'https://www.tiktok.com/@seanfreestyle', followers: 8800000, engRate: 2.93, igGender: 'MALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Al Rafaelo', username: 'alrafaelo', url: 'https://www.tiktok.com/@alrafaelo', followers: 8800000, engRate: 3.79, igGender: 'MALE' },
+  { country: 'Saudi Arabia', platform: 'tiktok', fullName: 'Vlad Glent', username: 'vladglent', url: 'https://www.tiktok.com/@vladglent', followers: 8800000, engRate: 5.4, igGender: 'MALE' },
+  { country: 'UAE', platform: 'instagram', fullName: 'Al Rafaelo', username: 'alrafaelo', url: 'https://www.instagram.com/alrafaelo/', followers: 8701713, engRate: 0.03, igGender: 'MALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Anas Elshayib', username: 'anas_elshayib', url: 'https://www.tiktok.com/@anas_elshayib', followers: 8600000, engRate: 6.04, igGender: 'MALE' },
+  { country: 'Saudi Arabia', platform: 'tiktok', fullName: 'Hemex', username: 'hemex_7', url: 'https://www.tiktok.com/@hemex_7', followers: 8600000, engRate: 10.44, igGender: 'MALE' }
 ];
 
 const TRIBES = [
@@ -1400,6 +1528,8 @@ let crCountry = 'all';
 let crPlatform = 'all';
 let crGender = 'all';
 let crQ = '';
+let tiView = 'overview';
+let osView = 'summary';
 const CH = {};
 
 if (window.Chart) {
@@ -1428,9 +1558,48 @@ function goPage(name, btn) {
     initCICharts();
     renderSTInsights();
     renderCreators();
+    switchTalentView(tiView, document.querySelector('.ti-tab[data-ti="' + tiView + '"]'));
   }
-  if (name === 'seeding') initSeedCharts();
+  if (name === 'seeding') {
+    initSeedCharts();
+    switchOversightView(osView, document.querySelector('.os-tab[data-os="' + osView + '"]'));
+  }
   if (name === 'outreach') initOutreachCharts();
+}
+
+function switchTalentView(view, btn) {
+  tiView = view;
+  document.querySelectorAll('.ti-pane').forEach((pane) => pane.classList.remove('active'));
+  document.querySelectorAll('.ti-tab').forEach((tab) => {
+    tab.classList.remove('active');
+    tab.setAttribute('aria-selected', 'false');
+  });
+  const pane = document.getElementById('ti-' + view);
+  if (pane) pane.classList.add('active');
+  if (btn) {
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+  }
+
+  if (view === 'overview') initCICharts();
+  if (view === 'segmentation') renderSTInsights();
+  if (view === 'spotlight') renderCreators();
+}
+
+function switchOversightView(view, btn) {
+  osView = view;
+  document.querySelectorAll('.os-pane').forEach((pane) => pane.classList.remove('active'));
+  document.querySelectorAll('.os-tab').forEach((tab) => {
+    tab.classList.remove('active');
+    tab.setAttribute('aria-selected', 'false');
+  });
+  const pane = document.getElementById('os-' + view);
+  if (pane) pane.classList.add('active');
+  if (btn) {
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+  }
+  initSeedCharts();
 }
 
 function fmt(n) {
@@ -1634,13 +1803,42 @@ function renderSTInsights() {
     options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } } }
   });
 
-  document.getElementById('stCards').innerHTML = Object.keys(typeSegments).map((type) => {
-    const items = typeSegments[type].sort((a, b) => b.value - a.value).slice(0, 4);
-    const max = items[0] ? items[0].value : 1;
-    return `<div class="segment-card">
-      <div class="segment-head">${esc(type)}</div>
-      ${items.map((it) => `<div class="seg-row"><div class="seg-name"><span>${esc(it.name)}</span><span class="seg-value">${fmt(it.value)}</span></div><div class="mini-bar"><div class="mini-fill" style="width:${Math.round((it.value / max) * 100)}%"></div></div></div>`).join('')}
-    </div>`;
+  const panelMarkets = stM === 'all' ? ['UAE', 'Saudi Arabia'] : [stM === 'uae' ? 'UAE' : 'Saudi Arabia'];
+  const panelPlatforms = stP === 'both' ? ['instagram', 'tiktok'] : [stP];
+  const panelDefs = [];
+  panelMarkets.forEach((market) => panelPlatforms.forEach((platform) => panelDefs.push({ market, platform })));
+
+  const sectionDefs = [
+    { key: 'Influencer Gender', label: 'Creator Gender', color: '#5b8af0' },
+    { key: 'Influencer Age', label: 'Creator Age', color: '#7f77dd' },
+    { key: 'Follower Tier', label: 'Follower Tier', color: '#00c48c' },
+    { key: 'Audience Location (>=20%)', label: 'Audience Location >=20%', color: '#f5a623' },
+    { key: 'Audience Gender (>=50%)', label: 'Audience Gender >=50%', color: '#b68cff' },
+    { key: 'Audience Age (>=30%)', label: 'Audience Age >=30%', color: '#4a90e2' }
+  ];
+
+  const cleanSegName = (name) => String(name || '').replace(/^Audience\s+/i, '').replace(/\s+/g, ' ').trim();
+
+  document.getElementById('stCards').innerHTML = panelDefs.map(({ market, platform }) => {
+    const panelRows = rows.filter((r) => r.Country === market && r.Platform === platform);
+    const totalRow = panelRows.find((r) => normalizeMetricKey(r['Segment Type']) === normalizeMetricKey('Total'));
+    const totalVal = totalRow ? Number(totalRow['Total Influencers']) : 0;
+    const countryCls = market === 'UAE' ? 'seg-country-uae' : 'seg-country-ksa';
+    const platformCls = platform === 'instagram' ? 'seg-platform-ig' : 'seg-platform-tt';
+    const platformLabel = platform === 'instagram' ? 'Instagram' : 'TikTok';
+
+    const groups = sectionDefs.map((section) => {
+      const sectionRows = panelRows.filter((r) => normalizeMetricKey(r['Segment Type']) === normalizeMetricKey(section.key));
+      if (!sectionRows.length) return '';
+      const max = Math.max(...sectionRows.map((r) => Number(r['Total Influencers']) || 0), 1);
+      return `<div class="seg-group"><div class="seg-group-title">${esc(section.label)}</div>${sectionRows.map((r) => {
+        const value = Number(r['Total Influencers']) || 0;
+        const width = Math.round((value / max) * 100);
+        return `<div class="seg-row"><div class="seg-name">${esc(cleanSegName(r.Segment))}</div><div class="seg-bar"><div class="seg-fill" style="width:${width}%; background:${section.color};"></div></div><div class="seg-value">${fmt(value)}</div></div>`;
+      }).join('')}</div>`;
+    }).join('');
+
+    return `<div class="seg-panel"><div class="seg-panel-head"><div class="seg-panel-title"><span class="seg-badge ${countryCls}">${esc(market)}</span><span class="seg-badge ${platformCls}">${platformLabel}</span></div><div><div class="seg-total">${fmt(totalVal)}</div><div class="seg-total-sub">Total Creators</div></div></div><div class="seg-panel-body">${groups}</div></div>`;
   }).join('');
 }
 
