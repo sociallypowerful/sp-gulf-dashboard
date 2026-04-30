@@ -3,579 +3,648 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Socially Powerful — Client Intelligence Hub</title>
+<title>Socially Powerful - Client Intelligence Hub</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 :root {
-  --pink: #FF0088;
-  --pink-light: #ff339a;
-  --pink-dim: rgba(255,0,136,0.08);
-  --pink-border: rgba(255,0,136,0.2);
+  --pink: #ff0088;
+  --pink-dim: rgba(255, 0, 136, 0.08);
+  --pink-border: rgba(255, 0, 136, 0.2);
   --black: #080808;
   --dark: #0f0f0f;
   --card: #141414;
   --card2: #1a1a1a;
-  --card3: #202020;
-  --border: rgba(255,255,255,0.06);
-  --border2: rgba(255,255,255,0.1);
+  --border: rgba(255, 255, 255, 0.06);
+  --border2: rgba(255, 255, 255, 0.1);
   --text: #efefef;
   --muted: #777;
   --muted2: #999;
-  --ig: #E1306C;
-  --tt: #69C9D0;
-  --uae: #FF0088;
-  --ksa: #9B59B6;
-  --green: #00C48C;
-  --amber: #F5A623;
-  --blue: #4A90E2;
+  --ig: #e1306c;
+  --tt: #69c9d0;
+  --green: #00c48c;
+  --amber: #f5a623;
+  --blue: #4a90e2;
 }
-*{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{background:var(--black);color:var(--text);font-family:'Syne',sans-serif;font-size:14px;line-height:1.6;min-height:100vh;overflow-x:hidden;}
-
-/* SIDEBAR NAV */
-.sidebar{position:fixed;left:0;top:0;bottom:0;width:220px;background:var(--dark);border-right:1px solid var(--border);display:flex;flex-direction:column;z-index:200;padding:0;}
-.sidebar-logo{padding:24px 20px 20px;border-bottom:1px solid var(--border);}
-.logo-mark{font-family:'Playfair Display',serif;font-size:17px;color:#fff;letter-spacing:-0.02em;line-height:1.1;}
-.logo-sub{font-size:10px;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;margin-top:3px;}
-.sidebar-nav{flex:1;padding:16px 10px;overflow-y:auto;}
-.nav-section-label{font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:700;padding:8px 10px 6px;margin-top:8px;}
-.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;transition:all 0.15s;color:var(--muted2);font-size:13px;font-weight:500;border:none;background:none;width:100%;text-align:left;position:relative;}
-.nav-item:hover{background:rgba(255,255,255,0.04);color:var(--text);}
-.nav-item.active{background:var(--pink-dim);color:var(--pink);border:1px solid var(--pink-border);}
-.nav-item.active::before{content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);width:3px;height:20px;background:var(--pink);border-radius:0 2px 2px 0;}
-.nav-icon{font-size:15px;flex-shrink:0;width:18px;text-align:center;}
-.nav-badge{margin-left:auto;font-size:9px;background:var(--pink-dim);color:var(--pink);border:1px solid var(--pink-border);padding:2px 6px;border-radius:3px;font-weight:700;letter-spacing:0.04em;}
-.sidebar-footer{padding:16px 20px;border-top:1px solid var(--border);font-size:10px;color:var(--muted);}
-.powered-by{display:flex;align-items:center;gap:6px;}
-.status-dot{width:6px;height:6px;background:var(--green);border-radius:50%;animation:pulse 2s infinite;}
-@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
-
-/* MAIN CONTENT */
-.main{margin-left:220px;min-height:100vh;}
-.page{display:none;padding:0;}
-.page.active{display:block;}
-
-/* PAGE HEADER */
-.page-header{padding:32px 36px 24px;border-bottom:1px solid var(--border);background:linear-gradient(135deg,rgba(255,0,136,0.04) 0%,transparent 60%);}
-.page-eyebrow{font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--pink);font-weight:700;margin-bottom:8px;}
-.page-title{font-family:'Playfair Display',serif;font-size:clamp(22px,3vw,36px);color:#fff;line-height:1.1;margin-bottom:6px;}
-.page-title em{color:var(--pink);font-style:italic;}
-.page-desc{font-size:13px;color:var(--muted2);font-weight:400;max-width:600px;}
-
-/* CONTENT AREA */
-.page-content{padding:28px 36px 48px;}
-
-/* STAT GRIDS */
-.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:28px;}
-.stat-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;position:relative;overflow:hidden;}
-.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--pink);opacity:0.6;}
-.stat-card.green::after{background:var(--green);}
-.stat-card.blue::after{background:var(--blue);}
-.stat-card.amber::after{background:var(--amber);}
-.stat-val{font-family:'Playfair Display',serif;font-size:26px;color:#fff;line-height:1;margin-bottom:3px;}
-.stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.07em;font-weight:600;}
-.stat-sub{font-size:11px;color:var(--muted2);margin-top:3px;}
-
-/* SECTION TITLES */
-.section-title{font-family:'Playfair Display',serif;font-size:18px;color:#fff;margin-bottom:4px;}
-.section-sub{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:16px;}
-.section-block{margin-bottom:32px;}
-
-/* CARDS */
-.chart-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;margin-bottom:24px;}
-.chart-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;}
-.chart-label{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);font-weight:600;margin-bottom:3px;}
-.chart-title{font-size:14px;color:var(--muted2);margin-bottom:14px;}
-.legend-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px;}
-.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted2);}
-.leg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
-
-/* TABLE */
-.data-table{width:100%;border-collapse:collapse;}
-.data-table th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);font-weight:700;padding:10px 14px;border-bottom:1px solid var(--border);}
-.data-table td{padding:10px 14px;border-bottom:1px solid var(--border);font-size:12px;color:var(--muted2);}
-.data-table tr:hover td{background:rgba(255,255,255,0.02);}
-.data-table td:first-child{color:var(--text);font-weight:500;}
-.num{font-family:'Playfair Display',serif;font-size:14px;color:#fff;}
-.rate-pill{display:inline-block;font-size:10px;padding:2px 7px;border-radius:3px;font-weight:700;}
-.rate-good{background:rgba(0,196,140,0.12);color:var(--green);}
-.rate-mid{background:rgba(245,166,35,0.12);color:var(--amber);}
-.rate-low{background:rgba(255,0,136,0.12);color:var(--pink);}
-
-/* MINI BAR */
-.mini-bar{height:3px;background:rgba(255,255,255,0.06);border-radius:99px;margin-top:5px;overflow:hidden;}
-.mini-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--pink),#8B00FF);}
-.mini-fill.green{background:linear-gradient(90deg,var(--green),#00A8FF);}
-.mini-fill.blue{background:linear-gradient(90deg,var(--blue),var(--pink));}
-
-/* FILTER CHIPS */
-.filter-row{display:flex;gap:7px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
-.fl{font-size:10px;text-transform:uppercase;letter-spacing:0.09em;color:var(--muted);font-weight:700;margin-right:3px;}
-.chip{padding:5px 13px;border-radius:20px;border:1px solid var(--border2);font-size:11px;color:var(--muted2);cursor:pointer;background:var(--card);font-weight:500;font-family:'Syne',sans-serif;transition:all 0.15s;}
-.chip:hover{border-color:var(--pink-border);color:var(--text);}
-.chip.on{background:var(--pink-dim);border-color:var(--pink-border);color:var(--pink);}
-
-/* PLATFORM BADGES */
-.plat{font-size:10px;padding:2px 7px;border-radius:4px;font-weight:700;letter-spacing:0.04em;display:inline-block;}
-.plat-ig{background:rgba(225,48,108,0.12);color:var(--ig);}
-.plat-tt{background:rgba(105,201,208,0.12);color:var(--tt);}
-.country-badge{font-size:10px;padding:2px 7px;border-radius:4px;font-weight:600;display:inline-block;}
-.cb-uae{background:rgba(255,0,136,0.1);color:var(--uae);}
-.cb-ksa{background:rgba(155,89,182,0.12);color:var(--ksa);}
-
-/* CREATOR CARDS */
-.creators-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
-.creator-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;transition:border-color 0.2s,transform 0.15s;position:relative;overflow:hidden;}
-.creator-card:hover{border-color:var(--pink-border);transform:translateY(-2px);}
-.creator-card.ver::after{content:'✓';position:absolute;top:10px;right:10px;font-size:9px;background:var(--pink-dim);color:var(--pink);border:1px solid var(--pink-border);padding:2px 6px;border-radius:3px;font-weight:700;letter-spacing:0.04em;}
-.creator-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:12px;}
-.avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;font-weight:700;flex-shrink:0;font-family:'Playfair Display',serif;}
-.c-name{font-size:13px;font-weight:600;color:#fff;line-height:1.2;margin-bottom:2px;}
-.c-handle{font-size:11px;color:var(--muted);}
-.c-stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px;}
-.cs{background:var(--card2);border-radius:7px;padding:8px 10px;}
-.cs-val{font-size:14px;font-weight:600;color:#fff;font-family:'Playfair Display',serif;line-height:1;}
-.cs-label{font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-top:2px;}
-.c-link{display:block;text-align:center;padding:7px;background:var(--card2);border:1px solid var(--border2);border-radius:7px;font-size:11px;color:var(--pink);text-decoration:none;font-weight:600;transition:all 0.15s;}
-.c-link:hover{background:var(--pink-dim);border-color:var(--pink-border);}
-.c-meta{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;}
-
-/* SEARCH */
-.search-wrap{position:relative;margin-bottom:16px;}
-.search-input{width:100%;background:var(--card);border:1px solid var(--border2);border-radius:9px;padding:11px 14px 11px 38px;font-size:13px;color:var(--text);font-family:'Syne',sans-serif;outline:none;transition:border-color 0.2s;}
-.search-input:focus{border-color:var(--pink-border);}
-.search-icon{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:14px;}
-.results-count{font-size:11px;color:var(--muted);margin-bottom:14px;}
-.empty{text-align:center;padding:24px;color:var(--muted2);font-size:13px;border:1px dashed var(--border2);border-radius:9px;background:var(--card2);}
-
-/* OUTREACH PLACEHOLDER */
-.coming-soon{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;text-align:center;padding:48px;}
-.cs-icon{font-size:48px;margin-bottom:20px;opacity:0.5;}
-.cs-title{font-family:'Playfair Display',serif;font-size:28px;color:#fff;margin-bottom:8px;}
-.cs-desc{color:var(--muted2);max-width:400px;font-size:13px;line-height:1.7;}
-.cs-upload{margin-top:24px;padding:12px 24px;background:var(--pink-dim);border:1px solid var(--pink-border);color:var(--pink);border-radius:8px;font-size:13px;font-weight:600;font-family:'Syne',sans-serif;cursor:pointer;}
-
-/* WOW TABLE SCROLL */
-.table-wrap{overflow-x:auto;border-radius:12px;border:1px solid var(--border);}
-.table-wrap table{min-width:600px;}
-
-/* FOOTER */
-footer{border-top:1px solid var(--border);padding:20px 36px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
-.f-logo{font-family:'Playfair Display',serif;color:var(--pink);font-size:14px;}
-.f-meta{font-size:10px;color:var(--muted);}
-
-@media(max-width:768px){
-  .sidebar{transform:translateX(-100%);transition:transform 0.3s;}
-  .sidebar.open{transform:none;}
-  .main{margin-left:0;}
-  .mobile-toggle{display:flex;}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background:
+    radial-gradient(circle at 14% 8%, rgba(255, 0, 136, 0.2), transparent 34%),
+    radial-gradient(circle at 82% 14%, rgba(255, 0, 136, 0.12), transparent 40%),
+    linear-gradient(165deg, #070707 0%, #0d0710 52%, #070707 100%);
+  color: var(--text);
+  font-family: "Syne", sans-serif;
+  font-size: 14px;
+  line-height: 1.55;
 }
-.mobile-toggle{display:none;position:fixed;top:16px;left:16px;z-index:300;background:var(--dark);border:1px solid var(--border2);border-radius:8px;padding:8px 10px;cursor:pointer;color:var(--text);font-size:18px;}
+button, input { font-family: inherit; }
+
+.mobile-toggle { display: none; }
+.sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 220px;
+  background: linear-gradient(180deg, rgba(255, 0, 136, 0.14), #0f0f0f 24%, #101010 100%);
+  border-right: 1px solid var(--border);
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-logo { padding: 24px 20px; border-bottom: 1px solid var(--border); }
+.logo-mark {
+  font-family: "Playfair Display", serif;
+  font-size: 18px;
+  line-height: 1.1;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.logo-mark::before {
+  content: "";
+  width: 34px;
+  height: 34px;
+  display: inline-block;
+  border-radius: 10px;
+  border: 1px solid var(--pink-border);
+  background:
+    linear-gradient(145deg, rgba(255,0,136,0.2), rgba(255,0,136,0.05)),
+    url("logo%20(1).svg") center/80% no-repeat;
+}
+.logo-sub { margin-top: 4px; font-size: 10px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+.sidebar-nav { padding: 14px 10px; overflow: auto; flex: 1; }
+.nav-label { font-size: 9px; color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase; padding: 8px 10px; font-weight: 700; }
+.nav-item {
+  width: 100%;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--muted2);
+  text-align: left;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 4px;
+  cursor: pointer;
+}
+.nav-item:hover { background: rgba(255, 255, 255, 0.04); color: var(--text); }
+.nav-item.active { background: var(--pink-dim); color: var(--pink); border-color: var(--pink-border); }
+.sidebar-footer { border-top: 1px solid var(--border); padding: 14px 20px; font-size: 10px; color: var(--muted); }
+
+.main {
+  margin-left: 220px;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 78% 0%, rgba(255, 0, 136, 0.07), transparent 30%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0));
+}
+.page { display: none; }
+.page.active { display: block; }
+.page-header {
+  padding: 30px 36px 22px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(140deg, rgba(255,0,136,0.2), rgba(255,0,136,0.05) 40%, transparent 72%);
+}
+.page-eyebrow { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pink); font-weight: 700; margin-bottom: 8px; }
+.page-title { font-family: "Playfair Display", serif; font-size: clamp(24px, 3.2vw, 38px); line-height: 1.1; margin-bottom: 6px; }
+.page-title em { color: var(--pink); font-style: italic; }
+.page-desc { color: var(--muted2); max-width: 700px; }
+.page-content { padding: 28px 36px 46px; }
+
+.scope-note {
+  margin-bottom: 16px;
+  padding: 10px 12px;
+  border: 1px solid var(--pink-border);
+  background: linear-gradient(120deg, rgba(255,0,136,0.14), rgba(255,0,136,0.04));
+  border-radius: 10px;
+  color: #fff;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 28px; }
+.stat-card {
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  backdrop-filter: blur(1px);
+}
+.stat-card.top-pink { box-shadow: inset 0 2px 0 0 var(--pink); }
+.stat-card.top-green { box-shadow: inset 0 2px 0 0 var(--green); }
+.stat-card.top-blue { box-shadow: inset 0 2px 0 0 var(--blue); }
+.stat-card.top-amber { box-shadow: inset 0 2px 0 0 var(--amber); }
+.stat-val { font-family: "Playfair Display", serif; font-size: 26px; line-height: 1; margin-bottom: 4px; }
+.stat-label { font-size: 10px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; }
+.stat-sub { font-size: 11px; color: var(--muted2); margin-top: 3px; }
+
+.section-title { font-family: "Playfair Display", serif; font-size: 18px; margin-bottom: 2px; }
+.section-sub { font-size: 11px; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px; }
+.section-block { margin-bottom: 30px; }
+
+.chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+.chart-card {
+  background: linear-gradient(170deg, rgba(255,0,136,0.06), rgba(20,20,20,0.95) 34%);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+}
+.chart-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 700; }
+.chart-title { font-size: 13px; color: var(--muted2); margin-bottom: 10px; }
+.legend-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+.leg { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--muted2); }
+.leg-dot { width: 8px; height: 8px; border-radius: 2px; }
+
+.filter-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 16px; }
+.fl { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.09em; font-weight: 700; }
+.chip {
+  background: var(--card2);
+  border: 1px solid var(--border2);
+  color: var(--muted2);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 11px;
+  cursor: pointer;
+}
+.chip:hover { border-color: var(--pink-border); color: var(--text); }
+.chip.on { background: var(--pink-dim); border-color: var(--pink-border); color: var(--pink); }
+
+.segment-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; }
+.segment-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+.segment-head { font-size: 11px; color: var(--text); font-weight: 600; margin-bottom: 10px; }
+.seg-row { margin-bottom: 8px; }
+.seg-row:last-child { margin-bottom: 0; }
+.seg-name { font-size: 11px; color: var(--muted2); display: flex; justify-content: space-between; gap: 8px; }
+.seg-value { font-size: 11px; color: #fff; font-weight: 600; }
+.mini-bar { height: 4px; margin-top: 4px; background: rgba(255,255,255,0.06); border-radius: 999px; overflow: hidden; }
+.mini-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #ff0088, #ff5aa7); }
+
+.overview-shell {
+  display: grid;
+  grid-template-columns: minmax(260px, 1.25fr) minmax(220px, 0.75fr);
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.overview-hero-card,
+.overview-scope-card {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+}
+.overview-hero-card {
+  background: linear-gradient(125deg, rgba(255,0,136,0.24), rgba(255,0,136,0.08) 45%, rgba(255,255,255,0.02));
+}
+.overview-scope-card {
+  background: linear-gradient(185deg, rgba(255,255,255,0.03), rgba(255,0,136,0.06));
+}
+.overview-kicker {
+  font-size: 10px;
+  color: #ffd0e7;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.overview-lead {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(20px, 2vw, 28px);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+.overview-copy { color: #f4d5e6; max-width: 64ch; }
+.overview-points { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 8px; }
+.overview-pill {
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #ffd7ea;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: rgba(8, 8, 8, 0.28);
+}
+.overview-scope-list { display: grid; gap: 10px; }
+.overview-scope-item { border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+.overview-scope-item:last-child { border-bottom: 0; padding-bottom: 0; }
+.overview-scope-label {
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+}
+.overview-scope-value {
+  font-size: 16px;
+  font-family: "Playfair Display", serif;
+  color: #fff;
+  margin-top: 2px;
+}
+
+.dept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 14px;
+}
+.dept-card {
+  text-align: left;
+  cursor: pointer;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: linear-gradient(155deg, rgba(255,0,136,0.14), rgba(20,20,20,0.95) 46%);
+  padding: 16px;
+}
+
+.dept-card:hover { border-color: var(--pink-border); transform: translateY(-1px); }
+.f-logo {
+  font-family: "Playfair Display", serif;
+  color: var(--pink);
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.f-logo::before {
+  content: "";
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  display: inline-block;
+  border: 1px solid var(--pink-border);
+  background:
+    linear-gradient(145deg, rgba(255,0,136,0.22), rgba(255,0,136,0.08)),
+    url("logo%20(1).svg") center/82% no-repeat;
+}
+.dept-copy { font-size: 12px; color: #d3c2cb; margin-bottom: 12px; min-height: 36px; }
+.dept-cta {
+  display: inline-block;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--pink);
+  font-weight: 700;
+}
+
+.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 12px; }
+.data-table { width: 100%; border-collapse: collapse; min-width: 640px; }
+.data-table th, .data-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); text-align: left; }
+.data-table th { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; }
+.data-table td { color: var(--muted2); font-size: 12px; }
+.data-table td:first-child { color: var(--text); }
+.num { font-family: "Syne", sans-serif; color: #fff; font-weight: 700; letter-spacing: 0.01em; }
+.rate-pill { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 3px; font-weight: 700; }
+.rate-good { background: rgba(0,196,140,0.12); color: var(--green); }
+.rate-mid { background: rgba(245,166,35,0.12); color: var(--amber); }
+.rate-low { background: rgba(255,0,136,0.12); color: var(--pink); }
+
+.creators-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.creator-card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 14px; }
+.creator-top { display: flex; gap: 10px; margin-bottom: 10px; }
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-weight: 700;
+  font-family: "Playfair Display", serif;
+}
+.c-name { font-size: 13px; color: #fff; font-weight: 600; }
+.c-handle { font-size: 11px; color: var(--muted); }
+.c-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 10px 0; }
+.cs { background: var(--card2); border-radius: 8px; padding: 7px 9px; }
+.cs-val { font-family: "Playfair Display", serif; color: #fff; line-height: 1; font-size: 14px; }
+.cs-label { color: var(--muted); font-size: 9px; text-transform: uppercase; letter-spacing: 0.05em; }
+.c-link {
+  display: block;
+  text-align: center;
+  padding: 7px;
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+  color: var(--pink);
+  text-decoration: none;
+  font-size: 11px;
+  background: var(--card2);
+}
+.c-link:hover { border-color: var(--pink-border); background: var(--pink-dim); }
+
+.search-wrap { position: relative; margin-bottom: 12px; }
+.search-input { width: 100%; background: var(--card2); border: 1px solid var(--border2); border-radius: 9px; padding: 10px 12px 10px 36px; color: var(--text); }
+.search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--muted); }
+.results-count { color: var(--muted); font-size: 11px; margin-bottom: 12px; }
+.empty { border: 1px dashed var(--border2); border-radius: 10px; padding: 20px; text-align: center; color: var(--muted2); }
+
+footer { border-top: 1px solid var(--border); padding: 18px 36px; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; color: var(--muted); font-size: 10px; }
+
+@media (max-width: 900px) {
+  .mobile-toggle {
+    display: block;
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 40;
+    border: 1px solid var(--border2);
+    background: var(--dark);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
+  }
+  .sidebar { transform: translateX(-100%); transition: transform 0.25s ease; }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; }
+  .overview-shell { grid-template-columns: 1fr; }
+  .page-header, .page-content, footer { padding-left: 20px; padding-right: 20px; }
+}
 </style>
 </head>
 <body>
-
-<button class="mobile-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')" aria-label="Toggle navigation">☰</button>
-
-<!-- SIDEBAR -->
-<aside class="sidebar">
+<button class="mobile-toggle" onclick="toggleNav()" aria-label="Toggle navigation">☰</button>
+<aside class="sidebar" id="sidebar">
   <div class="sidebar-logo">
     <div class="logo-mark">Socially<br>Powerful</div>
     <div class="logo-sub">Client Intelligence Hub</div>
   </div>
   <nav class="sidebar-nav">
-    <div class="nav-section-label">Departments</div>
-    <button class="nav-item active" onclick="goPage('home',this)">
-      <span class="nav-icon">⚡</span> Overview
-    </button>
-    <button class="nav-item" onclick="goPage('creator-intel',this)">
-      <span class="nav-icon">🌍</span> Creator Intelligence
-      <span class="nav-badge">GULF</span>
-    </button>
-    <button class="nav-item" onclick="goPage('seeding',this)">
-      <span class="nav-icon">📦</span> Seeding
-    </button>
-    <button class="nav-item" onclick="goPage('outreach',this)">
-      <span class="nav-icon">📡</span> Outreach
-    </button>
-    <div class="nav-section-label">Settings</div>
-    <button class="nav-item" onclick="goPage('about',this)">
-      <span class="nav-icon">ℹ️</span> About
-    </button>
+    <div class="nav-label">Departments</div>
+    <button class="nav-item active" data-page="home" onclick="goPage('home', this)">Overview</button>
+    <button class="nav-item" data-page="creator-intel" onclick="goPage('creator-intel', this)">Creator Intelligence</button>
+    <button class="nav-item" data-page="seeding" onclick="goPage('seeding', this)">Seeding</button>
+    <button class="nav-item" data-page="outreach" onclick="goPage('outreach', this)">Outreach</button>
+    <div class="nav-label">Settings</div>
+    <button class="nav-item" data-page="about" onclick="goPage('about', this)">About</button>
   </nav>
-  <div class="sidebar-footer">
-    <div class="powered-by">
-      <div class="status-dot"></div>
-      <span>Live data · April 2026</span>
-    </div>
-  </div>
+  <div class="sidebar-footer">Live data · April 2026</div>
 </aside>
 
-<!-- MAIN -->
 <main class="main">
-
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <!-- HOME PAGE -->
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <div class="page active" id="page-home">
+  <section class="page active" id="page-home">
     <div class="page-header">
       <div class="page-eyebrow">Client Intelligence Hub</div>
       <h1 class="page-title">Socially Powerful<br><em>Capabilities Overview</em></h1>
-      <p class="page-desc">A live view of our data infrastructure, creator network, seeding programs, and outreach operations — built for this meeting.</p>
+      <p class="page-desc">A unified view of Creator Intelligence, Seeding, and Outreach with full campaign visibility and client-ready storytelling.</p>
     </div>
     <div class="page-content">
-      <div class="stat-grid">
-        <div class="stat-card">
-          <div class="stat-val">7.2M+</div>
-          <div class="stat-label">TikTok Creators</div>
-          <div class="stat-sub">UAE + KSA combined</div>
+      <div class="overview-shell">
+        <div class="overview-hero-card">
+          <div class="overview-kicker">Executive Snapshot</div>
+          <div class="overview-lead">One dashboard for market intelligence, seeding execution, and outreach outcomes.</div>
+          <div class="overview-copy">Use this overview to anchor client conversations quickly, then drill into each department for detailed splits, diagnostics, and performance structures.</div>
+          <div class="overview-points">
+            <span class="overview-pill">UAE + KSA Creator Mapping</span>
+            <span class="overview-pill">Full Seeding Matrix</span>
+            <span class="overview-pill">Outreach Opt-In Funnel</span>
+          </div>
         </div>
-        <div class="stat-card green">
-          <div class="stat-val">853K+</div>
-          <div class="stat-label">Instagram Creators</div>
-          <div class="stat-sub">UAE + KSA combined</div>
-        </div>
-        <div class="stat-card blue">
-          <div class="stat-val">1,000</div>
-          <div class="stat-label">Influencers Seeded</div>
-          <div class="stat-sub">Scaled seeding program 2025</div>
-        </div>
-        <div class="stat-card amber">
-          <div class="stat-val">10.5M</div>
-          <div class="stat-label">Total Impressions</div>
-          <div class="stat-sub">Seeding program</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-val">43.9%</div>
-          <div class="stat-label">Response Rate</div>
-          <div class="stat-sub">Seeding program</div>
-        </div>
-        <div class="stat-card green">
-          <div class="stat-val">9.24%</div>
-          <div class="stat-label">Engagement Rate</div>
-          <div class="stat-sub">Across all platforms</div>
+        <div class="overview-scope-card">
+          <div class="overview-kicker">Coverage at a Glance</div>
+          <div class="overview-scope-list">
+            <div class="overview-scope-item"><div class="overview-scope-label">Markets</div><div class="overview-scope-value">UAE, Saudi Arabia, UK</div></div>
+            <div class="overview-scope-item"><div class="overview-scope-label">Platforms</div><div class="overview-scope-value">Instagram + TikTok</div></div>
+            <div class="overview-scope-item"><div class="overview-scope-label">Reporting Window</div><div class="overview-scope-value">2025 to 2026</div></div>
+          </div>
         </div>
       </div>
-
+      <div class="stat-grid" id="homeStats"></div>
       <div class="section-block">
-        <div class="section-title">What we do</div>
-        <div class="section-sub">Departments</div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;">
-          <div class="chart-card" style="cursor:pointer;border-color:var(--pink-border)" onclick="goPage('creator-intel',document.querySelector('[onclick*=creator-intel]'))">
-            <div style="font-size:24px;margin-bottom:10px">🌍</div>
-            <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:5px">Creator Intelligence</div>
-            <div style="font-size:12px;color:var(--muted2);line-height:1.6">Access to vetted, diverse creator pools across UAE & KSA. Segmented by gender, age, tier, platform and audience demographics.</div>
-            <div style="margin-top:12px;font-size:11px;color:var(--pink);font-weight:600">View data →</div>
-          </div>
-          <div class="chart-card" style="cursor:pointer" onclick="goPage('seeding',document.querySelector('[onclick*=seeding]'))">
-            <div style="font-size:24px;margin-bottom:10px">📦</div>
-            <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:5px">Seeding Programs</div>
-            <div style="font-size:12px;color:var(--muted2);line-height:1.6">Scaled gifting operations with full reporting: impressions, engagement, posting rates, tribe and tier breakdowns, week-on-week views.</div>
-            <div style="margin-top:12px;font-size:11px;color:var(--pink);font-weight:600">View data →</div>
-          </div>
-          <div class="chart-card" style="cursor:pointer" onclick="goPage('outreach',document.querySelector('[onclick*=outreach]'))">
-            <div style="font-size:24px;margin-bottom:10px">📡</div>
-            <div style="font-size:15px;font-weight:600;color:#fff;margin-bottom:5px">Outreach</div>
-            <div style="font-size:12px;color:var(--muted2);line-height:1.6">End-to-end creator outreach, negotiation, and activation management across all tiers and markets.</div>
-            <div style="margin-top:12px;font-size:11px;color:var(--pink);font-weight:600">View data →</div>
-          </div>
+        <div class="section-title">Explore Departments</div>
+        <div class="section-sub">Navigate by capability</div>
+        <div class="dept-grid">
+          <button class="dept-card" onclick="goPage('creator-intel', document.querySelector('[data-page=\'creator-intel\']'))">
+            <div class="chart-label">Creator Intelligence</div>
+            <div class="dept-title">Audience & Creator Intelligence</div>
+            <div class="dept-copy">Market + platform segmentation, creator spotlight, and audience diagnostics.</div>
+            <div class="dept-cta">Open Department</div>
+          </button>
+          <button class="dept-card" onclick="goPage('seeding', document.querySelector('[data-page=\'seeding\']'))">
+            <div class="chart-label">Seeding</div>
+            <div class="dept-title">Scaled Seeding Performance</div>
+            <div class="dept-copy">Platform split, tribe and tier analysis, weekly trends, and full matrix view.</div>
+            <div class="dept-cta">Open Department</div>
+          </button>
+          <button class="dept-card" onclick="goPage('outreach', document.querySelector('[data-page=\'outreach\']'))">
+            <div class="chart-label">Outreach</div>
+            <div class="dept-title">Creator Outreach Funnel</div>
+            <div class="dept-copy">Market funnel, sequence quality, and opt-in conversion performance.</div>
+            <div class="dept-cta">Open Department</div>
+          </button>
         </div>
       </div>
     </div>
-    <footer><div class="f-logo">Socially Powerful</div><div class="f-meta">Modash · SP API Gateway · April 2026</div></footer>
-  </div>
+    <footer><div class="f-logo">Socially Powerful</div><div>Modash · SP API Gateway · April 2026</div></footer>
+  </section>
 
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <!-- CREATOR INTELLIGENCE PAGE -->
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <div class="page" id="page-creator-intel">
+  <section class="page" id="page-creator-intel">
     <div class="page-header">
       <div class="page-eyebrow">Creator Intelligence · Gulf Region</div>
       <h1 class="page-title">UAE & Saudi Arabia<br><em>Creator Landscape</em></h1>
-      <p class="page-desc">Powered by Modash via SP data infrastructure. All figures verified with exact match confirmation across Instagram and TikTok.</p>
+      <p class="page-desc">Interactive Creator Intelligence with market and platform segmentation across Instagram and TikTok.</p>
     </div>
     <div class="page-content">
       <div class="stat-grid">
-        <div class="stat-card"><div class="stat-val" id="ci-uae-ig">—</div><div class="stat-label">UAE Instagram</div><div class="stat-sub">1K+ followers</div></div>
-        <div class="stat-card green"><div class="stat-val" id="ci-uae-tt">—</div><div class="stat-label">UAE TikTok</div><div class="stat-sub">1K+ followers</div></div>
-        <div class="stat-card blue"><div class="stat-val" id="ci-ksa-ig">—</div><div class="stat-label">KSA Instagram</div><div class="stat-sub">1K+ followers</div></div>
-        <div class="stat-card amber"><div class="stat-val" id="ci-ksa-tt">—</div><div class="stat-label">KSA TikTok</div><div class="stat-sub">1K+ followers</div></div>
+        <div class="stat-card top-pink"><div class="stat-val" id="ci-uae-ig">-</div><div class="stat-label">UAE Instagram</div><div class="stat-sub">1K+ followers</div></div>
+        <div class="stat-card top-green"><div class="stat-val" id="ci-uae-tt">-</div><div class="stat-label">UAE TikTok</div><div class="stat-sub">1K+ followers</div></div>
+        <div class="stat-card top-blue"><div class="stat-val" id="ci-ksa-ig">-</div><div class="stat-label">KSA Instagram</div><div class="stat-sub">1K+ followers</div></div>
+        <div class="stat-card top-amber"><div class="stat-val" id="ci-ksa-tt">-</div><div class="stat-label">KSA TikTok</div><div class="stat-sub">1K+ followers</div></div>
       </div>
 
-      <!-- Charts -->
       <div class="section-block">
         <div class="section-title">Creator Breakdown</div>
         <div class="section-sub">Filter by market and platform</div>
         <div class="filter-row">
           <span class="fl">Market</span>
-          <button class="chip on" id="ci-all" onclick="ciMarket('all',this)">All</button>
-          <button class="chip" id="ci-uae" onclick="ciMarket('uae',this)">UAE</button>
-          <button class="chip" id="ci-ksa" onclick="ciMarket('ksa',this)">Saudi Arabia</button>
-          <span class="fl" style="margin-left:10px">Platform</span>
-          <button class="chip on" id="ci-both" onclick="ciPlat('both',this)">Both</button>
-          <button class="chip" id="ci-ig" onclick="ciPlat('instagram',this)">Instagram</button>
-          <button class="chip" id="ci-tt" onclick="ciPlat('tiktok',this)">TikTok</button>
+          <button class="chip on" id="ci-all" onclick="ciMarket('all', this)">All</button>
+          <button class="chip" id="ci-uae" onclick="ciMarket('uae', this)">UAE</button>
+          <button class="chip" id="ci-ksa" onclick="ciMarket('ksa', this)">Saudi Arabia</button>
+          <span class="fl" style="margin-left:10px;">Platform</span>
+          <button class="chip on" id="ci-both" onclick="ciPlat('both', this)">Both</button>
+          <button class="chip" id="ci-ig" onclick="ciPlat('instagram', this)">Instagram</button>
+          <button class="chip" id="ci-tt" onclick="ciPlat('tiktok', this)">TikTok</button>
         </div>
         <div class="chart-grid">
-          <div class="chart-card">
-            <div class="chart-label">Gender Split</div>
-            <div class="chart-title">Creator gender breakdown</div>
-            <div class="legend-row" id="ci-gender-leg"></div>
-            <div style="position:relative;height:190px"><canvas id="ciGenderChart"></canvas></div>
-          </div>
-          <div class="chart-card">
-            <div class="chart-label">Age Distribution</div>
-            <div class="chart-title">Influencer age brackets</div>
-            <div style="position:relative;height:210px"><canvas id="ciAgeChart"></canvas></div>
-          </div>
-          <div class="chart-card">
-            <div class="chart-label">Follower Tiers</div>
-            <div class="chart-title">Creator pool by tier</div>
-            <div class="legend-row" id="ci-tier-leg"></div>
-            <div style="position:relative;height:190px"><canvas id="ciTierChart"></canvas></div>
-          </div>
-          <div class="chart-card">
-            <div class="chart-label">Audience Age</div>
-            <div class="chart-title">≥30% audience threshold</div>
-            <div style="position:relative;height:210px"><canvas id="ciAudAgeChart"></canvas></div>
-            <div style="font-size:10px;color:var(--muted);margin-top:6px">Creators where ≥30% of their audience is in that age bracket</div>
-          </div>
+          <div class="chart-card"><div class="chart-label">Gender Split</div><div class="chart-title">Creator gender breakdown</div><div class="legend-row" id="ci-gender-leg"></div><div style="height:190px"><canvas id="ciGenderChart"></canvas></div></div>
+          <div class="chart-card"><div class="chart-label">Age Distribution</div><div class="chart-title">Influencer age brackets</div><div style="height:210px"><canvas id="ciAgeChart"></canvas></div></div>
+          <div class="chart-card"><div class="chart-label">Follower Tiers</div><div class="chart-title">Creator pool by tier</div><div class="legend-row" id="ci-tier-leg"></div><div style="height:190px"><canvas id="ciTierChart"></canvas></div></div>
+          <div class="chart-card"><div class="chart-label">Audience Age</div><div class="chart-title">>=30% audience threshold</div><div style="height:210px"><canvas id="ciAudAgeChart"></canvas></div></div>
         </div>
       </div>
 
-      <!-- Segmentation Table -->
       <div class="section-block">
         <div class="section-title">Full Segmentation</div>
-        <div class="section-sub">All data points</div>
+        <div class="section-sub">Visual structure by segment type and top clusters</div>
         <div class="filter-row">
           <span class="fl">Market</span>
-          <button class="chip on" id="st-all" onclick="stMarket('all',this)">All</button>
-          <button class="chip" id="st-uae" onclick="stMarket('uae',this)">UAE</button>
-          <button class="chip" id="st-ksa" onclick="stMarket('ksa',this)">Saudi Arabia</button>
-          <span class="fl" style="margin-left:10px">Platform</span>
-          <button class="chip on" id="st-both" onclick="stPlat('both',this)">Both</button>
-          <button class="chip" id="st-ig" onclick="stPlat('instagram',this)">Instagram</button>
-          <button class="chip" id="st-tt" onclick="stPlat('tiktok',this)">TikTok</button>
+          <button class="chip on" id="st-all" onclick="stMarket('all', this)">All</button>
+          <button class="chip" id="st-uae" onclick="stMarket('uae', this)">UAE</button>
+          <button class="chip" id="st-ksa" onclick="stMarket('ksa', this)">Saudi Arabia</button>
+          <span class="fl" style="margin-left:10px;">Platform</span>
+          <button class="chip on" id="st-both" onclick="stPlat('both', this)">Both</button>
+          <button class="chip" id="st-ig" onclick="stPlat('instagram', this)">Instagram</button>
+          <button class="chip" id="st-tt" onclick="stPlat('tiktok', this)">TikTok</button>
         </div>
-        <div class="table-wrap">
-          <table class="data-table">
-            <thead><tr><th>Market</th><th>Platform</th><th>Segment</th><th>Filter</th><th>Total Creators</th><th>Share</th></tr></thead>
-            <tbody id="stBody"></tbody>
-          </table>
+        <div class="stat-grid" id="stOverview"></div>
+        <div class="chart-grid" style="margin-bottom: 14px;">
+          <div class="chart-card"><div class="chart-label">By Segment Type</div><div class="chart-title">Volume contribution per dimension</div><div style="height:220px"><canvas id="stTypeChart"></canvas></div></div>
+          <div class="chart-card"><div class="chart-label">By Market x Platform</div><div class="chart-title">Total creator base distribution</div><div style="height:220px"><canvas id="stMarketPlatformChart"></canvas></div></div>
+          <div class="chart-card"><div class="chart-label">Top Segment Clusters</div><div class="chart-title">Largest segment + filter combinations</div><div style="height:220px"><canvas id="stTopSegmentsChart"></canvas></div></div>
         </div>
+        <div class="segment-grid" id="stCards"></div>
       </div>
 
-      <!-- Creator Spotlight -->
       <div class="section-block">
         <div class="section-title">Creator Spotlight</div>
-        <div class="section-sub">Highlighted profiles — verified & 300K+ followers</div>
+        <div class="section-sub">Highlighted profiles</div>
         <div class="filter-row">
           <span class="fl">Market</span>
           <button class="chip on" id="cr-all" onclick="crFilter('country','all',this)">All</button>
           <button class="chip" id="cr-uae" onclick="crFilter('country','UAE',this)">UAE</button>
           <button class="chip" id="cr-ksa" onclick="crFilter('country','Saudi Arabia',this)">KSA</button>
-          <span class="fl" style="margin-left:10px">Platform</span>
+          <span class="fl" style="margin-left:10px;">Platform</span>
           <button class="chip on" id="cr-both" onclick="crFilter('platform','all',this)">Both</button>
           <button class="chip" id="cr-ig" onclick="crFilter('platform','instagram',this)">Instagram</button>
           <button class="chip" id="cr-tt" onclick="crFilter('platform','tiktok',this)">TikTok</button>
-          <span class="fl" style="margin-left:10px">Gender</span>
+          <span class="fl" style="margin-left:10px;">Gender</span>
           <button class="chip on" id="cr-gall" onclick="crFilter('gender','all',this)">All</button>
           <button class="chip" id="cr-gf" onclick="crFilter('gender','FEMALE',this)">Female</button>
           <button class="chip" id="cr-gm" onclick="crFilter('gender','MALE',this)">Male</button>
         </div>
-        <div class="search-wrap">
-          <span class="search-icon">🔍</span>
-          <input type="text" class="search-input" placeholder="Search by name or username…" oninput="crSearch(this.value)" spellcheck="false" autocomplete="off">
-        </div>
+        <div class="search-wrap"><span class="search-icon">🔍</span><input class="search-input" placeholder="Search by name or username" oninput="crSearch(this.value)"></div>
         <div class="results-count" id="crCount"></div>
         <div class="creators-grid" id="creatorsGrid"></div>
       </div>
     </div>
-    <footer><div class="f-logo">Socially Powerful</div><div class="f-meta">Source: Modash via SP API Gateway · isExactMatch=YES · April 2026</div></footer>
-  </div>
+    <footer><div class="f-logo">Socially Powerful</div><div>Creator Intelligence · April 2026</div></footer>
+  </section>
 
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <!-- SEEDING PAGE -->
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <div class="page" id="page-seeding">
-    <div class="page-header">
-      <div class="page-eyebrow">Seeding Department</div>
-      <h1 class="page-title">Scaled Seeding<br><em>Program 2025</em></h1>
-      <p class="page-desc">Full campaign performance data across 1,000 seeded influencers — tribe analysis, tier breakdown, week-on-week views, and platform splits.</p>
-    </div>
+  <section class="page" id="page-seeding">
+    <div class="page-header"><div class="page-eyebrow">Seeding Department</div><h1 class="page-title">Scaled Seeding<br><em>Program 2025</em></h1><p class="page-desc">Full campaign performance across 1,000 seeded influencers: platform split, tribe/tier detail, weekly trend, and structure matrix.</p></div>
     <div class="page-content">
-
-      <!-- KPIs -->
       <div class="stat-grid">
-        <div class="stat-card"><div class="stat-val">1,000</div><div class="stat-label">Influencers Seeded</div><div class="stat-sub">643 IG · 357 TT</div></div>
-        <div class="stat-card green"><div class="stat-val">439</div><div class="stat-label">Influencers Posted</div><div class="stat-sub">43.9% response rate</div></div>
-        <div class="stat-card blue"><div class="stat-val">1,117</div><div class="stat-label">Total Posts</div><div class="stat-sub">754 in-feed · 363 stories</div></div>
-        <div class="stat-card amber"><div class="stat-val">10.5M</div><div class="stat-label">Total Impressions</div><div class="stat-sub">Across all platforms</div></div>
-        <div class="stat-card"><div class="stat-val">975K</div><div class="stat-label">Total Engagements</div><div class="stat-sub">9.24% engagement rate</div></div>
-        <div class="stat-card green"><div class="stat-val">16,595</div><div class="stat-label">Total Saves</div><div class="stat-sub">1.70% save rate</div></div>
-        <div class="stat-card blue"><div class="stat-val">$3</div><div class="stat-label">CPM (excl. gifting)</div><div class="stat-sub">$6 incl. gifting</div></div>
-        <div class="stat-card amber"><div class="stat-val">111.7%</div><div class="stat-label">Posting Rate</div><div class="stat-sub">Some posted multiple times</div></div>
+        <div class="stat-card top-blue"><div class="stat-val">1,000</div><div class="stat-label">Influencers Seeded</div><div class="stat-sub">643 IG · 357 TT</div></div>
+        <div class="stat-card top-green"><div class="stat-val">439</div><div class="stat-label">Influencers Posted</div><div class="stat-sub">43.9% response rate</div></div>
+        <div class="stat-card top-pink"><div class="stat-val">10.5M</div><div class="stat-label">Total Impressions</div><div class="stat-sub">Cross-platform</div></div>
+        <div class="stat-card top-amber"><div class="stat-val">975K</div><div class="stat-label">Total Engagements</div><div class="stat-sub">9.24% engagement</div></div>
+        <div class="stat-card top-pink"><div class="stat-val">1,117</div><div class="stat-label">Total Posts</div><div class="stat-sub">754 in-feed · 363 stories</div></div>
+        <div class="stat-card top-green"><div class="stat-val">$3</div><div class="stat-label">CPM Excluding Gifting</div><div class="stat-sub">$6 incl. gifting</div></div>
       </div>
 
-      <!-- Platform Split -->
+      <div class="section-block">
+        <div class="section-title">Overall Results Dashboard</div>
+        <div class="section-sub">Table A · across platforms</div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Metric</th><th>Total</th><th>Instagram</th><th>TikTok</th><th>Other</th></tr></thead>
+            <tbody id="seedOverviewTable"></tbody>
+          </table>
+        </div>
+      </div>
+
       <div class="section-block">
         <div class="section-title">Platform Performance</div>
-        <div class="section-sub">Instagram vs TikTok</div>
+        <div class="section-sub">Instagram vs TikTok split</div>
         <div class="chart-grid">
-          <div class="chart-card">
-            <div class="chart-label">Impressions Split</div>
-            <div class="chart-title">Total impressions by platform</div>
-            <div class="legend-row">
-              <div class="leg"><div class="leg-dot" style="background:var(--ig)"></div>Instagram 1.97M</div>
-              <div class="leg"><div class="leg-dot" style="background:var(--tt)"></div>TikTok 8.54M</div>
-            </div>
-            <div style="position:relative;height:180px"><canvas id="seedImpressChart"></canvas></div>
-          </div>
-          <div class="chart-card">
-            <div class="chart-label">Engagement Split</div>
-            <div class="chart-title">Total engagements by platform</div>
-            <div class="legend-row">
-              <div class="leg"><div class="leg-dot" style="background:var(--ig)"></div>Instagram 155K</div>
-              <div class="leg"><div class="leg-dot" style="background:var(--tt)"></div>TikTok 818K</div>
-            </div>
-            <div style="position:relative;height:180px"><canvas id="seedEngChart"></canvas></div>
-          </div>
-          <div class="chart-card">
-            <div class="chart-label">Posting Rate</div>
-            <div class="chart-title">% who posted per platform</div>
-            <div style="position:relative;height:180px"><canvas id="seedPostRateChart"></canvas></div>
-          </div>
-          <div class="chart-card">
-            <div class="chart-label">Seeding Effectiveness</div>
-            <div class="chart-title">Impressions per influencer seeded</div>
-            <div style="position:relative;height:180px"><canvas id="seedEffChart"></canvas></div>
-          </div>
+          <div class="chart-card"><div class="chart-label">Impressions Split</div><div class="chart-title">Instagram 1.97M · TikTok 8.54M</div><div style="height:180px"><canvas id="seedImpressionsChart"></canvas></div></div>
+          <div class="chart-card"><div class="chart-label">Engagement Split</div><div class="chart-title">Instagram 155K · TikTok 818K</div><div style="height:180px"><canvas id="seedEngChart"></canvas></div></div>
+          <div class="chart-card"><div class="chart-label">Posting Rate</div><div class="chart-title">Percent who posted per platform</div><div style="height:180px"><canvas id="seedPostRateChart"></canvas></div></div>
+          <div class="chart-card"><div class="chart-label">Seeding Effectiveness</div><div class="chart-title">Impressions per seeded creator</div><div style="height:180px"><canvas id="seedEffChart"></canvas></div></div>
         </div>
       </div>
 
-      <!-- Tribe Analysis -->
       <div class="section-block">
-        <div class="section-title">Tribe Analysis</div>
-        <div class="section-sub">Performance by content category</div>
-        <div class="chart-grid" style="grid-template-columns:1fr 1.5fr;">
-          <div class="chart-card">
-            <div class="chart-label">Impressions by Tribe</div>
-            <div class="chart-title">Which tribes drove the most reach</div>
-            <div style="position:relative;height:240px"><canvas id="tribeImpressChart"></canvas></div>
-          </div>
-          <div class="chart-card">
-            <div class="chart-label">Tribe Detail</div>
-            <div class="chart-title">Full tribe breakdown</div>
-            <div class="table-wrap" style="border:none;">
-              <table class="data-table" id="tribeTable"></table>
-            </div>
-          </div>
+        <div class="section-title">Tribe and Tier Analysis</div>
+        <div class="section-sub">Performance depth by audience groups</div>
+        <div class="chart-grid" style="margin-bottom: 12px;">
+          <div class="chart-card"><div class="chart-label">Tribe Impressions</div><div class="chart-title">Category reach contribution</div><div style="height:220px"><canvas id="tribeImpressionsChart"></canvas></div></div>
+          <div class="chart-card"><div class="chart-label">Tier Impressions</div><div class="chart-title">Impressions by follower tier</div><div style="height:220px"><canvas id="tierImpressionsChart"></canvas></div></div>
+        </div>
+        <div class="chart-grid">
+          <div class="chart-card"><div class="chart-label">Tribe Detail</div><div class="chart-title">Influencers, impressions, engagement, CPM</div><div class="table-wrap" style="border:none;"><table class="data-table" id="tribeTable"></table></div></div>
+          <div class="chart-card"><div class="chart-label">Tier Detail</div><div class="chart-title">Influencers, impressions, engagement, CPM</div><div class="table-wrap" style="border:none;"><table class="data-table" id="tierTable"></table></div></div>
         </div>
       </div>
 
-      <!-- Tier Analysis -->
       <div class="section-block">
-        <div class="section-title">Tier Analysis</div>
-        <div class="section-sub">Performance by follower tier</div>
-        <div class="chart-grid" style="grid-template-columns:1fr 1.5fr;">
-          <div class="chart-card">
-            <div class="chart-label">Impressions by Tier</div>
-            <div class="chart-title">Where impressions came from</div>
-            <div style="position:relative;height:240px"><canvas id="tierImpressChart"></canvas></div>
-          </div>
-          <div class="chart-card">
-            <div class="chart-label">Tier Detail</div>
-            <div class="chart-title">Full tier breakdown</div>
-            <div class="table-wrap" style="border:none;">
-              <table class="data-table" id="tierTable"></table>
-            </div>
-          </div>
-        </div>
+        <div class="section-title">Week-on-Week Impressions</div>
+        <div class="section-sub">Most recent campaign weeks first</div>
+        <div class="chart-card"><div style="height:250px"><canvas id="seedWeeklyChart"></canvas></div></div>
       </div>
 
-      <!-- WoW Views -->
       <div class="section-block">
-        <div class="section-title">Week-on-Week Performance</div>
-        <div class="section-sub">Posting volume and impressions by week</div>
-        <div class="chart-card" style="margin-bottom:0">
-          <div class="chart-label">Weekly Impressions</div>
-          <div class="chart-title">Total impressions per campaign week (most recent first)</div>
-          <div style="position:relative;height:260px"><canvas id="wowChart"></canvas></div>
-        </div>
-      </div>
-
-      <!-- Tribe x Tier Matrix -->
-      <div class="section-block">
-        <div class="section-title">Tribe × Tier Matrix</div>
-        <div class="section-sub">Creator count at intersection of tribe and tier</div>
+        <div class="section-title">Week-on-Week Detailed Overview</div>
+        <div class="section-sub">Table F · posts, impressions, engagements, saves</div>
         <div class="table-wrap">
-          <table class="data-table" id="tribeTierTable"></table>
+          <table class="data-table">
+            <thead><tr><th>Week</th><th>Posted</th><th>Total Posts</th><th>In-Feed</th><th>Stories</th><th>Impressions</th><th>Engagements</th><th>Saves</th></tr></thead>
+            <tbody id="seedWoWTable"></tbody>
+          </table>
         </div>
       </div>
 
-    </div>
-    <footer><div class="f-logo">Socially Powerful</div><div class="f-meta">Source: Scaled Seeding Program 2025 · April 2026</div></footer>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <!-- OUTREACH PAGE -->
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <div class="page" id="page-outreach">
-    <div class="page-header">
-      <div class="page-eyebrow">Outreach Department · Dyson Amino Acid Seeding 25/26</div>
-      <h1 class="page-title">Creator Outreach<br><em>& Opt-In Performance</em></h1>
-      <p class="page-desc">Global outreach across 10 markets — tracking email sends, open rates, opt-in rates, and declined responses across platforms, tiers and tribes.</p>
-    </div>
-    <div class="page-content">
-
-      <!-- GLOBAL KPIs -->
-      <div class="stat-grid">
-        <div class="stat-card"><div class="stat-val">3,901</div><div class="stat-label">Total Emails Sent</div><div class="stat-sub">Across all markets</div></div>
-        <div class="stat-card green"><div class="stat-val">1,910</div><div class="stat-label">Total Opt-Ins</div><div class="stat-sub">Global confirmed</div></div>
-        <div class="stat-card blue"><div class="stat-val">48.96%</div><div class="stat-label">Opt-In Rate</div><div class="stat-sub">Industry avg ~30%</div></div>
-        <div class="stat-card amber"><div class="stat-val">67.2%</div><div class="stat-label">Open Rate</div><div class="stat-sub">Across all sends</div></div>
-        <div class="stat-card"><div class="stat-val">26</div><div class="stat-label">Declined</div><div class="stat-sub">Out of all contacted</div></div>
-        <div class="stat-card green"><div class="stat-val">10</div><div class="stat-label">Markets Active</div><div class="stat-sub">UK · US · SG · IT · FR + more</div></div>
+      <div class="section-block">
+        <div class="section-title">Week-on-Week Tier Views</div>
+        <div class="section-sub">Table G · tier-level views by week</div>
+        <div class="chart-grid" style="grid-template-columns: 1fr 1.15fr;">
+          <div class="chart-card"><div class="chart-label">Tier Views Trend</div><div class="chart-title">Total weekly views from tier matrix</div><div style="height:220px"><canvas id="seedTierViewsChart"></canvas></div></div>
+          <div class="chart-card"><div class="chart-label">Tier Views Detail</div><div class="chart-title">Nano to VIP by week</div><div class="table-wrap" style="border:none;"><table class="data-table" id="seedTierViewsTable"></table></div></div>
+        </div>
       </div>
 
-      <!-- GLOBAL PLATFORM + TRIBE + TIER -->
+      <div class="section-block">
+        <div class="section-title">Platform View</div>
+        <div class="section-sub">Table H · platform posting and efficiency</div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead><tr><th>Platform</th><th>Posts</th><th>Impressions</th><th>Engagements</th><th>Saves</th><th>Eng Rate</th><th>Save Rate</th><th>Posting Rate</th></tr></thead>
+            <tbody id="seedPlatformViewTable"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <div class="section-title">Skin Type Performance</div>
+        <div class="section-sub">Table D · female vs male output</div>
+        <div class="chart-grid" style="grid-template-columns: 1fr 1fr;">
+          <div class="chart-card"><div class="chart-label">Skin Type Split</div><div class="chart-title">Impressions by gender in seeding output</div><div style="height:190px"><canvas id="seedSkinTypeChart"></canvas></div></div>
+          <div class="chart-card"><div class="chart-label">Skin Type Detail</div><div class="chart-title">Full metrics by gender</div><div class="table-wrap" style="border:none;"><table class="data-table" id="seedSkinTypeTable"></table></div></div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <div class="section-title">Tribe x Tier Matrix</div>
+        <div class="section-sub">Creator count at each intersection</div>
+        <div class="table-wrap"><table class="data-table" id="tribeTierTable"></table></div>
+      </div>
+    </div>
+    <footer><div class="f-logo">Socially Powerful</div><div>Seeding Program 2025 · April 2026</div></footer>
+  </section>
+
+  <section class="page" id="page-outreach">
+    <div class="page-header"><div class="page-eyebrow">Outreach Department</div><h1 class="page-title">Creator Outreach<br><em>Opt-In Performance</em></h1><p class="page-desc">These outreach numbers represent one campaign dataset for this view.</p></div>
+    <div class="page-content">
+      <div class="scope-note">Reporting Scope: Single campaign dataset</div>
+      <div class="stat-grid">
+        <div class="stat-card top-pink"><div class="stat-val">3,901</div><div class="stat-label">Emails Sent</div><div class="stat-sub">All markets</div></div>
+        <div class="stat-card top-green"><div class="stat-val">1,910</div><div class="stat-label">Opt-Ins</div><div class="stat-sub">Confirmed</div></div>
+        <div class="stat-card top-blue"><div class="stat-val">48.96%</div><div class="stat-label">Opt-In Rate</div><div class="stat-sub">Above benchmark</div></div>
+        <div class="stat-card top-amber"><div class="stat-val">67.2%</div><div class="stat-label">Open Rate</div><div class="stat-sub">Across sequences</div></div>
+        <div class="stat-card top-pink"><div class="stat-val">26</div><div class="stat-label">Declined</div><div class="stat-sub">Total declines</div></div>
+        <div class="stat-card top-green"><div class="stat-val">10</div><div class="stat-label">Active Markets</div><div class="stat-sub">UK · US · SG · IT · FR + more</div></div>
+      </div>
+
       <div class="section-block">
         <div class="section-title">Global Opt-In Breakdown</div>
-        <div class="section-sub">Platform · Tribe · Tier</div>
+        <div class="section-sub">Platform, tribe, tier, and market</div>
         <div class="chart-grid">
-          <div class="chart-card">
-            <div class="chart-label">By Platform</div>
-            <div class="chart-title">Opt-ins across Instagram & TikTok</div>
-            <div class="legend-row">
-              <div class="leg"><div class="leg-dot" style="background:var(--ig)"></div>Instagram 1,318</div>
-              <div class="leg"><div class="leg-dot" style="background:var(--tt)"></div>TikTok 592</div>
-            </div>
-            <div style="position:relative;height:180px"><canvas id="outPlatChart"></canvas></div>
-          </div>
-          <div class="chart-card">
-            <div class="chart-label">By Tribe</div>
-            <div class="chart-title">Which content categories opted in most</div>
-            <div style="position:relative;height:200px"><canvas id="outTribeChart"></canvas></div>
-          </div>
-          <div class="chart-card">
-            <div class="chart-label">By Tier</div>
-            <div class="chart-title">Opt-in volume by follower tier</div>
-            <div style="position:relative;height:200px"><canvas id="outTierChart"></canvas></div>
-          </div>
-          <div class="chart-card">
-            <div class="chart-label">By Market</div>
-            <div class="chart-title">Opt-ins per country</div>
-            <div style="position:relative;height:200px"><canvas id="outMarketChart"></canvas></div>
-          </div>
+          <div class="chart-card"><div class="chart-label">By Platform</div><div class="chart-title">Instagram vs TikTok</div><div style="height:190px"><canvas id="outPlatformChart"></canvas></div></div>
+          <div class="chart-card"><div class="chart-label">By Tribe</div><div class="chart-title">Opt-ins by content category</div><div style="height:190px"><canvas id="outTribeChart"></canvas></div></div>
+          <div class="chart-card"><div class="chart-label">By Tier</div><div class="chart-title">Opt-ins by follower tier</div><div style="height:190px"><canvas id="outTierChart"></canvas></div></div>
+          <div class="chart-card"><div class="chart-label">By Market</div><div class="chart-title">Opt-ins per country</div><div style="height:190px"><canvas id="outMarketChart"></canvas></div></div>
         </div>
       </div>
 
-      <!-- MARKET TABLE -->
       <div class="section-block">
         <div class="section-title">Market Performance</div>
-        <div class="section-sub">Opt-in rate · Open rate · Declined per market</div>
+        <div class="section-sub">Opt-in rate, open rate, declined count</div>
         <div class="table-wrap">
           <table class="data-table">
             <thead><tr><th>Market</th><th>Emails Sent</th><th>Opt-Ins</th><th>Opt-In Rate</th><th>Open Rate</th><th>Declined</th><th>Status</th></tr></thead>
@@ -584,140 +653,769 @@ footer{border-top:1px solid var(--border);padding:20px 36px;display:flex;justify
         </div>
       </div>
 
-      <!-- EMAIL SEQUENCE -->
       <div class="section-block">
-        <div class="section-title">Email Sequence Performance</div>
-        <div class="section-sub">Response by outreach step — UK market detail</div>
-        <div class="chart-grid" style="grid-template-columns:1fr 1fr;">
-          <div class="chart-card">
-            <div class="chart-label">UK Outreach Steps</div>
-            <div class="chart-title">Opt-ins generated per email step</div>
-            <div style="position:relative;height:200px"><canvas id="outStepsChart"></canvas></div>
-          </div>
-          <div class="chart-card">
-            <div class="chart-label">UK Gender Split</div>
-            <div class="chart-title">Opt-in breakdown by gender</div>
-            <div style="position:relative;height:200px"><canvas id="outGenderChart"></canvas></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- UK TRIBE + TIER -->
-      <div class="section-block">
-        <div class="section-title">UK Deep Dive — Tribe & Tier</div>
-        <div class="section-sub">Opt-in rate by content category and influencer size</div>
+        <div class="section-title">UK Sequence Deep Dive</div>
+        <div class="section-sub">Step-level response quality</div>
         <div class="chart-grid">
-          <div class="chart-card">
-            <div class="chart-label">UK Opt-ins by Tribe</div>
-            <div class="chart-title">Content category performance</div>
-            <div class="table-wrap" style="border:none">
-              <table class="data-table">
-                <thead><tr><th>Tribe</th><th>Opt-ins</th><th>Rate</th></tr></thead>
-                <tbody>
-                  <tr><td>Beauty</td><td class="num">223</td><td><span class="rate-pill rate-good">47.2%</span></td></tr>
-                  <tr><td>Haircare / Hair Experts</td><td class="num">61</td><td><span class="rate-pill rate-good">62.2%</span></td></tr>
-                  <tr><td>Lifestyle</td><td class="num">185</td><td><span class="rate-pill rate-mid">41.5%</span></td></tr>
-                  <tr><td>Fashion</td><td class="num">148</td><td><span class="rate-pill rate-mid">36.4%</span></td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="chart-card">
-            <div class="chart-label">UK Opt-ins by Tier</div>
-            <div class="chart-title">Influencer size performance</div>
-            <div class="table-wrap" style="border:none">
-              <table class="data-table">
-                <thead><tr><th>Tier</th><th>Opt-ins</th><th>Rate</th></tr></thead>
-                <tbody>
-                  <tr><td>Nano (&lt;10k)</td><td class="num">94</td><td><span class="rate-pill rate-good">70.1%</span></td></tr>
-                  <tr><td>Micro (10k–50k)</td><td class="num">209</td><td><span class="rate-pill rate-good">53.2%</span></td></tr>
-                  <tr><td>Mid (50k–250k)</td><td class="num">191</td><td><span class="rate-pill rate-mid">39.8%</span></td></tr>
-                  <tr><td>Macro (250k–1M)</td><td class="num">94</td><td><span class="rate-pill rate-mid">30.1%</span></td></tr>
-                  <tr><td>Top (1M–5M)</td><td class="num">27</td><td><span class="rate-pill rate-low">27.6%</span></td></tr>
-                  <tr><td>VIP (5M+)</td><td class="num">2</td><td><span class="rate-pill rate-mid">33.3%</span></td></tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <div class="chart-card"><div class="chart-label">Outreach Steps</div><div class="chart-title">Opt-ins generated by each step</div><div style="height:200px"><canvas id="outStepsChart"></canvas></div></div>
+          <div class="chart-card"><div class="chart-label">Gender Split</div><div class="chart-title">UK opt-in split by gender</div><div style="height:200px"><canvas id="outGenderChart"></canvas></div></div>
         </div>
       </div>
-
     </div>
-    <footer><div class="f-logo">Socially Powerful</div><div class="f-meta">Source: Dyson Amino Acid Seeding 25/26 · Opt-In Stats · April 2026</div></footer>
-  </div>
+    <footer><div class="f-logo">Socially Powerful</div><div>Outreach Snapshot · April 2026</div></footer>
+  </section>
 
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <!-- ABOUT PAGE -->
-  <!-- ═══════════════════════════════════════════════════════ -->
-  <div class="page" id="page-about">
-    <div class="page-header">
-      <div class="page-eyebrow">About This Dashboard</div>
-      <h1 class="page-title">Built by<br><em>Socially Powerful</em></h1>
-      <p class="page-desc">A live client-facing intelligence dashboard consolidating creator data, seeding performance, and outreach metrics.</p>
-    </div>
+  <section class="page" id="page-about">
+    <div class="page-header"><div class="page-eyebrow">About</div><h1 class="page-title">Built by<br><em>Socially Powerful</em></h1><p class="page-desc">Single-source dashboard unifying creator intelligence, seeding, and outreach into one client-ready experience.</p></div>
     <div class="page-content">
       <div class="chart-grid">
-        <div class="chart-card">
-          <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:12px">Data Sources</div>
-          <div style="font-size:12px;color:var(--muted2);line-height:1.9">
-            <div>🔹 <strong style="color:var(--text)">Creator Intelligence</strong> — Modash via SP API Gateway</div>
-            <div>🔹 <strong style="color:var(--text)">Seeding Reports</strong> — Scaled Seeding Program 2025</div>
-            <div>🔹 <strong style="color:var(--text)">Outreach</strong> — Awaiting data upload</div>
-          </div>
-        </div>
-        <div class="chart-card">
-          <div style="font-size:13px;font-weight:600;color:#fff;margin-bottom:12px">Coverage</div>
-          <div style="font-size:12px;color:var(--muted2);line-height:1.9">
-            <div>🌍 UAE & Saudi Arabia creator pools</div>
-            <div>📊 Instagram & TikTok</div>
-            <div>📦 1,000 seeded influencers tracked</div>
-            <div>📅 April 2026</div>
-          </div>
-        </div>
+        <div class="chart-card"><div class="chart-label">Data Sources</div><div class="chart-title">Creator Intelligence: Modash via SP API Gateway</div><div class="chart-title">Seeding: Internal campaign reports</div><div class="chart-title">Outreach: CRM export summaries</div></div>
+        <div class="chart-card"><div class="chart-label">Coverage</div><div class="chart-title">UAE & Saudi Arabia creator intelligence</div><div class="chart-title">Instagram + TikTok</div><div class="chart-title">Global outreach performance by market</div></div>
       </div>
     </div>
-    <footer><div class="f-logo">Socially Powerful</div><div class="f-meta">April 2026</div></footer>
-  </div>
-
+    <footer><div class="f-logo">Socially Powerful</div><div>April 2026</div></footer>
+  </section>
 </main>
 
 <script>
-// ═══════════════════════════════════════════════════
-// DATA
-// ═══════════════════════════════════════════════════
-const COUNTS = [{"Country":"UAE","Platform":"instagram","Segment Type":"Total","Segment":"All (1K+ followers)","Total Influencers":"240344"},{"Country":"UAE","Platform":"instagram","Segment Type":"Influencer Gender","Segment":"MALE","Total Influencers":"97666"},{"Country":"UAE","Platform":"instagram","Segment Type":"Influencer Gender","Segment":"FEMALE","Total Influencers":"59555"},{"Country":"UAE","Platform":"instagram","Segment Type":"Influencer Age","Segment":"18-24","Total Influencers":"4477"},{"Country":"UAE","Platform":"instagram","Segment Type":"Influencer Age","Segment":"25-34","Total Influencers":"92011"},{"Country":"UAE","Platform":"instagram","Segment Type":"Influencer Age","Segment":"35-44","Total Influencers":"37050"},{"Country":"UAE","Platform":"instagram","Segment Type":"Influencer Age","Segment":"45-64","Total Influencers":"7628"},{"Country":"UAE","Platform":"instagram","Segment Type":"Influencer Age","Segment":"65+","Total Influencers":"69"},{"Country":"UAE","Platform":"instagram","Segment Type":"Follower Tier","Segment":"Nano  (1K – 10K)","Total Influencers":"172180"},{"Country":"UAE","Platform":"instagram","Segment Type":"Follower Tier","Segment":"Micro (10K – 50K)","Total Influencers":"48867"},{"Country":"UAE","Platform":"instagram","Segment Type":"Follower Tier","Segment":"Mid   (50K – 250K)","Total Influencers":"15484"},{"Country":"UAE","Platform":"instagram","Segment Type":"Follower Tier","Segment":"Macro (250K – 1M)","Total Influencers":"3030"},{"Country":"UAE","Platform":"instagram","Segment Type":"Follower Tier","Segment":"Mega  (1M+)","Total Influencers":"793"},{"Country":"UAE","Platform":"instagram","Segment Type":"Audience Location (≥20%)","Segment":"Audience in UAE","Total Influencers":"212469"},{"Country":"UAE","Platform":"instagram","Segment Type":"Audience Gender (≥50%)","Segment":"Audience MALE","Total Influencers":"160651"},{"Country":"UAE","Platform":"instagram","Segment Type":"Audience Gender (≥50%)","Segment":"Audience FEMALE","Total Influencers":"76580"},{"Country":"UAE","Platform":"instagram","Segment Type":"Audience Age (≥30%)","Segment":"Audience 13-17","Total Influencers":"1"},{"Country":"UAE","Platform":"instagram","Segment Type":"Audience Age (≥30%)","Segment":"Audience 18-24","Total Influencers":"53184"},{"Country":"UAE","Platform":"instagram","Segment Type":"Audience Age (≥30%)","Segment":"Audience 25-34","Total Influencers":"236021"},{"Country":"UAE","Platform":"instagram","Segment Type":"Audience Age (≥30%)","Segment":"Audience 35-44","Total Influencers":"17665"},{"Country":"UAE","Platform":"instagram","Segment Type":"Audience Age (≥30%)","Segment":"Audience 45-64","Total Influencers":"332"},{"Country":"UAE","Platform":"instagram","Segment Type":"Audience Age (≥30%)","Segment":"Audience 65-","Total Influencers":"0"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Total","Segment":"All (1K+ followers)","Total Influencers":"613510"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Influencer Gender","Segment":"MALE","Total Influencers":"199856"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Influencer Gender","Segment":"FEMALE","Total Influencers":"118813"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Influencer Age","Segment":"18-24","Total Influencers":"19647"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Influencer Age","Segment":"25-34","Total Influencers":"190836"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Influencer Age","Segment":"35-44","Total Influencers":"46987"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Influencer Age","Segment":"45-64","Total Influencers":"8624"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Influencer Age","Segment":"65+","Total Influencers":"136"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Follower Tier","Segment":"Nano  (1K – 10K)","Total Influencers":"520626"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Follower Tier","Segment":"Micro (10K – 50K)","Total Influencers":"73458"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Follower Tier","Segment":"Mid   (50K – 250K)","Total Influencers":"16709"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Follower Tier","Segment":"Macro (250K – 1M)","Total Influencers":"2365"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Follower Tier","Segment":"Mega  (1M+)","Total Influencers":"359"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Audience Location (≥20%)","Segment":"Audience in Saudi Arabia","Total Influencers":"1061264"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Audience Gender (≥50%)","Segment":"Audience MALE","Total Influencers":"383154"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Audience Gender (≥50%)","Segment":"Audience FEMALE","Total Influencers":"229607"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Audience Age (≥30%)","Segment":"Audience 13-17","Total Influencers":"0"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Audience Age (≥30%)","Segment":"Audience 18-24","Total Influencers":"344785"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Audience Age (≥30%)","Segment":"Audience 25-34","Total Influencers":"611728"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Audience Age (≥30%)","Segment":"Audience 35-44","Total Influencers":"5403"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Audience Age (≥30%)","Segment":"Audience 45-64","Total Influencers":"114"},{"Country":"Saudi Arabia","Platform":"instagram","Segment Type":"Audience Age (≥30%)","Segment":"Audience 65-","Total Influencers":"0"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Total","Segment":"All (1K+ followers)","Total Influencers":"1630833"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Influencer Gender","Segment":"MALE","Total Influencers":"1054451"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Influencer Gender","Segment":"FEMALE","Total Influencers":"360577"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Influencer Age","Segment":"18-24","Total Influencers":"449508"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Influencer Age","Segment":"25-34","Total Influencers":"724555"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Influencer Age","Segment":"35-44","Total Influencers":"141476"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Influencer Age","Segment":"45-64","Total Influencers":"23229"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Influencer Age","Segment":"65+","Total Influencers":"3"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Follower Tier","Segment":"Nano  (1K – 10K)","Total Influencers":"1498788"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Follower Tier","Segment":"Micro (10K – 50K)","Total Influencers":"108121"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Follower Tier","Segment":"Mid   (50K – 250K)","Total Influencers":"19525"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Follower Tier","Segment":"Macro (250K – 1M)","Total Influencers":"3578"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Follower Tier","Segment":"Mega  (1M+)","Total Influencers":"829"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Audience Location (≥20%)","Segment":"Audience in UAE","Total Influencers":"1807533"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Audience Gender (≥50%)","Segment":"Audience MALE","Total Influencers":"1405169"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Audience Gender (≥50%)","Segment":"Audience FEMALE","Total Influencers":"225822"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Audience Age (≥30%)","Segment":"Audience 13-17","Total Influencers":"20"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Audience Age (≥30%)","Segment":"Audience 18-24","Total Influencers":"1246243"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Audience Age (≥30%)","Segment":"Audience 25-34","Total Influencers":"1553720"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Audience Age (≥30%)","Segment":"Audience 35-44","Total Influencers":"2638"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Audience Age (≥30%)","Segment":"Audience 45-64","Total Influencers":"293"},{"Country":"UAE","Platform":"tiktok","Segment Type":"Audience Age (≥30%)","Segment":"Audience 65-","Total Influencers":"0"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Total","Segment":"All (1K+ followers)","Total Influencers":"5569672"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Influencer Gender","Segment":"MALE","Total Influencers":"3365253"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Influencer Gender","Segment":"FEMALE","Total Influencers":"927916"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Influencer Age","Segment":"18-24","Total Influencers":"1669410"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Influencer Age","Segment":"25-34","Total Influencers":"1744982"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Influencer Age","Segment":"35-44","Total Influencers":"362284"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Influencer Age","Segment":"45-64","Total Influencers":"70331"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Influencer Age","Segment":"65+","Total Influencers":"2"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Follower Tier","Segment":"Nano  (1K – 10K)","Total Influencers":"5208008"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Follower Tier","Segment":"Micro (10K – 50K)","Total Influencers":"302379"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Follower Tier","Segment":"Mid   (50K – 250K)","Total Influencers":"51306"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Follower Tier","Segment":"Macro (250K – 1M)","Total Influencers":"7048"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Follower Tier","Segment":"Mega  (1M+)","Total Influencers":"958"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Audience Location (≥20%)","Segment":"Audience in Saudi Arabia","Total Influencers":"7726157"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Audience Gender (≥50%)","Segment":"Audience MALE","Total Influencers":"4947389"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Audience Gender (≥50%)","Segment":"Audience FEMALE","Total Influencers":"622723"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Audience Age (≥30%)","Segment":"Audience 13-17","Total Influencers":"38"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Audience Age (≥30%)","Segment":"Audience 18-24","Total Influencers":"4997815"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Audience Age (≥30%)","Segment":"Audience 25-34","Total Influencers":"4867126"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Audience Age (≥30%)","Segment":"Audience 35-44","Total Influencers":"8047"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Audience Age (≥30%)","Segment":"Audience 45-64","Total Influencers":"276"},{"Country":"Saudi Arabia","Platform":"tiktok","Segment Type":"Audience Age (≥30%)","Segment":"Audience 65-","Total Influencers":"0"}];
+const COUNTS = [
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Total",
+    "Segment": "All (1K+ followers)",
+    "Total Influencers": "240344"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Influencer Gender",
+    "Segment": "MALE",
+    "Total Influencers": "97666"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Influencer Gender",
+    "Segment": "FEMALE",
+    "Total Influencers": "59555"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Influencer Age",
+    "Segment": "18-24",
+    "Total Influencers": "4477"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Influencer Age",
+    "Segment": "25-34",
+    "Total Influencers": "92011"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Influencer Age",
+    "Segment": "35-44",
+    "Total Influencers": "37050"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Influencer Age",
+    "Segment": "45-64",
+    "Total Influencers": "7628"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Influencer Age",
+    "Segment": "65+",
+    "Total Influencers": "69"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Follower Tier",
+    "Segment": "Nano  (1K - 10K)",
+    "Total Influencers": "172180"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Follower Tier",
+    "Segment": "Micro (10K - 50K)",
+    "Total Influencers": "48867"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Follower Tier",
+    "Segment": "Mid   (50K - 250K)",
+    "Total Influencers": "15484"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Follower Tier",
+    "Segment": "Macro (250K - 1M)",
+    "Total Influencers": "3030"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Follower Tier",
+    "Segment": "Mega  (1M+)",
+    "Total Influencers": "793"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Audience Location (>=20%)",
+    "Segment": "Audience in UAE",
+    "Total Influencers": "212469"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Audience Gender (>=50%)",
+    "Segment": "Audience MALE",
+    "Total Influencers": "160651"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Audience Gender (>=50%)",
+    "Segment": "Audience FEMALE",
+    "Total Influencers": "76580"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 13-17",
+    "Total Influencers": "1"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 18-24",
+    "Total Influencers": "53184"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 25-34",
+    "Total Influencers": "236021"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 35-44",
+    "Total Influencers": "17665"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 45-64",
+    "Total Influencers": "332"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "instagram",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 65-",
+    "Total Influencers": "0"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Total",
+    "Segment": "All (1K+ followers)",
+    "Total Influencers": "613510"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Influencer Gender",
+    "Segment": "MALE",
+    "Total Influencers": "199856"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Influencer Gender",
+    "Segment": "FEMALE",
+    "Total Influencers": "118813"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Influencer Age",
+    "Segment": "18-24",
+    "Total Influencers": "19647"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Influencer Age",
+    "Segment": "25-34",
+    "Total Influencers": "190836"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Influencer Age",
+    "Segment": "35-44",
+    "Total Influencers": "46987"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Influencer Age",
+    "Segment": "45-64",
+    "Total Influencers": "8624"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Influencer Age",
+    "Segment": "65+",
+    "Total Influencers": "136"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Follower Tier",
+    "Segment": "Nano  (1K - 10K)",
+    "Total Influencers": "520626"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Follower Tier",
+    "Segment": "Micro (10K - 50K)",
+    "Total Influencers": "73458"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Follower Tier",
+    "Segment": "Mid   (50K - 250K)",
+    "Total Influencers": "16709"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Follower Tier",
+    "Segment": "Macro (250K - 1M)",
+    "Total Influencers": "2365"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Follower Tier",
+    "Segment": "Mega  (1M+)",
+    "Total Influencers": "359"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Audience Location (>=20%)",
+    "Segment": "Audience in Saudi Arabia",
+    "Total Influencers": "1061264"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Audience Gender (>=50%)",
+    "Segment": "Audience MALE",
+    "Total Influencers": "383154"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Audience Gender (>=50%)",
+    "Segment": "Audience FEMALE",
+    "Total Influencers": "229607"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 13-17",
+    "Total Influencers": "0"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 18-24",
+    "Total Influencers": "344785"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 25-34",
+    "Total Influencers": "611728"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 35-44",
+    "Total Influencers": "5403"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 45-64",
+    "Total Influencers": "114"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "instagram",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 65-",
+    "Total Influencers": "0"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Total",
+    "Segment": "All (1K+ followers)",
+    "Total Influencers": "1630833"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Influencer Gender",
+    "Segment": "MALE",
+    "Total Influencers": "1054451"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Influencer Gender",
+    "Segment": "FEMALE",
+    "Total Influencers": "360577"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Influencer Age",
+    "Segment": "18-24",
+    "Total Influencers": "449508"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Influencer Age",
+    "Segment": "25-34",
+    "Total Influencers": "724555"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Influencer Age",
+    "Segment": "35-44",
+    "Total Influencers": "141476"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Influencer Age",
+    "Segment": "45-64",
+    "Total Influencers": "23229"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Influencer Age",
+    "Segment": "65+",
+    "Total Influencers": "3"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Follower Tier",
+    "Segment": "Nano  (1K - 10K)",
+    "Total Influencers": "1498788"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Follower Tier",
+    "Segment": "Micro (10K - 50K)",
+    "Total Influencers": "108121"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Follower Tier",
+    "Segment": "Mid   (50K - 250K)",
+    "Total Influencers": "19525"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Follower Tier",
+    "Segment": "Macro (250K - 1M)",
+    "Total Influencers": "3578"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Follower Tier",
+    "Segment": "Mega  (1M+)",
+    "Total Influencers": "829"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Audience Location (>=20%)",
+    "Segment": "Audience in UAE",
+    "Total Influencers": "1807533"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Audience Gender (>=50%)",
+    "Segment": "Audience MALE",
+    "Total Influencers": "1405169"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Audience Gender (>=50%)",
+    "Segment": "Audience FEMALE",
+    "Total Influencers": "225822"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 13-17",
+    "Total Influencers": "20"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 18-24",
+    "Total Influencers": "1246243"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 25-34",
+    "Total Influencers": "1553720"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 35-44",
+    "Total Influencers": "2638"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 45-64",
+    "Total Influencers": "293"
+  },
+  {
+    "Country": "UAE",
+    "Platform": "tiktok",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 65-",
+    "Total Influencers": "0"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Total",
+    "Segment": "All (1K+ followers)",
+    "Total Influencers": "5569672"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Influencer Gender",
+    "Segment": "MALE",
+    "Total Influencers": "3365253"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Influencer Gender",
+    "Segment": "FEMALE",
+    "Total Influencers": "927916"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Influencer Age",
+    "Segment": "18-24",
+    "Total Influencers": "1669410"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Influencer Age",
+    "Segment": "25-34",
+    "Total Influencers": "1744982"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Influencer Age",
+    "Segment": "35-44",
+    "Total Influencers": "362284"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Influencer Age",
+    "Segment": "45-64",
+    "Total Influencers": "70331"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Influencer Age",
+    "Segment": "65+",
+    "Total Influencers": "2"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Follower Tier",
+    "Segment": "Nano  (1K - 10K)",
+    "Total Influencers": "5208008"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Follower Tier",
+    "Segment": "Micro (10K - 50K)",
+    "Total Influencers": "302379"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Follower Tier",
+    "Segment": "Mid   (50K - 250K)",
+    "Total Influencers": "51306"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Follower Tier",
+    "Segment": "Macro (250K - 1M)",
+    "Total Influencers": "7048"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Follower Tier",
+    "Segment": "Mega  (1M+)",
+    "Total Influencers": "958"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Audience Location (>=20%)",
+    "Segment": "Audience in Saudi Arabia",
+    "Total Influencers": "7726157"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Audience Gender (>=50%)",
+    "Segment": "Audience MALE",
+    "Total Influencers": "4947389"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Audience Gender (>=50%)",
+    "Segment": "Audience FEMALE",
+    "Total Influencers": "622723"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 13-17",
+    "Total Influencers": "38"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 18-24",
+    "Total Influencers": "4997815"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 25-34",
+    "Total Influencers": "4867126"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 35-44",
+    "Total Influencers": "8047"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 45-64",
+    "Total Influencers": "276"
+  },
+  {
+    "Country": "Saudi Arabia",
+    "Platform": "tiktok",
+    "Segment Type": "Audience Age (>=30%)",
+    "Segment": "Audience 65-",
+    "Total Influencers": "0"
+  }
+];
 
-const HIGHLIGHTED = [{"country":"Saudi Arabia","platform":"instagram","fullName":"Georgina Rodríguez","username":"georginagio","url":"https://www.instagram.com/georginagio/","followers":72246053,"engRate":1.57,"verified":true,"igGender":"FEMALE"},{"country":"Saudi Arabia","platform":"tiktok","fullName":"يحيى الزعبي 🇯🇴","username":"yahia_x","url":"https://www.tiktok.com/@yahia_x","followers":28600000,"engRate":4.38,"verified":true,"igGender":"MALE"},{"country":"UAE","platform":"tiktok","fullName":"dina","username":"dina","url":"https://www.tiktok.com/@dina","followers":24300000,"engRate":5.4,"verified":false,"igGender":"FEMALE"},{"country":"UAE","platform":"instagram","fullName":"Joelle Mardinian","username":"joellemardinian","url":"https://www.instagram.com/joellemardinian/","followers":21636216,"engRate":0.01,"verified":true,"igGender":"FEMALE"},{"country":"UAE","platform":"tiktok","fullName":"Bessan Ismail","username":"bessan_esmail","url":"https://www.tiktok.com/@bessan_esmail","followers":20200000,"engRate":5.15,"verified":true,"igGender":"FEMALE"},{"country":"UAE","platform":"tiktok","fullName":"Çılgın Dondurmacı","username":"cilgindondurmaci","url":"https://www.tiktok.com/@cilgindondurmaci","followers":20900000,"engRate":3.53,"verified":true,"igGender":"MALE"},{"country":"Saudi Arabia","platform":"tiktok","fullName":"ميتو الشامسي","username":"iimeeto","url":"https://www.tiktok.com/@iimeeto","followers":19800000,"engRate":4.31,"verified":true,"igGender":"MALE"},{"country":"UAE","platform":"tiktok","fullName":"Lishay","username":"alishbahanjum","url":"https://www.tiktok.com/@alishbahanjum","followers":19200000,"engRate":8.56,"verified":true,"igGender":"FEMALE"},{"country":"UAE","platform":"tiktok","fullName":"danya_milokhin","username":"danya_milokhin","url":"https://www.tiktok.com/@danya_milokhin","followers":18500000,"engRate":7.31,"verified":true,"igGender":"MALE"},{"country":"UAE","platform":"tiktok","fullName":"Aydas","username":"aydas","url":"https://www.tiktok.com/@aydas","followers":17700000,"engRate":5.83,"verified":true,"igGender":"FEMALE"},{"country":"Saudi Arabia","platform":"instagram","fullName":"أحمد الشقيري","username":"ahmadalshugairi","url":"https://www.instagram.com/ahmadalshugairi/","followers":17493307,"engRate":0.08,"verified":true,"igGender":"MALE"},{"country":"Saudi Arabia","platform":"tiktok","fullName":"Ziba Gulley","username":"xzayx89","url":"https://www.tiktok.com/@xzayx89","followers":15900000,"engRate":10.63,"verified":true,"igGender":"FEMALE"},{"country":"UAE","platform":"instagram","fullName":"Balqees","username":"balqeesfathi","url":"https://www.instagram.com/balqeesfathi/","followers":15788348,"engRate":0.07,"verified":true,"igGender":"FEMALE"},{"country":"UAE","platform":"instagram","fullName":"Nesreen Tafesh","username":"nesreentafesh","url":"https://www.instagram.com/nesreentafesh/","followers":15681682,"engRate":0.24,"verified":true,"igGender":"FEMALE"},{"country":"UAE","platform":"tiktok","fullName":"Om Saif","username":"twin.cis","url":"https://www.tiktok.com/@twin.cis","followers":15500000,"engRate":2.61,"verified":true,"igGender":"FEMALE"},{"country":"UAE","platform":"tiktok","fullName":"Nour Mar","username":"nourmar5","url":"https://www.tiktok.com/@nourmar5","followers":15200000,"engRate":5.71,"verified":true,"igGender":"MALE"},{"country":"UAE","platform":"instagram","fullName":"Ahlam Alshamsi","username":"ahlamalshamsi","url":"https://www.instagram.com/ahlamalshamsi/","followers":15149307,"engRate":0.05,"verified":true,"igGender":"FEMALE"},{"country":"UAE","platform":"tiktok","fullName":"LANA 🤍","username":"lana_mohd89","url":"https://www.tiktok.com/@lana_mohd89","followers":13900000,"engRate":5.8,"verified":true,"igGender":"FEMALE"},{"country":"UAE","platform":"instagram","fullName":"Asmaa Ibraheem","username":"asmaa_ibraheemofficial","url":"https://www.instagram.com/asmaa_ibraheemofficial/","followers":13658533,"engRate":0.08,"verified":true,"igGender":"FEMALE"},{"country":"UAE","platform":"tiktok","fullName":"Desi Rock","username":"desirock_07","url":"https://www.tiktok.com/@desirock_07","followers":13500000,"engRate":5.56,"verified":true,"igGender":"MALE"},{"country":"UAE","platform":"tiktok","fullName":"Faryal","username":"faryal_fairyyy","url":"https://www.tiktok.com/@faryal_fairyyy","followers":12500000,"engRate":8.06,"verified":true,"igGender":"FEMALE"},{"country":"UAE","platform":"tiktok","fullName":"noorstars","username":"noorstars","url":"https://www.tiktok.com/@noorstars","followers":12400000,"engRate":6.47,"verified":true,"igGender":"FEMALE"},{"country":"UAE","platform":"tiktok","fullName":"Huda Beauty","username":"hudabeauty","url":"https://www.tiktok.com/@hudabeauty","followers":12100000,"engRate":5.72,"verified":true,"igGender":"FEMALE"},{"country":"UAE","platform":"instagram","fullName":"Diana Haddad","username":"dianahaddadofficial","url":"https://www.instagram.com/dianahaddadofficial/","followers":12341851,"engRate":0,"verified":true,"igGender":"FEMALE"},{"country":"UAE","platform":"instagram","fullName":"YARA","username":"yara","url":"https://www.instagram.com/yara/","followers":12239552,"engRate":0.02,"verified":true,"igGender":"FEMALE"},{"country":"UAE","platform":"tiktok","fullName":"Dr. Mahra Lutfi","username":"missglobalpeace","url":"https://www.instagram.com/missglobalpeace/","followers":11897459,"engRate":0.16,"verified":true,"igGender":"FEMALE"},{"country":"UAE","platform":"tiktok","fullName":"Junaid Malik","username":"mr_malikofficial","url":"https://www.tiktok.com/@mr_malikofficial","followers":11100000,"engRate":4.06,"verified":true,"igGender":"MALE"},{"country":"Saudi Arabia","platform":"tiktok","fullName":"Sara","username":"saramohannad_","url":"https://www.tiktok.com/@saramohannad_","followers":10800000,"engRate":2.54,"verified":true,"igGender":"FEMALE"},{"country":"UAE","platform":"tiktok","fullName":"LEEN","username":"leen_mohd98","url":"https://www.tiktok.com/@leen_mohd98","followers":10500000,"engRate":6.7,"verified":true,"igGender":"FEMALE"},{"country":"Saudi Arabia","platform":"tiktok","fullName":"Noor035official","username":"noor035official","url":"https://www.tiktok.com/@noor035official","followers":10200000,"engRate":14.55,"verified":true,"igGender":"FEMALE"},{"country":"UAE","platform":"instagram","fullName":"Youmna Khoury","username":"youmi","url":"https://www.instagram.com/youmi/","followers":10060686,"engRate":1.95,"verified":true,"igGender":"FEMALE"},{"country":"UAE","platform":"instagram","fullName":"Ossy Marwah","username":"ossymarwah","url":"https://www.instagram.com/ossymarwah/","followers":9096697,"engRate":9.91,"verified":true,"igGender":"MALE"},{"country":"Saudi Arabia","platform":"tiktok","fullName":"قرآن","username":"abo.3aid","url":"https://www.tiktok.com/@abo.3aid","followers":8900000,"engRate":19.82,"verified":true,"igGender":"MALE"},{"country":"UAE","platform":"tiktok","fullName":"Nas Daily","username":"nasdaily","url":"https://www.tiktok.com/@nasdaily","followers":8800000,"engRate":5.37,"verified":true,"igGender":"MALE"},{"country":"UAE","platform":"tiktok","fullName":"AL RAFAELO","username":"alrafaelo","url":"https://www.tiktok.com/@alrafaelo","followers":8800000,"engRate":3.79,"verified":true,"igGender":"MALE"},{"country":"Saudi Arabia","platform":"tiktok","fullName":"vladglent","username":"vladglent","url":"https://www.tiktok.com/@vladglent","followers":8800000,"engRate":5.4,"verified":true,"igGender":"MALE"},{"country":"UAE","platform":"tiktok","fullName":"انس الشايب","username":"anas_elshayib","url":"https://www.tiktok.com/@anas_elshayib","followers":8600000,"engRate":6.04,"verified":true,"igGender":"MALE"},{"country":"Saudi Arabia","platform":"tiktok","fullName":"hemex ⚽️","username":"hemex_7","url":"https://www.tiktok.com/@hemex_7","followers":8600000,"engRate":10.44,"verified":true,"igGender":"MALE"}];
+const HIGHLIGHTED = [
+  { country: 'Saudi Arabia', platform: 'instagram', fullName: 'Georgina Rodriguez', username: 'georginagio', url: 'https://www.instagram.com/georginagio/', followers: 72246053, engRate: 1.57, igGender: 'FEMALE' },
+  { country: 'Saudi Arabia', platform: 'tiktok', fullName: 'Yahia', username: 'yahia_x', url: 'https://www.tiktok.com/@yahia_x', followers: 28600000, engRate: 4.38, igGender: 'MALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Dina', username: 'dina', url: 'https://www.tiktok.com/@dina', followers: 24300000, engRate: 5.4, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'instagram', fullName: 'Joelle Mardinian', username: 'joellemardinian', url: 'https://www.instagram.com/joellemardinian/', followers: 21636216, engRate: 0.01, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Bessan Ismail', username: 'bessan_esmail', url: 'https://www.tiktok.com/@bessan_esmail', followers: 20200000, engRate: 5.15, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Lishay', username: 'alishbahanjum', url: 'https://www.tiktok.com/@alishbahanjum', followers: 19200000, engRate: 8.56, igGender: 'FEMALE' },
+  { country: 'Saudi Arabia', platform: 'instagram', fullName: 'Ahmed Alshugairi', username: 'ahmadalshugairi', url: 'https://www.instagram.com/ahmadalshugairi/', followers: 17493307, engRate: 0.08, igGender: 'MALE' },
+  { country: 'UAE', platform: 'instagram', fullName: 'Balqees', username: 'balqeesfathi', url: 'https://www.instagram.com/balqeesfathi/', followers: 15788348, engRate: 0.07, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'instagram', fullName: 'Nesreen Tafesh', username: 'nesreentafesh', url: 'https://www.instagram.com/nesreentafesh/', followers: 15681682, engRate: 0.24, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'instagram', fullName: 'Ahlam Alshamsi', username: 'ahlamalshamsi', url: 'https://www.instagram.com/ahlamalshamsi/', followers: 15149307, engRate: 0.05, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Lana', username: 'lana_mohd89', url: 'https://www.tiktok.com/@lana_mohd89', followers: 13900000, engRate: 5.8, igGender: 'FEMALE' },
+  { country: 'UAE', platform: 'tiktok', fullName: 'Noorstars', username: 'noorstars', url: 'https://www.tiktok.com/@noorstars', followers: 12400000, engRate: 6.47, igGender: 'FEMALE' }
+];
 
 const TRIBES = [
-  {name:'Beauty',influencers:254,posted:108,infeed:189,posts:282,impressions:1304574,engagements:100425,saves:2725,engRate:'8%',saveRate:'3%',postRate:'111%',cpm:12},
-  {name:'Makeup',influencers:291,posted:161,infeed:389,posts:523,impressions:3696641,engagements:404603,saves:5163,engRate:'11%',saveRate:'1%',postRate:'180%',cpm:5},
-  {name:'Fashion',influencers:166,posted:56,infeed:37,posts:83,impressions:446494,engagements:13250,saves:95,engRate:'3%',saveRate:'1%',postRate:'50%',cpm:23},
-  {name:'Wellness/Fitness',influencers:106,posted:39,infeed:36,posts:64,impressions:282109,engagements:22183,saves:63,engRate:'8%',saveRate:'0%',postRate:'60%',cpm:23},
-  {name:'Lifestyle',influencers:169,posted:61,infeed:64,posts:116,impressions:4713784,engagements:430419,saves:8492,engRate:'9%',saveRate:'2%',postRate:'69%',cpm:2},
-  {name:'Skincare',influencers:9,posted:2,infeed:0,posts:2,impressions:58145,engagements:4463,saves:57,engRate:'8%',saveRate:'1%',postRate:'22%',cpm:10},
-  {name:'Other',influencers:6,posted:1,infeed:0,posts:0,impressions:0,engagements:0,saves:0,engRate:'-',saveRate:'-',postRate:'0%',cpm:0},
+  {name:'Beauty',influencers:254,posted:108,infeed:189,posts:282,impressions:1304574,engagements:100425,saves:2725,engRate:'8%',saveRate:'3%',postRate:'111.02%',cpm:12},
+  {name:'Makeup',influencers:291,posted:161,infeed:389,posts:523,impressions:3696641,engagements:404603,saves:5163,engRate:'11%',saveRate:'1%',postRate:'179.73%',cpm:5},
+  {name:'Fashion',influencers:166,posted:56,infeed:37,posts:83,impressions:446494,engagements:13250,saves:95,engRate:'3%',saveRate:'1%',postRate:'50.00%',cpm:23},
+  {name:'Wellness/Fitness',influencers:106,posted:39,infeed:36,posts:64,impressions:282109,engagements:22183,saves:63,engRate:'8%',saveRate:'0%',postRate:'60.38%',cpm:23},
+  {name:'Lifestyle',influencers:169,posted:61,infeed:64,posts:116,impressions:4713784,engagements:430419,saves:8492,engRate:'9%',saveRate:'2%',postRate:'68.64%',cpm:2},
+  {name:'Skincare',influencers:9,posted:2,infeed:0,posts:2,impressions:58145,engagements:4463,saves:57,engRate:'8%',saveRate:'1%',postRate:'22.22%',cpm:10},
+  {name:'Other',influencers:6,posted:1,infeed:0,posts:0,impressions:0,engagements:0,saves:0,engRate:'0%',saveRate:'0%',postRate:'0.00%',cpm:0}
 ];
 
 const TIERS = [
-  {name:'Nano (<10k)',influencers:289,posted:172,infeed:257,posts:406,impressions:356098,engagements:25092,saves:266,engRate:'7%',postRate:'140%',cpm:51},
-  {name:'Micro (10k-50k)',influencers:381,posted:181,infeed:276,posts:386,impressions:5461714,engagements:480979,saves:9084,engRate:'9%',postRate:'101%',cpm:4},
-  {name:'Mid (50k-250k)',influencers:262,posted:123,infeed:168,posts:258,impressions:3014693,engagements:320004,saves:3793,engRate:'11%',postRate:'98%',cpm:5},
-  {name:'Macro (250k-1M)',influencers:62,posted:21,infeed:32,posts:44,impressions:1006487,engagements:80495,saves:1004,engRate:'8%',postRate:'71%',cpm:4},
-  {name:'Top (1M-5M)',influencers:6,posted:5,infeed:21,posts:23,impressions:715580,engagements:68773,saves:2448,engRate:'10%',postRate:'383%',cpm:1},
-  {name:'VIP (5M+)',influencers:1,posted:1,infeed:0,posts:0,impressions:0,engagements:0,saves:0,engRate:'-',postRate:'0%',cpm:0},
+  {name:'Nano (<10k)',influencers:289,posted:172,infeed:257,posts:406,impressions:356098,engagements:25092,saves:266,engRate:'7%',saveRate:'1%',postRate:'140.48%',cpm:51},
+  {name:'Micro (10k-50k)',influencers:381,posted:181,infeed:276,posts:386,impressions:5461714,engagements:480979,saves:9084,engRate:'9%',saveRate:'2%',postRate:'101.31%',cpm:4},
+  {name:'Mid (50k-250k)',influencers:262,posted:123,infeed:168,posts:258,impressions:3014693,engagements:320004,saves:3793,engRate:'11%',saveRate:'1%',postRate:'98.47%',cpm:5},
+  {name:'Macro (250k-1M)',influencers:62,posted:21,infeed:32,posts:44,impressions:1006487,engagements:80495,saves:1004,engRate:'8%',saveRate:'1%',postRate:'70.97%',cpm:4},
+  {name:'Top (1M-5M)',influencers:6,posted:5,infeed:21,posts:23,impressions:715580,engagements:68773,saves:2448,engRate:'10%',saveRate:'4%',postRate:'383.33%',cpm:1},
+  {name:'VIP (5M+)',influencers:1,posted:1,infeed:0,posts:0,impressions:0,engagements:0,saves:0,engRate:'0%',saveRate:'0%',postRate:'0.00%',cpm:0}
 ];
 
 const WOW = [
-  {week:5,impressions:208802,posts:26},{week:4,impressions:87394,posts:34},{week:3,impressions:198993,posts:31},
-  {week:2,impressions:83131,posts:23},{week:1,impressions:117300,posts:7},{week:53,impressions:58781,posts:10},
-  {week:52,impressions:119810,posts:22},{week:51,impressions:92590,posts:25},{week:50,impressions:53130,posts:26},
-  {week:49,impressions:353360,posts:24},{week:48,impressions:4567683,posts:30},{week:47,impressions:107774,posts:34},
-  {week:46,impressions:129449,posts:33},{week:45,impressions:468887,posts:49},{week:44,impressions:226002,posts:59},
-  {week:43,impressions:181143,posts:75},{week:42,impressions:645674,posts:90},{week:41,impressions:294710,posts:84},
-  {week:40,impressions:72743,posts:27},{week:39,impressions:384779,posts:49},{week:38,impressions:874432,posts:65},
-  {week:37,impressions:320202,posts:78},{week:36,impressions:406053,posts:56},{week:35,impressions:184711,posts:46},
-  {week:34,impressions:222608,posts:67},{week:33,impressions:94434,posts:47}
+  {week:5,posted:17,posts:26,infeed:23,stories:3,impressions:208802,engagements:23456,saves:152},
+  {week:4,posted:25,posts:34,infeed:30,stories:4,impressions:87394,engagements:12694,saves:48},
+  {week:3,posted:24,posts:31,infeed:28,stories:3,impressions:198993,engagements:25501,saves:244},
+  {week:2,posted:19,posts:23,infeed:18,stories:5,impressions:83131,engagements:17516,saves:54},
+  {week:1,posted:6,posts:7,infeed:6,stories:1,impressions:117300,engagements:7409,saves:56},
+  {week:53,posted:9,posts:10,infeed:10,stories:0,impressions:58781,engagements:6752,saves:58},
+  {week:52,posted:17,posts:22,infeed:19,stories:3,impressions:119810,engagements:55065,saves:46},
+  {week:51,posted:19,posts:25,infeed:20,stories:5,impressions:92590,engagements:5585,saves:109},
+  {week:50,posted:20,posts:26,infeed:19,stories:7,impressions:53130,engagements:4068,saves:21},
+  {week:49,posted:17,posts:24,infeed:21,stories:3,impressions:353360,engagements:43449,saves:2171},
+  {week:48,posted:22,posts:30,infeed:24,stories:6,impressions:4567683,engagements:382868,saves:8527},
+  {week:47,posted:24,posts:34,infeed:29,stories:5,impressions:107774,engagements:11424,saves:103},
+  {week:46,posted:25,posts:33,infeed:23,stories:10,impressions:129449,engagements:4919,saves:26},
+  {week:45,posted:36,posts:49,infeed:38,stories:11,impressions:468887,engagements:39283,saves:393},
+  {week:44,posted:37,posts:59,infeed:51,stories:8,impressions:226002,engagements:14119,saves:328},
+  {week:43,posted:58,posts:75,infeed:52,stories:23,impressions:181143,engagements:9157,saves:143},
+  {week:42,posted:61,posts:90,infeed:51,stories:39,impressions:645674,engagements:37671,saves:758},
+  {week:41,posted:66,posts:84,infeed:35,stories:49,impressions:294710,engagements:16386,saves:168},
+  {week:40,posted:17,posts:27,infeed:22,stories:5,impressions:72743,engagements:5724,saves:34},
+  {week:39,posted:32,posts:49,infeed:37,stories:12,impressions:384779,engagements:43603,saves:486},
+  {week:38,posted:44,posts:65,infeed:52,stories:13,impressions:874432,engagements:124903,saves:1885},
+  {week:37,posted:52,posts:78,infeed:47,stories:31,impressions:320202,engagements:20132,saves:149},
+  {week:36,posted:46,posts:56,infeed:30,stories:26,impressions:406053,engagements:35054,saves:297},
+  {week:35,posted:33,posts:46,infeed:30,stories:16,impressions:184711,engagements:18086,saves:223},
+  {week:34,posted:53,posts:67,infeed:32,stories:35,impressions:222608,engagements:9762,saves:113},
+  {week:33,posted:42,posts:47,infeed:7,stories:40,impressions:94434,engagements:757,saves:3}
+];
+
+const SEED_OVERVIEW = [
+  {metric:'Influencers Seeded', total:1000, instagram:643, tiktok:357, other:'-'},
+  {metric:'Influencers Posted', total:439, instagram:383, tiktok:176, other:10},
+  {metric:'Total Posts (In-Feed + Stories)', total:1117, instagram:721, tiktok:381, other:15},
+  {metric:'In-Feed Posts', total:754, instagram:358, tiktok:381, other:15},
+  {metric:'Stories', total:363, instagram:363, tiktok:0, other:0},
+  {metric:'Posting Rate', total:'111.70%', instagram:'112.13%', tiktok:'106.72%', other:'-'},
+  {metric:'Response Rate', total:'43.90%', instagram:'59.56%', tiktok:'49.30%', other:'-'},
+  {metric:'Impressions', total:10554572, instagram:1971849, tiktok:8538112, other:44611},
+  {metric:'Engagements', total:975343, instagram:155959, tiktok:818773, other:611},
+  {metric:'Saves', total:16595, instagram:56, tiktok:16539, other:0},
+  {metric:'Engagement Rate', total:'9.24%', instagram:'7.91%', tiktok:'9.59%', other:'1.37%'},
+  {metric:'Save Rate', total:'1.70%', instagram:'0.04%', tiktok:'2.02%', other:'0.00%'},
+  {metric:'Seeding Effectiveness', total:10555, instagram:3067, tiktok:23916, other:'-'},
+  {metric:'CPM (excl gifting)', total:'$3', instagram:'$15', tiktok:'$4', other:'-'},
+  {metric:'CPM (incl gifting)', total:'$6', instagram:'$20', tiktok:'$3', other:'-'}
+];
+
+const TIER_VIEWS = [
+  {week:5,nano:8051,micro:278139,mid:75357,macro:20821,top:237635,vip:0,total:620003},
+  {week:4,nano:13745,micro:100663,mid:104004,macro:0,top:0,vip:0,total:218412},
+  {week:3,nano:32368,micro:73833,mid:246514,macro:75553,top:0,vip:0,total:428268},
+  {week:2,nano:12680,micro:3811,mid:153182,macro:121096,top:0,vip:0,total:290769},
+  {week:1,nano:2068,micro:0,mid:67500,macro:76473,top:0,vip:0,total:146041},
+  {week:53,nano:9108,micro:2019,mid:61485,macro:0,top:0,vip:0,total:72612},
+  {week:52,nano:645772,micro:18224,mid:75288,macro:0,top:0,vip:0,total:739284},
+  {week:51,nano:14549,micro:25007,mid:59154,macro:0,top:0,vip:0,total:98710},
+  {week:50,nano:6048,micro:16969,mid:117379,macro:0,top:0,vip:0,total:140396},
+  {week:49,nano:6570,micro:1979,mid:23360,macro:11727,top:337115,vip:0,total:380751},
+  {week:48,nano:26771,micro:4415189,mid:62464,macro:43883,top:12600,vip:0,total:4560907},
+  {week:47,nano:24670,micro:20451,mid:83263,macro:0,top:0,vip:0,total:128384},
+  {week:46,nano:48324,micro:32544,mid:27535,macro:18447,top:0,vip:0,total:126850},
+  {week:45,nano:116185,micro:25567,mid:376584,macro:0,top:0,vip:0,total:518336},
+  {week:44,nano:46796,micro:80382,mid:60014,macro:120515,top:47200,vip:0,total:354907},
+  {week:43,nano:62653,micro:91448,mid:41593,macro:0,top:3921,vip:0,total:199615},
+  {week:42,nano:78890,micro:67882,mid:976786,macro:0,top:11167,vip:0,total:1134725},
+  {week:41,nano:16976,micro:118724,mid:90760,macro:0,top:4610,vip:0,total:231070},
+  {week:40,nano:1043061,micro:20972,mid:7853,macro:5665,top:0,vip:0,total:1077551},
+  {week:39,nano:49746,micro:8919,mid:358470,macro:0,top:0,vip:0,total:417135},
+  {week:38,nano:27211,micro:79298,mid:787146,macro:18515,top:32100,vip:0,total:944270},
+  {week:37,nano:45609,micro:172458,mid:4598,macro:0,top:89000,vip:0,total:311665},
+  {week:36,nano:8018,micro:194509,mid:223337,macro:0,top:15295,vip:0,total:441159},
+  {week:35,nano:19161,micro:29177,mid:113066,macro:0,top:6102,vip:0,total:167506},
+  {week:34,nano:11672,micro:116960,mid:97833,macro:0,top:0,vip:0,total:226465},
+  {week:33,nano:15839,micro:490,mid:0,macro:0,top:0,vip:0,total:16329}
+];
+
+const PLATFORM_VIEW = [
+  {platform:'Instagram',posts:721,impressions:1971849,engagements:155959,saves:56,engRate:'7.91%',saveRate:'0.04%',postingRate:'55.68%'},
+  {platform:'TikTok',posts:381,impressions:8538112,engagements:818773,saves:16539,engRate:'9.59%',saveRate:'2.02%',postingRate:'106.72%'},
+  {platform:'Other',posts:15,impressions:44611,engagements:611,saves:0,engRate:'1.37%',saveRate:'0.00%',postingRate:'-'}
+];
+
+const SKIN_TYPE = [
+  {name:'Female',influencers:988,posted:428,infeed:728,posts:1086,impressions:10505519,engagements:971737,saves:16544,engRate:'9%',saveRate:'2%',postRate:'109.92%',cpm:6},
+  {name:'Male',influencers:12,posted:3,infeed:5,posts:7,impressions:5611,engagements:430,saves:3,engRate:'8%',saveRate:'1%',postRate:'58.33%',cpm:134}
 ];
 
 const TRIBE_TIER = {
@@ -728,280 +1426,472 @@ const TRIBE_TIER = {
     'Micro (10k-50k)':{Beauty:3,Fashion:6,'Wellness/Fitness':4,Lifestyle:8,Makeup:20,Skincare:0,Other:1},
     'Mid (50k-250k)':{Beauty:9,Fashion:5,'Wellness/Fitness':3,Lifestyle:8,Makeup:33,Skincare:0,Other:0},
     'Macro (250k-1M)':{Beauty:4,Fashion:0,'Wellness/Fitness':0,Lifestyle:0,Makeup:5,Skincare:0,Other:0},
-    'Top (1M-5M)':{Beauty:0,Fashion:1,'Wellness/Fitness':0,Lifestyle:0,Makeup:0,Skincare:0,Other:0},
+    'Top (1M-5M)':{Beauty:0,Fashion:1,'Wellness/Fitness':0,Lifestyle:0,Makeup:0,Skincare:0,Other:0}
   }
 };
 
-// ═══════════════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════════════
-let ciM='all',ciP='both',stM='all',stP='both';
-let crCountry='all',crPlatform='all',crGend='all',crQ='';
-const CH={};
+const MARKETS = [
+  {name:'UK', emails:3436, optins:617, optinRate:'49.4%', openRate:'71.3%', declined:8, status:'On Track'},
+  {name:'USA', emails:2654, optins:582, optinRate:'63.2%', openRate:'68.5%', declined:5, status:'On Track'},
+  {name:'Italy', emails:1135, optins:176, optinRate:'31.2%', openRate:'64.8%', declined:4, status:'On Track'},
+  {name:'France', emails:746, optins:127, optinRate:'31.3%', openRate:'59.2%', declined:3, status:'On Track'},
+  {name:'Canada', emails:291, optins:127, optinRate:'80.9%', openRate:'74.1%', declined:2, status:'Exceeded'},
+  {name:'Nordics', emails:393, optins:67, optinRate:'39.2%', openRate:'61.4%', declined:2, status:'On Track'},
+  {name:'Benelux', emails:342, optins:65, optinRate:'49.2%', openRate:'66.7%', declined:1, status:'On Track'},
+  {name:'Australia', emails:201, optins:101, optinRate:'50.2%', openRate:'78.3%', declined:1, status:'Exceeded'},
+  {name:'Singapore', emails:229, optins:48, optinRate:'21.0%', openRate:'63.9%', declined:0, status:'Low'},
+  {name:'Poland', emails:23, optins:3, optinRate:'13.0%', openRate:'41.2%', declined:0, status:'Low'}
+];
 
-// ═══════════════════════════════════════════════════
-// NAV
-// ═══════════════════════════════════════════════════
-function goPage(name, btn){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(b=>b.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
-  if(btn) btn.classList.add('active');
-  window.scrollTo(0,0);
-  if(name==='creator-intel'){initCICharts();renderSTTable();renderCreators();}
-  if(name==='seeding'){initSeedCharts();}
-  if(name==='outreach'){initOutreachCharts();}
+let ciM = 'all';
+let ciP = 'both';
+let stM = 'all';
+let stP = 'both';
+let crCountry = 'all';
+let crPlatform = 'all';
+let crGender = 'all';
+let crQ = '';
+const CH = {};
+
+function toggleNav() { document.getElementById('sidebar').classList.toggle('open'); }
+function dChart(id) {
+  if (CH[id]) {
+    try { CH[id].destroy(); } catch (e) {}
+    delete CH[id];
+  }
 }
 
-// ═══════════════════════════════════════════════════
-// UTILS
-// ═══════════════════════════════════════════════════
-function fmt(n){n=Number(n);if(n>=1000000)return(n/1e6).toFixed(1).replace(/\.0$/,'')+'M';if(n>=1000)return Math.round(n/1000)+'K';return n.toLocaleString();}
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function initials(n){if(!n)return'?';const p=n.trim().split(/\s+/);return p.length>=2?(p[0][0]||'')+(p[1][0]||''):(n[0]||'').toUpperCase();}
-function filterCounts(m,p){return COUNTS.filter(r=>(m==='all'||r.Country===(m==='uae'?'UAE':'Saudi Arabia'))&&(p==='both'||r.Platform===p));}
-function sumSeg(rows,st,sv){return rows.filter(r=>r['Segment Type']===st&&r.Segment.trim()===sv).reduce((a,r)=>a+Number(r['Total Influencers']),0);}
-function dChart(id){if(CH[id]){try{CH[id].destroy();}catch(e){}delete CH[id];}}
-const grids=['135deg,#FF0088,#8B00FF','135deg,#0088FF,#00CCAA','135deg,#FF5500,#FF0088','135deg,#7F77DD,#0088FF'];
+function goPage(name, btn) {
+  document.querySelectorAll('.page').forEach((p) => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach((b) => b.classList.remove('active'));
+  const page = document.getElementById('page-' + name);
+  if (page) page.classList.add('active');
+  if (btn) btn.classList.add('active');
+  document.getElementById('sidebar').classList.remove('open');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 
-// ═══════════════════════════════════════════════════
-// HERO STATS INIT
-// ═══════════════════════════════════════════════════
-function initHeroStats(){
-  const f=(c,p)=>{const r=COUNTS.find(x=>x.Country===c&&x.Platform===p&&x['Segment Type']==='Total');return r?fmt(r['Total Influencers']):'—';};
-  document.getElementById('ci-uae-ig').textContent=f('UAE','instagram');
-  document.getElementById('ci-uae-tt').textContent=f('UAE','tiktok');
-  document.getElementById('ci-ksa-ig').textContent=f('Saudi Arabia','instagram');
-  document.getElementById('ci-ksa-tt').textContent=f('Saudi Arabia','tiktok');
+  if (name === 'creator-intel') {
+    initHeroStats();
+    initCICharts();
+    renderSTInsights();
+    renderCreators();
+  }
+  if (name === 'seeding') initSeedCharts();
+  if (name === 'outreach') initOutreachCharts();
 }
 
-// ═══════════════════════════════════════════════════
-// CREATOR INTELLIGENCE CHARTS
-// ═══════════════════════════════════════════════════
-function initCICharts(){
-  const rows=filterCounts(ciM,ciP);
-  const male=sumSeg(rows,'Influencer Gender','MALE');
-  const female=sumSeg(rows,'Influencer Gender','FEMALE');
-  dChart('ciG');
-  document.getElementById('ci-gender-leg').innerHTML=`<div class="leg"><div class="leg-dot" style="background:#378ADD"></div>Male ${fmt(male)}</div><div class="leg"><div class="leg-dot" style="background:#D4537E"></div>Female ${fmt(female)}</div>`;
-  CH.ciG=new Chart(document.getElementById('ciGenderChart'),{type:'bar',data:{labels:['Male','Female'],datasets:[{data:[male,female],backgroundColor:['#378ADD','#D4537E'],borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${fmt(c.raw)}`}}},scales:{x:{grid:{display:false},ticks:{color:'#666',font:{size:11}}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#666',font:{size:10},callback:v=>fmt(v)}}}}});
-
-  const ageB=['18-24','25-34','35-44','45-64','65+'];
-  const ageV=ageB.map(b=>sumSeg(rows,'Influencer Age',b));
-  dChart('ciA');
-  CH.ciA=new Chart(document.getElementById('ciAgeChart'),{type:'bar',data:{labels:ageB,datasets:[{data:ageV,backgroundColor:'#7F77DD',borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${fmt(c.raw)}`}}},scales:{x:{grid:{display:false},ticks:{color:'#666',font:{size:11},autoSkip:false}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#666',font:{size:10},callback:v=>fmt(v)}}}}});
-
-  const tK=['Nano  (1K – 10K)','Micro (10K – 50K)','Mid   (50K – 250K)','Macro (250K – 1M)','Mega  (1M+)'];
-  const tL=['Nano','Micro','Mid','Macro','Mega'];
-  const tV=tK.map(k=>sumSeg(rows,'Follower Tier',k));
-  const tC=['#3a3a38','#5F5E5A','#1D9E75','#378ADD','#FF0088'];
-  const tT=tV.reduce((a,b)=>a+b,0);
-  dChart('ciT');
-  document.getElementById('ci-tier-leg').innerHTML=tL.map((l,i)=>`<div class="leg"><div class="leg-dot" style="background:${tC[i]}"></div>${l} ${tT?Math.round(tV[i]/tT*100):0}%</div>`).join('');
-  CH.ciT=new Chart(document.getElementById('ciTierChart'),{type:'doughnut',data:{labels:tL,datasets:[{data:tV,backgroundColor:tC,borderWidth:2,borderColor:'#141414'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'64%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${fmt(c.raw)}`}}}}});
-
-  const aIds=['13-17','18-24','25-34','35-44','45-64','65-'];
-  const aV=aIds.map(id=>{const r=rows.find(x=>x['Segment Type']==='Audience Age (≥30%)'&&x.Segment==='Audience '+id);return r?Number(r['Total Influencers']):0;});
-  dChart('ciAA');
-  CH.ciAA=new Chart(document.getElementById('ciAudAgeChart'),{type:'bar',data:{labels:['13-17','18-24','25-34','35-44','45-64','65+'],datasets:[{data:aV,backgroundColor:'#00C48C',borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${fmt(c.raw)}`}}},scales:{x:{grid:{display:false},ticks:{color:'#666',font:{size:11},autoSkip:false}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#666',font:{size:10},callback:v=>fmt(v)}}}}});
+function fmt(n) {
+  const v = Number(n || 0);
+  if (v >= 1000000) return (v / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+  if (v >= 1000) return Math.round(v / 1000) + 'K';
+  return v.toLocaleString();
 }
-
-// CI Filters
-function ciMarket(v,el){['ci-all','ci-uae','ci-ksa'].forEach(id=>{const b=document.getElementById(id);if(b)b.classList.remove('on');});el.classList.add('on');ciM=v;initCICharts();renderSTTable();}
-function ciPlat(v,el){['ci-both','ci-ig','ci-tt'].forEach(id=>{const b=document.getElementById(id);if(b)b.classList.remove('on');});el.classList.add('on');ciP=v;initCICharts();renderSTTable();}
-
-// Segment Table
-function stMarket(v,el){['st-all','st-uae','st-ksa'].forEach(id=>{const b=document.getElementById(id);if(b)b.classList.remove('on');});el.classList.add('on');stM=v;renderSTTable();}
-function stPlat(v,el){['st-both','st-ig','st-tt'].forEach(id=>{const b=document.getElementById(id);if(b)b.classList.remove('on');});el.classList.add('on');stP=v;renderSTTable();}
-function renderSTTable(){
-  const rows=filterCounts(stM,stP);
-  const maxV=Math.max(...rows.map(r=>Number(r['Total Influencers'])));
-  document.getElementById('stBody').innerHTML=rows.map(r=>{
-    const n=Number(r['Total Influencers']);
-    const pct=maxV?Math.round(n/maxV*100):0;
-    const cb=r.Country==='UAE'?'cb-uae':'cb-ksa';
-    const pb=r.Platform==='instagram'?'plat-ig':'plat-tt';
-    const pl=r.Platform==='instagram'?'IG':'TT';
-    return `<tr><td><span class="country-badge ${cb}">${esc(r.Country)}</span></td><td><span class="plat ${pb}">${pl}</span></td><td style="color:var(--muted2);font-size:11px">${esc(r['Segment Type'])}</td><td style="color:var(--muted2)">${esc(r.Segment)}</td><td><span class="num">${fmt(n)}</span></td><td style="width:100px"><div class="mini-bar"><div class="mini-fill" style="width:${pct}%"></div></div></td></tr>`;
-  }).join('');
+function esc(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
-
-// Creator Cards
-function crFilter(t,v,el){
-  if(t==='country'){['cr-all','cr-uae','cr-ksa'].forEach(id=>{const b=document.getElementById(id);if(b)b.classList.remove('on');});crCountry=v;}
-  else if(t==='platform'){['cr-both','cr-ig','cr-tt'].forEach(id=>{const b=document.getElementById(id);if(b)b.classList.remove('on');});crPlatform=v;}
-  else if(t==='gender'){['cr-gall','cr-gf','cr-gm'].forEach(id=>{const b=document.getElementById(id);if(b)b.classList.remove('on');});crGend=v;}
-  el.classList.add('on');renderCreators();
+function initials(name) {
+  const parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return '?';
+  if (parts.length === 1) return parts[0][0].toUpperCase();
+  return (parts[0][0] + parts[1][0]).toUpperCase();
 }
-function crSearch(v){crQ=v;renderCreators();}
-function renderCreators(){
-  let data=HIGHLIGHTED.filter(c=>{
-    if(crCountry!=='all'&&c.country!==crCountry)return false;
-    if(crPlatform!=='all'&&c.platform!==crPlatform)return false;
-    if(crGend!=='all'&&c.igGender!==crGend)return false;
-    if(crQ){const q=crQ.toLowerCase();if(!c.fullName.toLowerCase().includes(q)&&!c.username.toLowerCase().includes(q))return false;}
-    return true;
+function safeUrl(url) {
+  const raw = String(url || '').trim();
+  if (!raw) return '#';
+  return /^https?:\/\//i.test(raw) ? raw : '#';
+}
+function normalize(v) {
+  return String(v || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+}
+function filterCounts(m, p) {
+  return COUNTS.filter((r) => {
+    const okM = m === 'all' || r.Country === (m === 'uae' ? 'UAE' : 'Saudi Arabia');
+    const okP = p === 'both' || r.Platform === p;
+    return okM && okP;
   });
-  document.getElementById('crCount').textContent=`Showing ${data.length} of ${HIGHLIGHTED.length} highlighted creators`;
-  if(!data.length){document.getElementById('creatorsGrid').innerHTML='<div class="empty">No creators match the current filters.</div>';return;}
-  document.getElementById('creatorsGrid').innerHTML=data.map(c=>{
-    const ini=initials(c.fullName||c.username);
-    const grad=grids[(c.username||'').charCodeAt(0)%grids.length];
-    const cb=c.country==='UAE'?'cb-uae':'cb-ksa';
-    const cflag=c.country==='UAE'?'🇦🇪 UAE':'🇸🇦 KSA';
-    const pb=c.platform==='instagram'?'plat-ig':'plat-tt';
-    const pl=c.platform==='instagram'?'IG':'TT';
-    const nm=esc(c.fullName||c.username);
-    const er=Number(c.engRate)||0;
-    return `<div class="creator-card ${c.verified?'ver':''}">
-      <div class="creator-top">
-        <div class="avatar" style="background:linear-gradient(${grad})">${ini}</div>
-        <div style="min-width:0">
-          <div class="c-name" title="${nm}">${nm.length>22?nm.slice(0,22)+'…':nm}</div>
-          <div class="c-handle">@${esc(c.username)}</div>
-          <div style="display:flex;gap:5px;margin-top:4px"><span class="country-badge ${cb}">${cflag}</span><span class="plat ${pb}">${pl}</span></div>
-        </div>
-      </div>
-      <div class="c-stats">
-        <div class="cs"><div class="cs-val">${fmt(c.followers)}</div><div class="cs-label">Followers</div></div>
-        <div class="cs"><div class="cs-val">${er?er.toFixed(1)+'%':'—'}</div><div class="cs-label">Eng Rate</div></div>
-      </div>
-      <div class="c-meta">${c.igGender?`<span class="plat" style="background:rgba(255,255,255,0.05);color:var(--muted2)">${c.igGender}</span>`:''}</div>
-      <a href="${esc(c.url||'#')}" target="_blank" rel="noopener" class="c-link">View Profile →</a>
+}
+function sumSeg(rows, segType, segVal) {
+  return rows
+    .filter((r) => r['Segment Type'] === segType && r.Segment.trim() === segVal)
+    .reduce((acc, r) => acc + Number(r['Total Influencers']), 0);
+}
+
+function initHome() {
+  const totalIG = sumSeg(filterCounts('all', 'instagram'), 'Total', 'All (1K+ followers)');
+  const totalTT = sumSeg(filterCounts('all', 'tiktok'), 'Total', 'All (1K+ followers)');
+  const stats = [
+    { val: fmt(totalTT), label: 'TikTok Creators', sub: 'UAE + KSA', cls: 'top-pink' },
+    { val: fmt(totalIG), label: 'Instagram Creators', sub: 'UAE + KSA', cls: 'top-green' },
+    { val: '1,000', label: 'Seeded Influencers', sub: 'Program 2025', cls: 'top-blue' },
+    { val: '48.96%', label: 'Opt-In Rate', sub: 'Outreach', cls: 'top-amber' }
+  ];
+  document.getElementById('homeStats').innerHTML = stats.map((s) => `
+    <div class="stat-card ${s.cls}">
+      <div class="stat-val">${s.val}</div>
+      <div class="stat-label">${s.label}</div>
+      <div class="stat-sub">${s.sub}</div>
+    </div>
+  `).join('');
+}
+
+function initHeroStats() {
+  const pick = (country, platform) => COUNTS.find((r) => r.Country === country && r.Platform === platform && r['Segment Type'] === 'Total');
+  document.getElementById('ci-uae-ig').textContent = fmt((pick('UAE', 'instagram') || {})['Total Influencers']);
+  document.getElementById('ci-uae-tt').textContent = fmt((pick('UAE', 'tiktok') || {})['Total Influencers']);
+  document.getElementById('ci-ksa-ig').textContent = fmt((pick('Saudi Arabia', 'instagram') || {})['Total Influencers']);
+  document.getElementById('ci-ksa-tt').textContent = fmt((pick('Saudi Arabia', 'tiktok') || {})['Total Influencers']);
+}
+
+function initCICharts() {
+  const rows = filterCounts(ciM, ciP);
+  const male = sumSeg(rows, 'Influencer Gender', 'MALE');
+  const female = sumSeg(rows, 'Influencer Gender', 'FEMALE');
+
+  dChart('ciG');
+  document.getElementById('ci-gender-leg').innerHTML = `<div class="leg"><span class="leg-dot" style="background:#378ADD"></span>Male ${fmt(male)}</div><div class="leg"><span class="leg-dot" style="background:#D4537E"></span>Female ${fmt(female)}</div>`;
+  CH.ciG = new Chart(document.getElementById('ciGenderChart'), {
+    type: 'bar',
+    data: { labels: ['Male', 'Female'], datasets: [{ data: [male, female], backgroundColor: ['#378ADD', '#D4537E'], borderRadius: 6, borderSkipped: false }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+  });
+
+  const ageB = ['18-24', '25-34', '35-44', '45-64', '65+'];
+  const ageV = ageB.map((b) => sumSeg(rows, 'Influencer Age', b));
+  dChart('ciA');
+  CH.ciA = new Chart(document.getElementById('ciAgeChart'), {
+    type: 'bar',
+    data: { labels: ageB, datasets: [{ data: ageV, backgroundColor: '#7F77DD', borderRadius: 5, borderSkipped: false }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+  });
+
+  const tK = ['Nano  (1K - 10K)', 'Micro (10K - 50K)', 'Mid   (50K - 250K)', 'Macro (250K - 1M)', 'Mega  (1M+)'];
+  const tL = ['Nano', 'Micro', 'Mid', 'Macro', 'Mega'];
+  const tV = tK.map((k) => sumSeg(rows, 'Follower Tier', k));
+  const total = tV.reduce((a, b) => a + b, 0);
+  document.getElementById('ci-tier-leg').innerHTML = tL.map((l, i) => `<div class="leg"><span class="leg-dot" style="background:${['#555','#7F77DD','#1D9E75','#4A90E2','#FF0088'][i]}"></span>${l} ${total ? Math.round((tV[i] / total) * 100) : 0}%</div>`).join('');
+  dChart('ciT');
+  CH.ciT = new Chart(document.getElementById('ciTierChart'), {
+    type: 'doughnut',
+    data: { labels: tL, datasets: [{ data: tV, backgroundColor: ['#555', '#7F77DD', '#1D9E75', '#4A90E2', '#FF0088'], borderWidth: 2, borderColor: '#141414' }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '62%', plugins: { legend: { display: false } } }
+  });
+
+  const ageIds = ['13-17', '18-24', '25-34', '35-44', '45-64', '65-'];
+  const ageDisplay = ['13-17', '18-24', '25-34', '35-44', '45-64', '65+'];
+  const ageAud = ageIds.map((id) => rows.filter((r) => r['Segment Type'] === 'Audience Age (>=30%)' && r.Segment === 'Audience ' + id).reduce((acc, r) => acc + Number(r['Total Influencers']), 0));
+  dChart('ciAA');
+  CH.ciAA = new Chart(document.getElementById('ciAudAgeChart'), {
+    type: 'bar',
+    data: { labels: ageDisplay, datasets: [{ data: ageAud, backgroundColor: '#00C48C', borderRadius: 5, borderSkipped: false }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+  });
+}
+
+function ciMarket(v, el) {
+  ['ci-all', 'ci-uae', 'ci-ksa'].forEach((id) => document.getElementById(id).classList.remove('on'));
+  el.classList.add('on');
+  ciM = v;
+  initCICharts();
+}
+function ciPlat(v, el) {
+  ['ci-both', 'ci-ig', 'ci-tt'].forEach((id) => document.getElementById(id).classList.remove('on'));
+  el.classList.add('on');
+  ciP = v;
+  initCICharts();
+}
+
+function stMarket(v, el) {
+  ['st-all', 'st-uae', 'st-ksa'].forEach((id) => document.getElementById(id).classList.remove('on'));
+  el.classList.add('on');
+  stM = v;
+  renderSTInsights();
+}
+function stPlat(v, el) {
+  ['st-both', 'st-ig', 'st-tt'].forEach((id) => document.getElementById(id).classList.remove('on'));
+  el.classList.add('on');
+  stP = v;
+  renderSTInsights();
+}
+
+function renderSTInsights() {
+  const rows = filterCounts(stM, stP);
+  const segRows = rows.filter((r) => r['Segment Type'] !== 'Total');
+  const typeTotals = {};
+  const typeSegments = {};
+
+  segRows.forEach((r) => {
+    const t = r['Segment Type'];
+    const v = Number(r['Total Influencers']) || 0;
+    typeTotals[t] = (typeTotals[t] || 0) + v;
+    if (!typeSegments[t]) typeSegments[t] = [];
+    typeSegments[t].push({ name: r.Segment, value: v, market: r.Country, platform: r.Platform });
+  });
+
+  const totalSignals = Object.values(typeTotals).reduce((a, b) => a + b, 0);
+  const largestType = Object.keys(typeTotals).sort((a, b) => typeTotals[b] - typeTotals[a])[0] || '-';
+  const largestTypeVal = typeTotals[largestType] || 0;
+
+  document.getElementById('stOverview').innerHTML = `
+    <div class="stat-card top-pink"><div class="stat-val">${fmt(totalSignals)}</div><div class="stat-label">Total Signals</div><div class="stat-sub">Across selected filters</div></div>
+    <div class="stat-card top-blue"><div class="stat-val">${Object.keys(typeTotals).length}</div><div class="stat-label">Segment Types</div><div class="stat-sub">Dimensions represented</div></div>
+    <div class="stat-card top-green"><div class="stat-val">${esc(largestType)}</div><div class="stat-label">Largest Type</div><div class="stat-sub">${fmt(largestTypeVal)} total</div></div>
+  `;
+
+  const typeLabels = Object.keys(typeTotals);
+  dChart('stType');
+  CH.stType = new Chart(document.getElementById('stTypeChart'), {
+    type: 'bar',
+    data: { labels: typeLabels, datasets: [{ data: typeLabels.map((k) => typeTotals[k]), backgroundColor: ['#ff0088','#4a90e2','#00c48c','#7f77dd','#f5a623','#69c9d0'], borderRadius: 5, borderSkipped: false }] },
+    options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } } }
+  });
+
+  const totalRows = rows.filter((r) => r['Segment Type'] === 'Total');
+  const mp = { 'UAE IG': 0, 'UAE TT': 0, 'KSA IG': 0, 'KSA TT': 0 };
+  totalRows.forEach((r) => {
+    const key = r.Country === 'UAE' ? (r.Platform === 'instagram' ? 'UAE IG' : 'UAE TT') : (r.Platform === 'instagram' ? 'KSA IG' : 'KSA TT');
+    mp[key] += Number(r['Total Influencers']) || 0;
+  });
+  const mpLabels = Object.keys(mp);
+  dChart('stMP');
+  CH.stMP = new Chart(document.getElementById('stMarketPlatformChart'), {
+    type: 'doughnut',
+    data: { labels: mpLabels, datasets: [{ data: mpLabels.map((k) => mp[k]), backgroundColor: ['#ff0088','#69c9d0','#7f77dd','#4a90e2'], borderWidth: 2, borderColor: '#141414' }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '60%', plugins: { legend: { position: 'bottom', labels: { color: '#888', boxWidth: 10 } } } }
+  });
+
+  const combo = {};
+  segRows.forEach((r) => {
+    const key = `${r['Segment Type']} - ${r.Segment}`;
+    combo[key] = (combo[key] || 0) + Number(r['Total Influencers'] || 0);
+  });
+  const topCombos = Object.entries(combo).sort((a, b) => b[1] - a[1]).slice(0, 8);
+  dChart('stTop');
+  CH.stTop = new Chart(document.getElementById('stTopSegmentsChart'), {
+    type: 'bar',
+    data: { labels: topCombos.map(([k]) => k.length > 26 ? k.slice(0, 26) + '...' : k), datasets: [{ data: topCombos.map(([,v]) => v), backgroundColor: '#00c48c', borderRadius: 5, borderSkipped: false }] },
+    options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } } }
+  });
+
+  document.getElementById('stCards').innerHTML = Object.keys(typeSegments).map((type) => {
+    const items = typeSegments[type].sort((a, b) => b.value - a.value).slice(0, 4);
+    const max = items[0] ? items[0].value : 1;
+    return `<div class="segment-card">
+      <div class="segment-head">${esc(type)}</div>
+      ${items.map((it) => `<div class="seg-row"><div class="seg-name"><span>${esc(it.name)}</span><span class="seg-value">${fmt(it.value)}</span></div><div class="mini-bar"><div class="mini-fill" style="width:${Math.round((it.value / max) * 100)}%"></div></div></div>`).join('')}
     </div>`;
   }).join('');
 }
 
-// ═══════════════════════════════════════════════════
-// SEEDING CHARTS
-// ═══════════════════════════════════════════════════
-function initSeedCharts(){
-  // Platform impressions donut
-  dChart('sImp');
-  CH.sImp=new Chart(document.getElementById('seedImpressChart'),{type:'doughnut',data:{labels:['Instagram','TikTok','Other'],datasets:[{data:[1971849,8538112,44611],backgroundColor:['#E1306C','#69C9D0','#888'],borderWidth:2,borderColor:'#141414'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${fmt(c.raw)}`}}}}});
-
-  // Platform engagements donut
-  dChart('sEng');
-  CH.sEng=new Chart(document.getElementById('seedEngChart'),{type:'doughnut',data:{labels:['Instagram','TikTok','Other'],datasets:[{data:[155959,818773,611],backgroundColor:['#E1306C','#69C9D0','#888'],borderWidth:2,borderColor:'#141414'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${fmt(c.raw)}`}}}}});
-
-  // Posting rate bar
-  dChart('sPR');
-  CH.sPR=new Chart(document.getElementById('seedPostRateChart'),{type:'bar',data:{labels:['Instagram','TikTok'],datasets:[{data:[55.68,106.72],backgroundColor:['#E1306C','#69C9D0'],borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.raw}%`}}},scales:{x:{grid:{display:false},ticks:{color:'#666',font:{size:11}}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#666',font:{size:10},callback:v=>v+'%'},max:130}}}});
-
-  // Seeding effectiveness
-  dChart('sEff');
-  CH.sEff=new Chart(document.getElementById('seedEffChart'),{type:'bar',data:{labels:['Instagram','TikTok'],datasets:[{data:[3067,23916],backgroundColor:['#E1306C','#69C9D0'],borderRadius:6,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${fmt(c.raw)} impressions/seeded`}}},scales:{x:{grid:{display:false},ticks:{color:'#666',font:{size:11}}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#666',font:{size:10},callback:v=>fmt(v)}}}}});
-
-  // Tribe impressions donut
-  dChart('tribeI');
-  const tc=['#FF0088','#7F77DD','#1D9E75','#4A90E2','#F5A623','#E1306C','#888'];
-  CH.tribeI=new Chart(document.getElementById('tribeImpressChart'),{type:'doughnut',data:{labels:TRIBES.map(t=>t.name),datasets:[{data:TRIBES.map(t=>t.impressions),backgroundColor:tc,borderWidth:2,borderColor:'#141414'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${fmt(c.raw)}`}}}}});
-
-  // Tribe table
-  document.getElementById('tribeTable').innerHTML=`<thead><tr><th>Tribe</th><th>Influencers</th><th>Impressions</th><th>Eng Rate</th><th>Post Rate</th><th>CPM</th></tr></thead><tbody>`+TRIBES.map(t=>{
-    const rg=parseFloat(t.postRate)>100?'rate-good':parseFloat(t.postRate)>50?'rate-mid':'rate-low';
-    return `<tr><td>${esc(t.name)}</td><td class="num">${fmt(t.influencers)}</td><td class="num">${fmt(t.impressions)}</td><td><span class="rate-pill ${parseFloat(t.engRate)>8?'rate-good':parseFloat(t.engRate)>4?'rate-mid':'rate-low'}">${t.engRate}</span></td><td><span class="rate-pill ${rg}">${t.postRate}</span></td><td class="num">$${t.cpm}</td></tr>`;
-  }).join('')+'</tbody>';
-
-  // Tier impressions donut
-  dChart('tierI');
-  const tc2=['#555','#1D9E75','#4A90E2','#FF0088','#F5A623','#7F77DD'];
-  CH.tierI=new Chart(document.getElementById('tierImpressChart'),{type:'doughnut',data:{labels:TIERS.map(t=>t.name),datasets:[{data:TIERS.map(t=>t.impressions),backgroundColor:tc2,borderWidth:2,borderColor:'#141414'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${fmt(c.raw)}`}}}}});
-
-  // Tier table
-  document.getElementById('tierTable').innerHTML=`<thead><tr><th>Tier</th><th>Influencers</th><th>Impressions</th><th>Eng Rate</th><th>Post Rate</th><th>CPM</th></tr></thead><tbody>`+TIERS.map(t=>{
-    const rg=parseFloat(t.postRate)>100?'rate-good':parseFloat(t.postRate)>50?'rate-mid':'rate-low';
-    return `<tr><td>${esc(t.name)}</td><td class="num">${fmt(t.influencers)}</td><td class="num">${fmt(t.impressions)}</td><td><span class="rate-pill ${parseFloat(t.engRate)>8?'rate-good':parseFloat(t.engRate)>4?'rate-mid':'rate-low'}">${t.engRate}</span></td><td><span class="rate-pill ${rg}">${t.postRate}</span></td><td class="num">$${t.cpm}</td></tr>`;
-  }).join('')+'</tbody>';
-
-  // WoW impressions chart — sorted by week desc
-  const wSorted=[...WOW].sort((a,b)=>b.week-a.week);
-  dChart('wow');
-  CH.wow=new Chart(document.getElementById('wowChart'),{type:'bar',data:{labels:wSorted.map(w=>'Wk '+w.week),datasets:[{label:'Impressions',data:wSorted.map(w=>w.impressions),backgroundColor:'rgba(255,0,136,0.7)',borderRadius:4,borderSkipped:false},{label:'Posts',data:wSorted.map(w=>w.posts*10000),backgroundColor:'rgba(127,119,221,0.4)',borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:'#777',font:{size:11}}},tooltip:{callbacks:{label:c=>c.datasetIndex===0?` ${fmt(c.raw)} impressions`:` ${Math.round(c.raw/10000)} posts`}}},scales:{x:{grid:{display:false},ticks:{color:'#555',font:{size:10},maxRotation:45}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#666',font:{size:10},callback:v=>fmt(v)}}}}});
-
-  // Tribe x Tier matrix
-  const {tiers,tribes,data}=TRIBE_TIER;
-  const maxTT=Math.max(...tiers.flatMap(ti=>tribes.map(tr=>data[ti]?.[tr]||0)));
-  document.getElementById('tribeTierTable').innerHTML=
-    `<thead><tr><th>Tier \\ Tribe</th>${tribes.map(t=>`<th>${esc(t)}</th>`).join('')}<th>Total</th></tr></thead><tbody>`+
-    tiers.map(ti=>{
-      const row=tribes.map(tr=>{
-        const v=data[ti]?.[tr]||0;
-        const op=maxTT?v/maxTT:0;
-        return `<td><span style="display:inline-block;background:rgba(255,0,136,${(op*0.6+0.05).toFixed(2)});color:${v?'#fff':'var(--muted)'};padding:3px 8px;border-radius:4px;font-size:12px;font-weight:${v?600:400}">${v||'—'}</span></td>`;
-      });
-      const total=tribes.reduce((a,tr)=>a+(data[ti]?.[tr]||0),0);
-      return `<tr><td style="font-weight:600;color:var(--text);white-space:nowrap">${esc(ti)}</td>${row.join('')}<td class="num">${total}</td></tr>`;
-    }).join('')+
-    `<tr style="border-top:2px solid var(--border2)"><td style="font-weight:700;color:#fff">TOTAL</td>${tribes.map(tr=>{
-      const t=tiers.reduce((a,ti)=>a+(data[ti]?.[tr]||0),0);
-      return `<td class="num">${t||'—'}</td>`;
-    }).join('')}<td class="num">${tiers.reduce((a,ti)=>a+tribes.reduce((b,tr)=>b+(data[ti]?.[tr]||0),0),0)}</td></tr>`+
-    '</tbody>';
+function crFilter(type, value, el) {
+  if (type === 'country') {
+    ['cr-all', 'cr-uae', 'cr-ksa'].forEach((id) => document.getElementById(id).classList.remove('on'));
+    crCountry = value;
+  }
+  if (type === 'platform') {
+    ['cr-both', 'cr-ig', 'cr-tt'].forEach((id) => document.getElementById(id).classList.remove('on'));
+    crPlatform = value;
+  }
+  if (type === 'gender') {
+    ['cr-gall', 'cr-gf', 'cr-gm'].forEach((id) => document.getElementById(id).classList.remove('on'));
+    crGender = value;
+  }
+  el.classList.add('on');
+  renderCreators();
 }
-
-// ═══════════════════════════════════════════════════
-// OUTREACH DATA & CHARTS
-// ═══════════════════════════════════════════════════
-const MARKETS = [
-  {name:'UK',         emails:3436, optins:617, optinRate:'49.4%', openRate:'71.3%', declined:8,  status:'On Track'},
-  {name:'USA',        emails:2654, optins:582, optinRate:'63.2%', openRate:'68.5%', declined:5,  status:'On Track'},
-  {name:'Italy',      emails:1135, optins:176, optinRate:'31.2%', openRate:'64.8%', declined:4,  status:'On Track'},
-  {name:'France',     emails:746,  optins:127, optinRate:'31.3%', openRate:'59.2%', declined:3,  status:'On Track'},
-  {name:'Canada',     emails:291,  optins:127, optinRate:'80.9%', openRate:'74.1%', declined:2,  status:'Exceeded'},
-  {name:'Nordics',    emails:393,  optins:67,  optinRate:'39.2%', openRate:'61.4%', declined:2,  status:'On Track'},
-  {name:'Benelux',    emails:342,  optins:65,  optinRate:'49.2%', openRate:'66.7%', declined:1,  status:'On Track'},
-  {name:'Australia',  emails:201,  optins:101, optinRate:'112.2%',openRate:'78.3%', declined:1,  status:'Exceeded'},
-  {name:'Singapore',  emails:229,  optins:48,  optinRate:'49.5%', openRate:'63.9%', declined:0,  status:'On Track'},
-  {name:'Poland',     emails:23,   optins:3,   optinRate:'13.0%', openRate:'41.2%', declined:0,  status:'Low'},
-];
-
-function initOutreachCharts(){
-  // Platform donut
-  dChart('outPlat');
-  CH.outPlat=new Chart(document.getElementById('outPlatChart'),{type:'doughnut',data:{labels:['Instagram','TikTok'],datasets:[{data:[1318,592],backgroundColor:['#E1306C','#69C9D0'],borderWidth:2,borderColor:'#141414'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw.toLocaleString()}`}}}}});
-
-  // Tribe bar
-  dChart('outTribe');
-  CH.outTribe=new Chart(document.getElementById('outTribeChart'),{type:'bar',data:{labels:['Beauty','Lifestyle','Fashion','Haircare'],datasets:[{data:[656,627,417,210],backgroundColor:['#FF0088','#7F77DD','#1D9E75','#4A90E2'],borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.raw} opt-ins`}}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#666',font:{size:10}}},y:{grid:{display:false},ticks:{color:'#888',font:{size:11}}}}}});
-
-  // Tier bar
-  dChart('outTier');
-  CH.outTier=new Chart(document.getElementById('outTierChart'),{type:'bar',data:{labels:['Nano','Micro','Mid','Macro','Top','VIP'],datasets:[{data:[193,609,706,329,68,5],backgroundColor:'#00C48C',borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.raw} opt-ins`}}},scales:{x:{grid:{display:false},ticks:{color:'#666',font:{size:10}}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#666',font:{size:10},callback:v=>v}}}}});
-
-  // Market bar
-  dChart('outMarket');
-  const mSorted=[...MARKETS].sort((a,b)=>b.optins-a.optins);
-  CH.outMarket=new Chart(document.getElementById('outMarketChart'),{type:'bar',data:{labels:mSorted.map(m=>m.name),datasets:[{data:mSorted.map(m=>m.optins),backgroundColor:'#FF0088',borderRadius:4,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.raw} opt-ins`}}},scales:{x:{grid:{display:false},ticks:{color:'#666',font:{size:10},maxRotation:30}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#666',font:{size:10}}}}}});
-
-  // UK steps bar
-  dChart('outSteps');
-  CH.outSteps=new Chart(document.getElementById('outStepsChart'),{type:'bar',data:{labels:['Step 1\nInitial','Step 2\nChaser','Step 3\nChaser','Urgent\nChaser'],datasets:[{data:[155,84,15,47],backgroundColor:['#FF0088','#7F77DD','#1D9E75','#F5A623'],borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.raw} opt-ins from this step`}}},scales:{x:{grid:{display:false},ticks:{color:'#666',font:{size:10}}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#666',font:{size:10}}}}}});
-
-  // UK gender donut
-  dChart('outGender');
-  CH.outGender=new Chart(document.getElementById('outGenderChart'),{type:'doughnut',data:{labels:['Female','Male'],datasets:[{data:[616,1],backgroundColor:['#D4537E','#378ADD'],borderWidth:2,borderColor:'#141414'}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{labels:{color:'#888',font:{size:11}}},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw}`}}}}});
-
-  // Market table
-  document.getElementById('outMarketTable').innerHTML=MARKETS.map(m=>{
-    const sc=parseFloat(m.optinRate)>50?'rate-good':parseFloat(m.optinRate)>30?'rate-mid':'rate-low';
-    const ss=m.status==='Exceeded'?'rate-good':m.status==='On Track'?'rate-mid':'rate-low';
-    return `<tr>
-      <td style="font-weight:600">${m.name}</td>
-      <td class="num">${m.emails.toLocaleString()}</td>
-      <td class="num">${m.optins.toLocaleString()}</td>
-      <td><span class="rate-pill ${sc}">${m.optinRate}</span></td>
-      <td><span class="rate-pill rate-good">${m.openRate}</span></td>
-      <td><span style="color:${m.declined>5?'var(--amber)':'var(--muted2)'};font-weight:600">${m.declined}</span></td>
-      <td><span class="rate-pill ${ss}">${m.status}</span></td>
-    </tr>`;
+function crSearch(v) { crQ = v; renderCreators(); }
+function renderCreators() {
+  const q = normalize(crQ);
+  const data = HIGHLIGHTED.filter((c) => {
+    if (crCountry !== 'all' && c.country !== crCountry) return false;
+    if (crPlatform !== 'all' && c.platform !== crPlatform) return false;
+    if (crGender !== 'all' && c.igGender !== crGender) return false;
+    if (q && !normalize(c.fullName).includes(q) && !normalize(c.username).includes(q)) return false;
+    return true;
+  });
+  document.getElementById('crCount').textContent = `Showing ${data.length} of ${HIGHLIGHTED.length} highlighted creators`;
+  if (!data.length) {
+    document.getElementById('creatorsGrid').innerHTML = '<div class="empty">No creators match the current filters.</div>';
+    return;
+  }
+  const grads = ['135deg,#ff0088,#8b00ff', '135deg,#0088ff,#00ccaa', '135deg,#ff5500,#ff0088', '135deg,#7f77dd,#0088ff'];
+  document.getElementById('creatorsGrid').innerHTML = data.map((c) => {
+    const grad = grads[(c.username.charCodeAt(0) || 0) % grads.length];
+    return `
+      <div class="creator-card">
+        <div class="creator-top">
+          <div class="avatar" style="background:linear-gradient(${grad})">${initials(c.fullName || c.username)}</div>
+          <div style="min-width:0;">
+            <div class="c-name">${esc(c.fullName)}</div>
+            <div class="c-handle">@${esc(c.username)}</div>
+          </div>
+        </div>
+        <div class="c-stats">
+          <div class="cs"><div class="cs-val">${fmt(c.followers)}</div><div class="cs-label">Followers</div></div>
+          <div class="cs"><div class="cs-val">${Number(c.engRate).toFixed(1)}%</div><div class="cs-label">Eng Rate</div></div>
+        </div>
+        <a class="c-link" href="${safeUrl(c.url)}" target="_blank" rel="noopener">View Profile -></a>
+      </div>
+    `;
   }).join('');
 }
 
-// ═══════════════════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════════════════
+function initSeedCharts() {
+  const fmtSeed = (v) => typeof v === 'number' ? fmt(v) : v;
+
+  dChart('seedImp');
+  CH.seedImp = new Chart(document.getElementById('seedImpressionsChart'), {
+    type: 'doughnut',
+    data: { labels: ['Instagram', 'TikTok'], datasets: [{ data: [1971849, 8538112], backgroundColor: ['#e1306c', '#69c9d0'], borderColor: '#141414', borderWidth: 2 }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '62%', plugins: { legend: { display: false } } }
+  });
+
+  dChart('seedEng');
+  CH.seedEng = new Chart(document.getElementById('seedEngChart'), {
+    type: 'doughnut',
+    data: { labels: ['Instagram', 'TikTok'], datasets: [{ data: [155959, 818773], backgroundColor: ['#e1306c', '#69c9d0'], borderColor: '#141414', borderWidth: 2 }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '62%', plugins: { legend: { display: false } } }
+  });
+
+  dChart('seedPR');
+  CH.seedPR = new Chart(document.getElementById('seedPostRateChart'), {
+    type: 'bar',
+    data: { labels: ['Instagram', 'TikTok'], datasets: [{ data: [55.68, 106.72], backgroundColor: ['#e1306c', '#69c9d0'], borderRadius: 5, borderSkipped: false }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+  });
+
+  dChart('seedEff');
+  CH.seedEff = new Chart(document.getElementById('seedEffChart'), {
+    type: 'bar',
+    data: { labels: ['Instagram', 'TikTok'], datasets: [{ data: [3067, 23916], backgroundColor: ['#e1306c', '#69c9d0'], borderRadius: 5, borderSkipped: false }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+  });
+
+  dChart('tribeImp');
+  CH.tribeImp = new Chart(document.getElementById('tribeImpressionsChart'), {
+    type: 'doughnut',
+    data: { labels: TRIBES.map((t) => t.name), datasets: [{ data: TRIBES.map((t) => t.impressions), backgroundColor: ['#ff0088','#7f77dd','#1d9e75','#4a90e2','#f5a623','#e1306c'], borderColor: '#141414', borderWidth: 2 }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '56%', plugins: { legend: { display: false } } }
+  });
+
+  dChart('tierImp');
+  CH.tierImp = new Chart(document.getElementById('tierImpressionsChart'), {
+    type: 'doughnut',
+    data: { labels: TIERS.map((t) => t.name), datasets: [{ data: TIERS.map((t) => t.impressions), backgroundColor: ['#555','#1d9e75','#4a90e2','#ff0088','#f5a623','#69c9d0'], borderColor: '#141414', borderWidth: 2 }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '56%', plugins: { legend: { display: false } } }
+  });
+
+  document.getElementById('seedOverviewTable').innerHTML = SEED_OVERVIEW.map((r) =>
+    `<tr><td>${esc(r.metric)}</td><td class="num">${fmtSeed(r.total)}</td><td class="num">${fmtSeed(r.instagram)}</td><td class="num">${fmtSeed(r.tiktok)}</td><td class="num">${fmtSeed(r.other)}</td></tr>`
+  ).join('');
+
+  document.getElementById('tribeTable').innerHTML = `<thead><tr><th>Tribe</th><th>Influencers</th><th>Posted</th><th>Total Posts</th><th>Impressions</th><th>Engagements</th><th>Saves</th><th>Eng Rate</th><th>Post Rate</th><th>CPM</th></tr></thead><tbody>` +
+    TRIBES.map((t) => `<tr><td>${esc(t.name)}</td><td class="num">${fmt(t.influencers)}</td><td class="num">${fmt(t.posted)}</td><td class="num">${fmt(t.posts)}</td><td class="num">${fmt(t.impressions)}</td><td class="num">${fmt(t.engagements)}</td><td class="num">${fmt(t.saves)}</td><td><span class="rate-pill ${parseFloat(t.engRate) >= 9 ? 'rate-good' : parseFloat(t.engRate) >= 6 ? 'rate-mid' : 'rate-low'}">${t.engRate}</span></td><td><span class="rate-pill ${parseFloat(t.postRate) >= 100 ? 'rate-good' : parseFloat(t.postRate) >= 60 ? 'rate-mid' : 'rate-low'}">${t.postRate}</span></td><td class="num">$${t.cpm}</td></tr>`).join('') +
+    '</tbody>';
+
+  document.getElementById('tierTable').innerHTML = `<thead><tr><th>Tier</th><th>Influencers</th><th>Posted</th><th>Total Posts</th><th>Impressions</th><th>Engagements</th><th>Saves</th><th>Eng Rate</th><th>Post Rate</th><th>CPM</th></tr></thead><tbody>` +
+    TIERS.map((t) => `<tr><td>${esc(t.name)}</td><td class="num">${fmt(t.influencers)}</td><td class="num">${fmt(t.posted)}</td><td class="num">${fmt(t.posts)}</td><td class="num">${fmt(t.impressions)}</td><td class="num">${fmt(t.engagements)}</td><td class="num">${fmt(t.saves)}</td><td><span class="rate-pill ${parseFloat(t.engRate) >= 9 ? 'rate-good' : parseFloat(t.engRate) >= 6 ? 'rate-mid' : 'rate-low'}">${t.engRate}</span></td><td><span class="rate-pill ${parseFloat(t.postRate) >= 100 ? 'rate-good' : parseFloat(t.postRate) >= 60 ? 'rate-mid' : 'rate-low'}">${t.postRate}</span></td><td class="num">$${t.cpm}</td></tr>`).join('') +
+    '</tbody>';
+
+  dChart('seedWeek');
+  CH.seedWeek = new Chart(document.getElementById('seedWeeklyChart'), {
+    type: 'bar',
+    data: { labels: WOW.map((w) => `W${w.week}`), datasets: [{ label:'Impressions', data: WOW.map((w) => w.impressions), backgroundColor: '#ff0088', borderRadius: 5, borderSkipped: false }, {label:'Posts x10k', data: WOW.map((w) => w.posts * 10000), backgroundColor: 'rgba(127,119,221,0.45)', borderRadius: 5, borderSkipped: false}] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+  });
+
+  document.getElementById('seedWoWTable').innerHTML = WOW.map((w) =>
+    `<tr><td>W${w.week}</td><td class="num">${fmt(w.posted)}</td><td class="num">${fmt(w.posts)}</td><td class="num">${fmt(w.infeed)}</td><td class="num">${fmt(w.stories)}</td><td class="num">${fmt(w.impressions)}</td><td class="num">${fmt(w.engagements)}</td><td class="num">${fmt(w.saves)}</td></tr>`
+  ).join('');
+
+  dChart('seedTierViews');
+  CH.seedTierViews = new Chart(document.getElementById('seedTierViewsChart'), {
+    type: 'line',
+    data: { labels: TIER_VIEWS.map((w) => `W${w.week}`), datasets: [{label:'Total Views', data:TIER_VIEWS.map((w) => w.total), borderColor:'#00c48c', backgroundColor:'rgba(0,196,140,0.15)', pointRadius:2, tension:0.25, fill:true}] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+  });
+
+  document.getElementById('seedTierViewsTable').innerHTML = `<thead><tr><th>Week</th><th>Nano</th><th>Micro</th><th>Mid</th><th>Macro</th><th>Top</th><th>VIP</th><th>Total</th></tr></thead><tbody>` +
+    TIER_VIEWS.map((w) => `<tr><td>W${w.week}</td><td class="num">${fmt(w.nano)}</td><td class="num">${fmt(w.micro)}</td><td class="num">${fmt(w.mid)}</td><td class="num">${fmt(w.macro)}</td><td class="num">${fmt(w.top)}</td><td class="num">${fmt(w.vip)}</td><td class="num">${fmt(w.total)}</td></tr>`).join('') + '</tbody>';
+
+  document.getElementById('seedPlatformViewTable').innerHTML = PLATFORM_VIEW.map((r) =>
+    `<tr><td>${esc(r.platform)}</td><td class="num">${fmt(r.posts)}</td><td class="num">${fmt(r.impressions)}</td><td class="num">${fmt(r.engagements)}</td><td class="num">${fmt(r.saves)}</td><td>${r.engRate}</td><td>${r.saveRate}</td><td>${r.postingRate}</td></tr>`
+  ).join('');
+
+  dChart('seedSkinType');
+  CH.seedSkinType = new Chart(document.getElementById('seedSkinTypeChart'), {
+    type: 'doughnut',
+    data: { labels: SKIN_TYPE.map((s) => s.name), datasets: [{ data: SKIN_TYPE.map((s) => s.impressions), backgroundColor: ['#ff0088', '#4a90e2'], borderWidth: 2, borderColor: '#141414' }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '60%', plugins: { legend: { position: 'bottom', labels: { color: '#888', boxWidth: 10 } } } }
+  });
+
+  document.getElementById('seedSkinTypeTable').innerHTML = `<thead><tr><th>Skin Type</th><th>Influencers</th><th>Posted</th><th>Posts</th><th>Impressions</th><th>Engagements</th><th>Saves</th><th>Eng Rate</th><th>Post Rate</th><th>CPM</th></tr></thead><tbody>` +
+    SKIN_TYPE.map((s) => `<tr><td>${esc(s.name)}</td><td class="num">${fmt(s.influencers)}</td><td class="num">${fmt(s.posted)}</td><td class="num">${fmt(s.posts)}</td><td class="num">${fmt(s.impressions)}</td><td class="num">${fmt(s.engagements)}</td><td class="num">${fmt(s.saves)}</td><td>${s.engRate}</td><td>${s.postRate}</td><td class="num">$${s.cpm}</td></tr>`).join('') + '</tbody>';
+
+  const {tiers, tribes, data} = TRIBE_TIER;
+  document.getElementById('tribeTierTable').innerHTML = `<thead><tr><th>Tier \\ Tribe</th>${tribes.map((t) => `<th>${esc(t)}</th>`).join('')}<th>Total</th></tr></thead><tbody>` +
+    tiers.map((ti) => {
+      const vals = tribes.map((tr) => data[ti] && data[ti][tr] ? data[ti][tr] : 0);
+      const total = vals.reduce((a, b) => a + b, 0);
+      return `<tr><td>${esc(ti)}</td>${vals.map((v) => `<td class="num">${v || '-'}</td>`).join('')}<td class="num">${total}</td></tr>`;
+    }).join('') + '</tbody>';
+}
+
+function initOutreachCharts() {
+  dChart('outP');
+  CH.outP = new Chart(document.getElementById('outPlatformChart'), {
+    type: 'doughnut',
+    data: { labels: ['Instagram', 'TikTok'], datasets: [{ data: [1318, 592], backgroundColor: ['#e1306c', '#69c9d0'], borderColor: '#141414', borderWidth: 2 }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '62%', plugins: { legend: { display: false } } }
+  });
+
+  dChart('outT');
+  CH.outT = new Chart(document.getElementById('outTribeChart'), {
+    type: 'bar',
+    data: { labels: ['Beauty', 'Lifestyle', 'Fashion', 'Haircare'], datasets: [{ data: [656, 627, 417, 210], backgroundColor: ['#ff0088','#7f77dd','#1d9e75','#4a90e2'], borderRadius: 5, borderSkipped: false }] },
+    options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y', plugins: { legend: { display: false } } }
+  });
+
+  dChart('outTier');
+  CH.outTier = new Chart(document.getElementById('outTierChart'), {
+    type: 'bar',
+    data: { labels: ['Nano', 'Micro', 'Mid', 'Macro', 'Top', 'VIP'], datasets: [{ data: [193, 609, 706, 329, 68, 5], backgroundColor: '#00c48c', borderRadius: 5, borderSkipped: false }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+  });
+
+  const sorted = [...MARKETS].sort((a, b) => b.optins - a.optins);
+  dChart('outM');
+  CH.outM = new Chart(document.getElementById('outMarketChart'), {
+    type: 'bar',
+    data: { labels: sorted.map((m) => m.name), datasets: [{ data: sorted.map((m) => m.optins), backgroundColor: '#ff0088', borderRadius: 5, borderSkipped: false }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+  });
+
+  dChart('outStep');
+  CH.outStep = new Chart(document.getElementById('outStepsChart'), {
+    type: 'bar',
+    data: { labels: ['Step 1', 'Step 2', 'Step 3', 'Urgent'], datasets: [{ data: [155, 84, 15, 47], backgroundColor: ['#ff0088','#7f77dd','#1d9e75','#f5a623'], borderRadius: 5, borderSkipped: false }] },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+  });
+
+  dChart('outGender');
+  CH.outGender = new Chart(document.getElementById('outGenderChart'), {
+    type: 'doughnut',
+    data: { labels: ['Female', 'Male'], datasets: [{ data: [616, 1], backgroundColor: ['#D4537E', '#378ADD'], borderColor: '#141414', borderWidth: 2 }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '62%' }
+  });
+
+  document.getElementById('outMarketTable').innerHTML = MARKETS.map((m) => {
+    const sc = parseFloat(m.optinRate) >= 50 ? 'rate-good' : parseFloat(m.optinRate) >= 30 ? 'rate-mid' : 'rate-low';
+    const ss = m.status === 'Exceeded' ? 'rate-good' : m.status === 'On Track' ? 'rate-mid' : 'rate-low';
+    return `<tr><td style="font-weight:600">${esc(m.name)}</td><td class="num">${m.emails.toLocaleString()}</td><td class="num">${m.optins.toLocaleString()}</td><td><span class="rate-pill ${sc}">${m.optinRate}</span></td><td><span class="rate-pill rate-good">${m.openRate}</span></td><td>${m.declined}</td><td><span class="rate-pill ${ss}">${m.status}</span></td></tr>`;
+  }).join('');
+}
+
+initHome();
 initHeroStats();
+initCICharts();
+renderSTInsights();
+renderCreators();
 </script>
-</HTMLEOF
-echo "Done. Size: $(wc -c < /home/claude/sp_dashboard.html) bytes"
+</body>
+</html>
