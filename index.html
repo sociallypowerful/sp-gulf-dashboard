@@ -28,10 +28,7 @@
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  background:
-    radial-gradient(circle at 14% 8%, rgba(255, 0, 136, 0.2), transparent 34%),
-    radial-gradient(circle at 82% 14%, rgba(255, 0, 136, 0.12), transparent 40%),
-    linear-gradient(165deg, #070707 0%, #0d0710 52%, #070707 100%);
+  background: #060606;
   color: var(--text);
   font-family: "Syne", sans-serif;
   font-size: 14px;
@@ -44,7 +41,7 @@ button, input { font-family: inherit; }
   position: fixed;
   inset: 0 auto 0 0;
   width: 220px;
-  background: linear-gradient(180deg, rgba(255, 0, 136, 0.14), #0f0f0f 24%, #101010 100%);
+  background: #070707;
   border-right: 1px solid var(--border);
   z-index: 30;
   display: flex;
@@ -66,9 +63,11 @@ button, input { font-family: inherit; }
   display: inline-block;
   border-radius: 10px;
   border: 1px solid var(--pink-border);
-  background:
-    linear-gradient(145deg, rgba(255,0,136,0.2), rgba(255,0,136,0.05)),
-    url("logo%20(1).svg") center/80% no-repeat;
+  background-color: rgba(255, 0, 136, 0.12);
+  background-image: url("logo%20(1).svg");
+  background-position: center;
+  background-size: 80%;
+  background-repeat: no-repeat;
 }
 .logo-sub { margin-top: 4px; font-size: 10px; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
 .sidebar-nav { padding: 14px 10px; overflow: auto; flex: 1; }
@@ -91,16 +90,14 @@ button, input { font-family: inherit; }
 .main {
   margin-left: 220px;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at 78% 0%, rgba(255, 0, 136, 0.07), transparent 30%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0));
+  background: #0b0b0b;
 }
 .page { display: none; }
 .page.active { display: block; }
 .page-header {
   padding: 30px 36px 22px;
   border-bottom: 1px solid var(--border);
-  background: linear-gradient(140deg, rgba(255,0,136,0.2), rgba(255,0,136,0.05) 40%, transparent 72%);
+  background: #110a10;
 }
 .page-eyebrow { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--pink); font-weight: 700; margin-bottom: 8px; }
 .page-title { font-family: "Playfair Display", serif; font-size: clamp(24px, 3.2vw, 38px); line-height: 1.1; margin-bottom: 6px; }
@@ -112,7 +109,7 @@ button, input { font-family: inherit; }
   margin-bottom: 16px;
   padding: 10px 12px;
   border: 1px solid var(--pink-border);
-  background: linear-gradient(120deg, rgba(255,0,136,0.14), rgba(255,0,136,0.04));
+  background: rgba(255, 0, 136, 0.1);
   border-radius: 10px;
   color: #fff;
   font-size: 11px;
@@ -123,7 +120,7 @@ button, input { font-family: inherit; }
 
 .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 28px; }
 .stat-card {
-  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+  background: #121212;
   border: 1px solid var(--border);
   border-radius: 12px;
   padding: 16px;
@@ -143,7 +140,7 @@ button, input { font-family: inherit; }
 
 .chart-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
 .chart-card {
-  background: linear-gradient(170deg, rgba(255,0,136,0.06), rgba(20,20,20,0.95) 34%);
+  background: #101010;
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 18px;
@@ -176,7 +173,7 @@ button, input { font-family: inherit; }
 .seg-name { font-size: 11px; color: var(--muted2); display: flex; justify-content: space-between; gap: 8px; }
 .seg-value { font-size: 11px; color: #fff; font-weight: 600; }
 .mini-bar { height: 4px; margin-top: 4px; background: rgba(255,255,255,0.06); border-radius: 999px; overflow: hidden; }
-.mini-fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, #ff0088, #ff5aa7); }
+.mini-fill { height: 100%; border-radius: 999px; background: #ff2a9f; }
 
 .overview-shell {
   display: grid;
@@ -191,10 +188,10 @@ button, input { font-family: inherit; }
   padding: 18px;
 }
 .overview-hero-card {
-  background: linear-gradient(125deg, rgba(255,0,136,0.24), rgba(255,0,136,0.08) 45%, rgba(255,255,255,0.02));
+  background: rgba(255, 0, 136, 0.12);
 }
 .overview-scope-card {
-  background: linear-gradient(185deg, rgba(255,255,255,0.03), rgba(255,0,136,0.06));
+  background: #111111;
 }
 .overview-kicker {
   font-size: 10px;
@@ -257,7 +254,7 @@ button, input { font-family: inherit; }
   cursor: pointer;
   border-radius: 14px;
   border: 1px solid var(--border);
-  background: linear-gradient(155deg, rgba(255,0,136,0.14), rgba(20,20,20,0.95) 46%);
+  background: #141414;
   padding: 16px;
 }
 
@@ -277,9 +274,11 @@ button, input { font-family: inherit; }
   border-radius: 6px;
   display: inline-block;
   border: 1px solid var(--pink-border);
-  background:
-    linear-gradient(145deg, rgba(255,0,136,0.22), rgba(255,0,136,0.08)),
-    url("logo%20(1).svg") center/82% no-repeat;
+  background-color: rgba(255, 0, 136, 0.14);
+  background-image: url("logo%20(1).svg");
+  background-position: center;
+  background-size: 82%;
+  background-repeat: no-repeat;
 }
 .dept-copy { font-size: 12px; color: #ffffff; margin-bottom: 12px; min-height: 36px; }
 .dept-cta {
@@ -374,10 +373,9 @@ footer { border-top: 1px solid var(--border); padding: 18px 36px; display: flex;
   </div>
   <nav class="sidebar-nav">
     <div class="nav-label">Departments</div>
-    <button class="nav-item active" data-page="home" onclick="goPage('home', this)">Overview</button>
-    <button class="nav-item" data-page="creator-intel" onclick="goPage('creator-intel', this)">Creator Intelligence</button>
-    <button class="nav-item" data-page="seeding" onclick="goPage('seeding', this)">Seeding</button>
+    <button class="nav-item active" data-page="creator-intel" onclick="goPage('creator-intel', this)">Talent Pool</button>
     <button class="nav-item" data-page="outreach" onclick="goPage('outreach', this)">Outreach</button>
+    <button class="nav-item" data-page="seeding" onclick="goPage('seeding', this)">Oversight</button>
     <div class="nav-label">Settings</div>
     <button class="nav-item" data-page="about" onclick="goPage('about', this)">About</button>
   </nav>
@@ -385,67 +383,11 @@ footer { border-top: 1px solid var(--border); padding: 18px 36px; display: flex;
 </aside>
 
 <main class="main">
-  <section class="page active" id="page-home">
+  <section class="page active" id="page-creator-intel">
     <div class="page-header">
-      <div class="page-eyebrow">Client Intelligence Hub</div>
-      <h1 class="page-title">Socially Powerful<br><em>Capabilities Overview</em></h1>
-      <p class="page-desc">A unified view of Creator Intelligence, Seeding, and Outreach with full campaign visibility and client-ready storytelling.</p>
-    </div>
-    <div class="page-content">
-      <div class="overview-shell">
-        <div class="overview-hero-card">
-          <div class="overview-kicker">Executive Snapshot</div>
-          <div class="overview-lead">One dashboard for market intelligence, seeding execution, and outreach outcomes.</div>
-          <div class="overview-copy">Use this overview to anchor client conversations quickly, then drill into each department for detailed splits, diagnostics, and performance structures.</div>
-          <div class="overview-points">
-            <span class="overview-pill">UAE + KSA Creator Mapping</span>
-            <span class="overview-pill">Full Seeding Matrix</span>
-            <span class="overview-pill">Outreach Opt-In Funnel</span>
-          </div>
-        </div>
-        <div class="overview-scope-card">
-          <div class="overview-kicker">Coverage at a Glance</div>
-          <div class="overview-scope-list">
-            <div class="overview-scope-item"><div class="overview-scope-label">Markets</div><div class="overview-scope-value">UAE, Saudi Arabia, UK</div></div>
-            <div class="overview-scope-item"><div class="overview-scope-label">Platforms</div><div class="overview-scope-value">Instagram + TikTok</div></div>
-            <div class="overview-scope-item"><div class="overview-scope-label">Reporting Window</div><div class="overview-scope-value">2025 to 2026</div></div>
-          </div>
-        </div>
-      </div>
-      <div class="stat-grid" id="homeStats"></div>
-      <div class="section-block home-departments">
-        <div class="section-title">Explore Departments</div>
-        <div class="section-sub">Navigate by capability</div>
-        <div class="dept-grid">
-          <button class="dept-card" onclick="goPage('creator-intel', document.querySelector('[data-page=\'creator-intel\']'))">
-            <div class="chart-label">Creator Intelligence</div>
-            <div class="dept-title">Audience & Creator Intelligence</div>
-            <div class="dept-copy">Market + platform segmentation, creator spotlight, and audience diagnostics.</div>
-            <div class="dept-cta">Open Department</div>
-          </button>
-          <button class="dept-card" onclick="goPage('seeding', document.querySelector('[data-page=\'seeding\']'))">
-            <div class="chart-label">Seeding</div>
-            <div class="dept-title">Scaled Seeding Performance</div>
-            <div class="dept-copy">Platform split, tribe and tier analysis, weekly trends, and full matrix view.</div>
-            <div class="dept-cta">Open Department</div>
-          </button>
-          <button class="dept-card" onclick="goPage('outreach', document.querySelector('[data-page=\'outreach\']'))">
-            <div class="chart-label">Outreach</div>
-            <div class="dept-title">Creator Outreach Funnel</div>
-            <div class="dept-copy">Market funnel, sequence quality, and opt-in conversion performance.</div>
-            <div class="dept-cta">Open Department</div>
-          </button>
-        </div>
-      </div>
-    </div>
-    <footer><div class="f-logo">Socially Powerful</div><div>Modash · SP API Gateway · April 2026</div></footer>
-  </section>
-
-  <section class="page" id="page-creator-intel">
-    <div class="page-header">
-      <div class="page-eyebrow">Creator Intelligence · Gulf Region</div>
-      <h1 class="page-title">UAE & Saudi Arabia<br><em>Creator Landscape</em></h1>
-      <p class="page-desc">Interactive Creator Intelligence with market and platform segmentation across Instagram and TikTok.</p>
+      <div class="page-eyebrow">Talent Pool · Gulf Region</div>
+      <h1 class="page-title">United Arab Emirates & Saudi Arabia<br><em>Creator Landscape</em></h1>
+      <p class="page-desc">Interactive talent pool view with market and platform segmentation across Instagram and TikTok.</p>
     </div>
     <div class="page-content">
       <div class="stat-grid">
@@ -520,11 +462,11 @@ footer { border-top: 1px solid var(--border); padding: 18px 36px; display: flex;
         <div class="creators-grid" id="creatorsGrid"></div>
       </div>
     </div>
-    <footer><div class="f-logo">Socially Powerful</div><div>Creator Intelligence · April 2026</div></footer>
+    <footer><div class="f-logo">Socially Powerful</div><div>Talent Pool · April 2026</div></footer>
   </section>
 
   <section class="page" id="page-seeding">
-    <div class="page-header"><div class="page-eyebrow">Seeding Department</div><h1 class="page-title">Scaled Seeding<br><em>Program 2025</em></h1><p class="page-desc">Full campaign performance across 1,000 seeded influencers: platform split, tribe/tier detail, weekly trend, and structure matrix.</p></div>
+    <div class="page-header"><div class="page-eyebrow">Oversight Department</div><h1 class="page-title">Scaled Oversight<br><em>Program 2025</em></h1><p class="page-desc">Full campaign performance across 1,000 seeded influencers: platform split, tribe/tier detail, weekly trend, and structure matrix.</p></div>
     <div class="page-content">
       <div class="stat-grid">
         <div class="stat-card top-blue"><div class="stat-val">1,000</div><div class="stat-label">Influencers Seeded</div><div class="stat-sub">643 IG · 357 TT</div></div>
@@ -565,8 +507,8 @@ footer { border-top: 1px solid var(--border); padding: 18px 36px; display: flex;
           <div class="chart-card"><div class="chart-label">Tier Impressions</div><div class="chart-title">Impressions by follower tier</div><div style="height:220px"><canvas id="tierImpressionsChart"></canvas></div></div>
         </div>
         <div class="chart-grid">
-          <div class="chart-card"><div class="chart-label">Tribe Detail</div><div class="chart-title">Influencers, impressions, engagement, CPM</div><div class="table-wrap" style="border:none;"><table class="data-table" id="tribeTable"></table></div></div>
-          <div class="chart-card"><div class="chart-label">Tier Detail</div><div class="chart-title">Influencers, impressions, engagement, CPM</div><div class="table-wrap" style="border:none;"><table class="data-table" id="tierTable"></table></div></div>
+          <div class="chart-card"><div class="chart-label">Tribe Detail</div><div class="chart-title">Influencers, impressions, engagement, CPM</div><div class="table-wrap"><table class="data-table" id="tribeTable"></table></div></div>
+          <div class="chart-card"><div class="chart-label">Tier Detail</div><div class="chart-title">Influencers, impressions, engagement, CPM</div><div class="table-wrap"><table class="data-table" id="tierTable"></table></div></div>
         </div>
       </div>
 
@@ -592,7 +534,7 @@ footer { border-top: 1px solid var(--border); padding: 18px 36px; display: flex;
         <div class="section-sub">Table G · tier-level views by week</div>
         <div class="chart-grid" style="grid-template-columns: 1fr 1.15fr;">
           <div class="chart-card"><div class="chart-label">Tier Views Trend</div><div class="chart-title">Total weekly views from tier matrix</div><div style="height:220px"><canvas id="seedTierViewsChart"></canvas></div></div>
-          <div class="chart-card"><div class="chart-label">Tier Views Detail</div><div class="chart-title">Nano to VIP by week</div><div class="table-wrap" style="border:none;"><table class="data-table" id="seedTierViewsTable"></table></div></div>
+          <div class="chart-card"><div class="chart-label">Tier Views Detail</div><div class="chart-title">Nano to VIP by week</div><div class="table-wrap"><table class="data-table" id="seedTierViewsTable"></table></div></div>
         </div>
       </div>
 
@@ -612,7 +554,7 @@ footer { border-top: 1px solid var(--border); padding: 18px 36px; display: flex;
         <div class="section-sub">Table D · female vs male output</div>
         <div class="chart-grid" style="grid-template-columns: 1fr 1fr;">
           <div class="chart-card"><div class="chart-label">Skin Type Split</div><div class="chart-title">Impressions by gender in seeding output</div><div style="height:190px"><canvas id="seedSkinTypeChart"></canvas></div></div>
-          <div class="chart-card"><div class="chart-label">Skin Type Detail</div><div class="chart-title">Full metrics by gender</div><div class="table-wrap" style="border:none;"><table class="data-table" id="seedSkinTypeTable"></table></div></div>
+          <div class="chart-card"><div class="chart-label">Skin Type Detail</div><div class="chart-title">Full metrics by gender</div><div class="table-wrap"><table class="data-table" id="seedSkinTypeTable"></table></div></div>
         </div>
       </div>
 
@@ -622,7 +564,7 @@ footer { border-top: 1px solid var(--border); padding: 18px 36px; display: flex;
         <div class="table-wrap"><table class="data-table" id="tribeTierTable"></table></div>
       </div>
     </div>
-    <footer><div class="f-logo">Socially Powerful</div><div>Seeding Program 2025 · April 2026</div></footer>
+    <footer><div class="f-logo">Socially Powerful</div><div>Oversight Program 2025 · April 2026</div></footer>
   </section>
 
   <section class="page" id="page-outreach">
@@ -1511,6 +1453,13 @@ function safeUrl(url) {
   if (!raw) return '#';
   return /^https?:\/\//i.test(raw) ? raw : '#';
 }
+function normalizeMetricKey(v) {
+  return String(v || '')
+    .replace(/≥/g, '>=')
+    .replace(/[–—]/g, '-')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
 function normalize(v) {
   return String(v || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 }
@@ -1523,7 +1472,7 @@ function filterCounts(m, p) {
 }
 function sumSeg(rows, segType, segVal) {
   return rows
-    .filter((r) => r['Segment Type'] === segType && r.Segment.trim() === segVal)
+    .filter((r) => normalizeMetricKey(r['Segment Type']) === normalizeMetricKey(segType) && normalizeMetricKey(r.Segment) === normalizeMetricKey(segVal))
     .reduce((acc, r) => acc + Number(r['Total Influencers']), 0);
 }
 
@@ -1589,7 +1538,9 @@ function initCICharts() {
 
   const ageIds = ['13-17', '18-24', '25-34', '35-44', '45-64', '65-'];
   const ageDisplay = ['13-17', '18-24', '25-34', '35-44', '45-64', '65+'];
-  const ageAud = ageIds.map((id) => rows.filter((r) => r['Segment Type'] === 'Audience Age (>=30%)' && r.Segment === 'Audience ' + id).reduce((acc, r) => acc + Number(r['Total Influencers']), 0));
+  const ageAud = ageIds.map((id) => rows
+    .filter((r) => normalizeMetricKey(r['Segment Type']) === normalizeMetricKey('Audience Age (>=30%)') && normalizeMetricKey(r.Segment) === normalizeMetricKey('Audience ' + id))
+    .reduce((acc, r) => acc + Number(r['Total Influencers']), 0));
   dChart('ciAA');
   CH.ciAA = new Chart(document.getElementById('ciAudAgeChart'), {
     type: 'bar',
@@ -1724,13 +1675,13 @@ function renderCreators() {
     document.getElementById('creatorsGrid').innerHTML = '<div class="empty">No creators match the current filters.</div>';
     return;
   }
-  const grads = ['135deg,#ff0088,#8b00ff', '135deg,#0088ff,#00ccaa', '135deg,#ff5500,#ff0088', '135deg,#7f77dd,#0088ff'];
+  const avatarColors = ['#ff0088', '#0088ff', '#ff5500', '#7f77dd'];
   document.getElementById('creatorsGrid').innerHTML = data.map((c) => {
-    const grad = grads[(c.username.charCodeAt(0) || 0) % grads.length];
+    const avatarColor = avatarColors[(c.username.charCodeAt(0) || 0) % avatarColors.length];
     return `
       <div class="creator-card">
         <div class="creator-top">
-          <div class="avatar" style="background:linear-gradient(${grad})">${initials(c.fullName || c.username)}</div>
+          <div class="avatar" style="background:${avatarColor}">${initials(c.fullName || c.username)}</div>
           <div style="min-width:0;">
             <div class="c-name">${esc(c.fullName)}</div>
             <div class="c-handle">@${esc(c.username)}</div>
@@ -1898,7 +1849,6 @@ function initOutreachCharts() {
   }).join('');
 }
 
-initHome();
 initHeroStats();
 initCICharts();
 renderSTInsights();
