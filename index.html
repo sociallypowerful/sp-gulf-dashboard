@@ -17,9 +17,9 @@
   --card2: #1a1a1a;
   --border: rgba(255, 255, 255, 0.06);
   --border2: rgba(255, 255, 255, 0.1);
-  --text: #efefef;
-  --muted: #777;
-  --muted2: #999;
+  --text: #ffffff;
+  --muted: #e6e6e6;
+  --muted2: #f3f3f3;
   --ig: #e1306c;
   --tt: #69c9d0;
   --green: #00c48c;
@@ -245,6 +245,13 @@ button, input { font-family: inherit; }
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 14px;
 }
+.home-departments .section-title,
+.home-departments .section-sub,
+.dept-card .chart-label,
+.dept-title,
+.dept-copy {
+  color: #ffffff;
+}
 .dept-card {
   text-align: left;
   cursor: pointer;
@@ -274,7 +281,7 @@ button, input { font-family: inherit; }
     linear-gradient(145deg, rgba(255,0,136,0.22), rgba(255,0,136,0.08)),
     url("logo%20(1).svg") center/82% no-repeat;
 }
-.dept-copy { font-size: 12px; color: #d3c2cb; margin-bottom: 12px; min-height: 36px; }
+.dept-copy { font-size: 12px; color: #ffffff; margin-bottom: 12px; min-height: 36px; }
 .dept-cta {
   display: inline-block;
   font-size: 10px;
@@ -406,7 +413,7 @@ footer { border-top: 1px solid var(--border); padding: 18px 36px; display: flex;
         </div>
       </div>
       <div class="stat-grid" id="homeStats"></div>
-      <div class="section-block">
+      <div class="section-block home-departments">
         <div class="section-title">Explore Departments</div>
         <div class="section-sub">Navigate by capability</div>
         <div class="dept-grid">
@@ -1452,6 +1459,10 @@ let crPlatform = 'all';
 let crGender = 'all';
 let crQ = '';
 const CH = {};
+
+if (window.Chart) {
+  Chart.defaults.color = '#ffffff';
+}
 
 function toggleNav() { document.getElementById('sidebar').classList.toggle('open'); }
 function dChart(id) {
