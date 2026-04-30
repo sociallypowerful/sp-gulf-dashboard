@@ -27,7 +27,14 @@
   --ksa: #9B59B6;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--black); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; }
+body { background: radial-gradient(circle at 10% -10%, rgba(255,0,136,0.12) 0%, transparent 38%), var(--black); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.6; min-height: 100vh; }
+
+button:focus-visible,
+.creator-link:focus-visible,
+.search-input:focus-visible {
+  outline: 2px solid var(--pink-light);
+  outline-offset: 2px;
+}
 
 /* NAV */
 nav { background: var(--dark); border-bottom: 1px solid var(--border); padding: 0 32px; display: flex; align-items: center; justify-content: space-between; height: 60px; position: sticky; top: 0; z-index: 100; }
@@ -51,15 +58,22 @@ nav { background: var(--dark); border-bottom: 1px solid var(--border); padding: 
 .accent-ksa { color: var(--ksa); }
 
 /* TABS */
-.tab-bar { display: flex; gap: 0; padding: 0 32px; background: var(--dark); border-bottom: 1px solid var(--border); overflow-x: auto; }
+.tab-bar { display: flex; gap: 0; padding: 0 32px; background: var(--dark); border-bottom: 1px solid var(--border); overflow-x: auto; position: sticky; top: 60px; z-index: 90; }
 .tab-btn { padding: 14px 20px; font-size: 13px; font-weight: 500; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; transition: all 0.2s; background: none; border-left: none; border-right: none; border-top: none; }
 .tab-btn:hover { color: var(--text); }
 .tab-btn.active { color: var(--pink); border-bottom-color: var(--pink); }
 
+.tab-bar::-webkit-scrollbar { height: 6px; }
+.tab-bar::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 6px; }
+
 /* CONTENT */
-.content { padding: 32px; max-width: 1200px; margin: 0 auto; }
-.section { display: none; }
+.content { padding: 28px 32px 36px; width: 100%; margin: 0; }
+.section { display: none; margin-bottom: 30px; }
 .section.active { display: block; }
+.section:last-child { margin-bottom: 0; }
+.section-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 12px; }
+.section-title { font-family: 'DM Serif Display', serif; font-size: 22px; color: #fff; line-height: 1.1; }
+.section-sub { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.07em; }
 
 /* FILTER ROW */
 .filter-row { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; align-items: center; }
@@ -78,20 +92,21 @@ nav { background: var(--dark); border-bottom: 1px solid var(--border); padding: 
 .leg-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
 .note-text { font-size: 11px; color: var(--muted); margin-top: 8px; }
 
-/* SEGMENT TABLE */
-.seg-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
-.seg-table th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; padding: 10px 16px; border-bottom: 1px solid var(--border); }
-.seg-table td { padding: 11px 16px; border-bottom: 1px solid var(--border); font-size: 13px; }
-.seg-table tr:hover td { background: rgba(255,255,255,0.02); }
-.seg-type { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600; display: inline-block; }
-.seg-total { background: rgba(255,0,136,0.12); color: var(--pink); }
-.seg-gender { background: rgba(100,100,255,0.12); color: #8888ff; }
-.seg-age { background: rgba(0,170,255,0.12); color: #55ccff; }
-.seg-tier { background: rgba(0,200,150,0.12); color: #00cc88; }
-.seg-audloc { background: rgba(255,140,0,0.12); color: #ffaa44; }
-.seg-audgender { background: rgba(180,0,255,0.12); color: #cc66ff; }
-.seg-audage { background: rgba(0,80,255,0.12); color: #4499ff; }
-.num-cell { font-family: 'DM Serif Display', serif; font-size: 18px; color: #fff; }
+/* SEGMENT BREAKDOWNS */
+.seg-board { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; }
+.seg-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.seg-card-head { padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border-bottom: 1px solid var(--border); }
+.seg-card-header { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.seg-total-pill { font-size: 11px; color: var(--text); background: var(--card2); border: 1px solid var(--border2); border-radius: 999px; padding: 4px 9px; }
+.seg-card-body { padding: 14px 16px 16px; }
+.seg-groups { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.seg-group { background: var(--card2); border: 1px solid var(--border); border-radius: 10px; padding: 10px; }
+.seg-group-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
+.seg-item { display: grid; grid-template-columns: minmax(100px, 1fr) auto; gap: 8px; align-items: center; margin-top: 6px; }
+.seg-item-label { font-size: 12px; color: var(--muted2); }
+.seg-item-value { font-size: 13px; color: #fff; font-weight: 600; }
+.seg-mini-bar { margin-top: 4px; height: 4px; background: rgba(255,255,255,0.07); border-radius: 999px; overflow: hidden; }
+.seg-mini-fill { height: 100%; background: linear-gradient(90deg, #7F77DD, #FF0088); }
 .bar-wrap { display: flex; align-items: center; gap: 10px; }
 .bar-bg { flex: 1; height: 4px; background: rgba(255,255,255,0.07); border-radius: 2px; }
 .bar-fill { height: 100%; border-radius: 2px; background: var(--pink); }
@@ -111,7 +126,7 @@ nav { background: var(--dark); border-bottom: 1px solid var(--border); padding: 
 .creator-card.verified-card::after { content: '✓ VERIFIED'; position: absolute; top: 12px; right: 12px; font-size: 9px; background: var(--pink-dim); color: var(--pink); border: 1px solid var(--pink-border); padding: 2px 7px; border-radius: 3px; font-weight: 700; letter-spacing: 0.06em; }
 .creator-top { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
 .avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, var(--pink) 0%, #8B00FF 100%); display: flex; align-items: center; justify-content: center; font-size: 16px; color: #fff; font-weight: 700; flex-shrink: 0; font-family: 'DM Serif Display', serif; }
-.creator-name { font-size: 14px; font-weight: 600; color: #fff; line-height: 1.2; margin-bottom: 3px; }
+.creator-name { font-size: 14px; font-weight: 600; color: #fff; line-height: 1.2; margin-bottom: 3px; word-break: break-word; }
 .creator-handle { font-size: 12px; color: var(--muted); }
 .creator-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; }
 .cstat { background: var(--card2); border-radius: 8px; padding: 9px 11px; }
@@ -127,17 +142,24 @@ nav { background: var(--dark); border-bottom: 1px solid var(--border); padding: 
 .search-input:focus { border-color: var(--pink-border); }
 .search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: 16px; }
 .results-count { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+.empty-state { text-align: center; padding: 20px 12px; color: var(--muted2); font-size: 13px; border: 1px dashed var(--border2); border-radius: 10px; background: var(--card2); }
 
 /* FOOTER */
-footer { border-top: 1px solid var(--border); padding: 24px 32px; margin-top: 48px; display: flex; justify-content: space-between; align-items: center; flex-wrap: gap; }
+footer { border-top: 1px solid var(--border); padding: 24px 32px; margin-top: 48px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px 16px; }
 .footer-logo { font-family: 'DM Serif Display', serif; color: var(--pink); font-size: 15px; }
 .footer-meta { font-size: 11px; color: var(--muted); }
 
 @media (max-width: 600px) {
   .hero, .content { padding: 24px 16px; }
-  nav { padding: 0 16px; }
-  .tab-bar { padding: 0 16px; }
+  nav { padding: 10px 16px; height: auto; min-height: 60px; }
+  .nav-meta { display: none; }
+  .tab-bar { padding: 0 16px; top: 60px; }
   .charts-grid { grid-template-columns: 1fr; }
+  .seg-board { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
 }
 </style>
 </head>
@@ -154,20 +176,24 @@ footer { border-top: 1px solid var(--border); padding: 24px 32px; margin-top: 48
 <div class="hero">
   <div class="hero-eyebrow">Creator Intelligence Report · UAE & Saudi Arabia</div>
   <h1 class="hero-title">Gulf Region Creator<br><em>Landscape</em></h1>
-  <p class="hero-sub">Powered by Modash via Socially Powerful data infrastructure. All figures verified with exact match confirmation.</p>
+  <p class="hero-sub">Powered by Socially Powerful data infrastructure. All figures verified with exact match confirmation.</p>
   <div class="hero-stats" id="heroStats"></div>
 </div>
 
-<div class="tab-bar">
-  <button class="tab-btn active" onclick="switchTab('overview', this)">Overview</button>
-  <button class="tab-btn" onclick="switchTab('segments', this)">Segmentation Data</button>
-  <button class="tab-btn" onclick="switchTab('creators', this)">Creator Spotlight</button>
+<div class="tab-bar" role="tablist" aria-label="Dashboard sections">
+  <button class="tab-btn active" id="tab-btn-overview" role="tab" aria-selected="true" aria-controls="tab-overview" onclick="switchTab('overview', this)">Overview</button>
+  <button class="tab-btn" id="tab-btn-segments" role="tab" aria-selected="false" aria-controls="tab-segments" onclick="switchTab('segments', this)">Segmentation Data</button>
+  <button class="tab-btn" id="tab-btn-creators" role="tab" aria-selected="false" aria-controls="tab-creators" onclick="switchTab('creators', this)">Creator Spotlight</button>
 </div>
 
 <div class="content">
 
   <!-- OVERVIEW -->
-  <div class="section active" id="tab-overview">
+  <div class="section active" id="tab-overview" role="tabpanel" aria-labelledby="tab-btn-overview">
+    <div class="section-head">
+      <h2 class="section-title">Overview</h2>
+      <span class="section-sub">Market snapshot</span>
+    </div>
     <div class="filter-row">
       <span class="filter-label">Market</span>
       <button class="filter-chip active" id="ov-all" onclick="ovFilter('all',this)">All Markets</button>
@@ -208,7 +234,11 @@ footer { border-top: 1px solid var(--border); padding: 24px 32px; margin-top: 48
   </div>
 
   <!-- SEGMENTS -->
-  <div class="section" id="tab-segments">
+  <div class="section" id="tab-segments" role="tabpanel" aria-labelledby="tab-btn-segments">
+    <div class="section-head">
+      <h2 class="section-title">Segmentation Data</h2>
+      <span class="section-sub">Full breakdown</span>
+    </div>
     <div class="filter-row">
       <span class="filter-label">Market</span>
       <button class="filter-chip active" id="seg-all" onclick="segFilter('all',this)">All</button>
@@ -219,23 +249,15 @@ footer { border-top: 1px solid var(--border); padding: 24px 32px; margin-top: 48
       <button class="filter-chip" id="seg-ig2" onclick="segPlatFilter('instagram',this)">Instagram</button>
       <button class="filter-chip" id="seg-tt2" onclick="segPlatFilter('tiktok',this)">TikTok</button>
     </div>
-    <table class="seg-table" id="segTable">
-      <thead>
-        <tr>
-          <th>Market</th>
-          <th>Platform</th>
-          <th>Segment type</th>
-          <th>Segment</th>
-          <th>Total creators</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody id="segBody"></tbody>
-    </table>
+    <div id="segBody" class="seg-board" aria-live="polite"></div>
   </div>
 
   <!-- CREATORS -->
-  <div class="section" id="tab-creators">
+  <div class="section" id="tab-creators" role="tabpanel" aria-labelledby="tab-btn-creators">
+    <div class="section-head">
+      <h2 class="section-title">Creator Spotlight</h2>
+      <span class="section-sub">Highlighted profiles</span>
+    </div>
     <div style="margin-bottom:16px">
       <p style="font-size:13px;color:var(--muted2);margin-bottom:4px">Showing <strong style="color:#fff">highlighted creators only</strong> — verified accounts and those with 300K+ followers or engagement rate above 5%. Full dataset contains 400+ profiles across all tiers.</p>
     </div>
@@ -255,10 +277,10 @@ footer { border-top: 1px solid var(--border); padding: 24px 32px; margin-top: 48
     </div>
     <div class="search-wrap">
       <span class="search-icon">🔍</span>
-      <input type="text" class="search-input" placeholder="Search by name or username..." oninput="crSearch(this.value)" id="crSearchInput">
+      <input type="text" class="search-input" placeholder="Search by name or username..." oninput="crSearch(this.value)" id="crSearchInput" aria-label="Search creators" spellcheck="false" autocomplete="off">
     </div>
-    <div class="results-count" id="crCount"></div>
-    <div class="creators-grid" id="creatorsGrid"></div>
+    <div class="results-count" id="crCount" aria-live="polite"></div>
+    <div class="creators-grid" id="creatorsGrid" aria-live="polite"></div>
   </div>
 
 </div>
@@ -277,6 +299,7 @@ let ovMarket = 'all', ovPlatform = 'both';
 let segMarket = 'all', segPlatform = 'both';
 let crCountry = 'all', crPlatform = 'all', crGender = 'all', crSearchVal = '';
 let charts = {};
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // ── Utils ─────────────────────────────────────────────────────
 function fmt(n) {
@@ -291,14 +314,19 @@ function initials(name) {
   if (parts.length >= 2) return (parts[0][0]||'') + (parts[1][0]||'');
   return (name[0]||'').toUpperCase();
 }
-function getCount(country, platform, segType, segVal) {
-  const row = COUNTS.find(r =>
-    (country === 'all' || r.Country === country) &&
-    (platform === 'both' || r.Platform === platform) &&
-    r['Segment Type'] === segType &&
-    r['Segment'] === segVal
-  );
-  return row ? Number(row['Total Influencers']) : 0;
+function normalizeForSearch(value) {
+  return String(value || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase();
+}
+function escapeHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 function filterCounts(market, platform) {
   return COUNTS.filter(r =>
@@ -313,6 +341,9 @@ function sumSegment(rows, segType, segVal) {
 function maxTotal(rows) {
   const totals = rows.filter(r => r['Segment Type'] === 'Total');
   return totals.reduce((a, r) => a + Number(r['Total Influencers']), 0);
+}
+function chartYTick(v) {
+  return fmt(v);
 }
 
 // ── Hero Stats ─────────────────────────────────────────────────
@@ -352,8 +383,8 @@ function renderCharts() {
     type: 'bar',
     data: { labels: ['Male', 'Female'],
       datasets: [{ data: [maleCount, femaleCount], backgroundColor: ['#378ADD','#D4537E'], borderRadius: 6, borderSkipped: false }] },
-    options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${fmt(ctx.raw)} creators`}}},
-      scales:{ x:{grid:{display:false},ticks:{color:'#888',font:{size:12}}}, y:{grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'#888',font:{size:11},callback:v=>fmt(v)}} } }
+    options: { responsive:true, maintainAspectRatio:false, animation: prefersReducedMotion ? false : { duration: 300 }, plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${fmt(ctx.raw)} creators`}}},
+      scales:{ x:{grid:{display:false},ticks:{color:'#888',font:{size:12}}}, y:{grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'#888',font:{size:11},callback:chartYTick}} } }
   });
 
   // Age
@@ -366,8 +397,8 @@ function renderCharts() {
   charts.age = new Chart(document.getElementById('ageChart'), {
     type: 'bar',
     data: { labels: ageBands, datasets: [{ data: ageVals, backgroundColor: '#7F77DD', borderRadius: 5, borderSkipped: false }] },
-    options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${fmt(ctx.raw)} creators`}}},
-      scales:{ x:{grid:{display:false},ticks:{color:'#888',font:{size:12},autoSkip:false}}, y:{grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'#888',font:{size:11},callback:v=>fmt(v)}} } }
+    options: { responsive:true, maintainAspectRatio:false, animation: prefersReducedMotion ? false : { duration: 300 }, plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${fmt(ctx.raw)} creators`}}},
+      scales:{ x:{grid:{display:false},ticks:{color:'#888',font:{size:12},autoSkip:false}}, y:{grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'#888',font:{size:11},callback:chartYTick}} } }
   });
 
   // Tier donut
@@ -382,7 +413,7 @@ function renderCharts() {
   charts.tier = new Chart(document.getElementById('tierChart'), {
     type: 'doughnut',
     data: { labels: tierLabels, datasets: [{ data: tierVals, backgroundColor: tierColors, borderWidth: 2, borderColor: '#161616' }] },
-    options: { responsive:true, maintainAspectRatio:false, cutout:'62%', plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${fmt(ctx.raw)}`}}} }
+    options: { responsive:true, maintainAspectRatio:false, animation: prefersReducedMotion ? false : { duration: 300 }, cutout:'62%', plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${ctx.label}: ${fmt(ctx.raw)}`}}} }
   });
 
   // Audience age
@@ -397,37 +428,78 @@ function renderCharts() {
   charts.audAge = new Chart(document.getElementById('audAgeChart'), {
     type: 'bar',
     data: { labels: audAgeDisplays, datasets: [{ data: audAgeVals, backgroundColor: '#1D9E75', borderRadius: 5, borderSkipped: false }] },
-    options: { responsive:true, maintainAspectRatio:false, plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${fmt(ctx.raw)} creators`}}},
-      scales:{ x:{grid:{display:false},ticks:{color:'#888',font:{size:12},autoSkip:false}}, y:{grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'#888',font:{size:11},callback:v=>fmt(v)}} } }
+    options: { responsive:true, maintainAspectRatio:false, animation: prefersReducedMotion ? false : { duration: 300 }, plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>` ${fmt(ctx.raw)} creators`}}},
+      scales:{ x:{grid:{display:false},ticks:{color:'#888',font:{size:12},autoSkip:false}}, y:{grid:{color:'rgba(255,255,255,0.05)'},ticks:{color:'#888',font:{size:11},callback:chartYTick}} } }
   });
 }
 
-// ── Segment Table ──────────────────────────────────────────────
-const SEG_TYPE_STYLES = {
-  'Total': 'seg-total',
-  'Influencer Gender': 'seg-gender',
-  'Influencer Age': 'seg-age',
-  'Follower Tier': 'seg-tier',
-  'Audience Location (≥20%)': 'seg-audloc',
-  'Audience Gender (≥50%)': 'seg-audgender',
-  'Audience Age (≥30%)': 'seg-audage',
-};
+// ── Segment Breakdowns ─────────────────────────────────────────
+const SEG_GROUP_ORDER = [
+  'Influencer Gender',
+  'Influencer Age',
+  'Follower Tier',
+  'Audience Location (≥20%)',
+  'Audience Gender (≥50%)',
+  'Audience Age (≥30%)'
+];
 
 function renderSegTable() {
   const rows = filterCounts(segMarket, segPlatform);
-  const maxVal = Math.max(...rows.map(r => Number(r['Total Influencers'])));
-  document.getElementById('segBody').innerHTML = rows.map(r => {
-    const n = Number(r['Total Influencers']);
-    const pct = maxVal ? n/maxVal : 0;
-    const cls = SEG_TYPE_STYLES[r['Segment Type']] || '';
-    return `<tr>
-      <td><span class="country-badge ${r.Country==='UAE'?'country-uae':'country-ksa'}">${r.Country}</span></td>
-      <td><span class="plat ${r.Platform==='instagram'?'plat-ig':'plat-tt'}">${r.Platform==='instagram'?'IG':'TT'}</span></td>
-      <td><span class="seg-type ${cls}">${r['Segment Type']}</span></td>
-      <td style="color:var(--muted2)">${r.Segment}</td>
-      <td class="num-cell">${fmt(n)}</td>
-      <td style="width:120px"><div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:${Math.round(pct*100)}%"></div></div></div></td>
-    </tr>`;
+  if (!rows.length) {
+    document.getElementById('segBody').innerHTML = '<div class="empty-state">No segment rows match the selected filters.</div>';
+    return;
+  }
+  const combos = {};
+  rows.forEach(r => {
+    const key = `${r.Country}__${r.Platform}`;
+    if (!combos[key]) combos[key] = { country: r.Country, platform: r.Platform, rows: [] };
+    combos[key].rows.push(r);
+  });
+  const cards = Object.values(combos).sort((a, b) => {
+    if (a.country !== b.country) return a.country.localeCompare(b.country);
+    return a.platform.localeCompare(b.platform);
+  });
+
+  document.getElementById('segBody').innerHTML = cards.map((card) => {
+    const totalRow = card.rows.find(r => r['Segment Type'] === 'Total');
+    const totalVal = totalRow ? Number(totalRow['Total Influencers']) : 0;
+
+    const groupsHtml = SEG_GROUP_ORDER.map(groupName => {
+      const groupRows = card.rows.filter(r => r['Segment Type'] === groupName);
+      if (!groupRows.length) return '';
+      const groupMax = Math.max(...groupRows.map(r => Number(r['Total Influencers'])));
+      const items = groupRows
+        .sort((a, b) => Number(b['Total Influencers']) - Number(a['Total Influencers']))
+        .map(r => {
+          const n = Number(r['Total Influencers']);
+          const pct = groupMax ? Math.round((n / groupMax) * 100) : 0;
+          const label = escapeHtml(r.Segment.replace(/^Audience\s+/, ''));
+          return `<div class="seg-item">
+            <div>
+              <div class="seg-item-label">${label}</div>
+              <div class="seg-mini-bar"><div class="seg-mini-fill" style="width:${pct}%"></div></div>
+            </div>
+            <div class="seg-item-value">${fmt(n)}</div>
+          </div>`;
+        }).join('');
+      return `<div class="seg-group">
+        <div class="seg-group-title">${escapeHtml(groupName)}</div>
+        ${items}
+      </div>`;
+    }).join('');
+
+    return `<div class="seg-card">
+      <div class="seg-card-head">
+        <div class="seg-card-header">
+          <span class="country-badge ${card.country === 'UAE' ? 'country-uae' : 'country-ksa'}">${escapeHtml(card.country)}</span>
+          <span class="plat ${card.platform === 'instagram' ? 'plat-ig' : 'plat-tt'}">${card.platform === 'instagram' ? 'Instagram' : 'TikTok'}</span>
+        </div>
+        <span class="seg-total-pill">Total creators: ${fmt(totalVal)}</span>
+      </div>
+      <div class="seg-card-body">
+        <div class="seg-groups">${groupsHtml}</div>
+      </div>
+    </div>`;
   }).join('');
 }
 
@@ -438,16 +510,28 @@ function renderCreators() {
     if (crPlatform !== 'all' && c.platform !== crPlatform) return false;
     if (crGender !== 'all' && c.igGender !== crGender) return false;
     if (crSearchVal) {
-      const q = crSearchVal.toLowerCase();
-      if (!c.fullName.toLowerCase().includes(q) && !c.username.toLowerCase().includes(q)) return false;
+      const q = normalizeForSearch(crSearchVal);
+      const fullName = normalizeForSearch(c.fullName);
+      const username = normalizeForSearch(c.username);
+      if (!fullName.includes(q) && !username.includes(q)) return false;
     }
     return true;
   });
   document.getElementById('crCount').textContent = `Showing ${data.length} of ${HIGHLIGHTED.length} highlighted creators`;
+  if (!data.length) {
+    document.getElementById('creatorsGrid').innerHTML = '<div class="empty-state">No creators found. Try clearing or changing filters.</div>';
+    return;
+  }
   document.getElementById('creatorsGrid').innerHTML = data.map(c => {
-    const ini = initials(c.fullName || c.username);
+    const fullName = c.fullName || c.username || 'Unknown Creator';
+    const userName = c.username || 'unknown';
+    const ini = initials(fullName || userName);
     const gradients = ['135deg,#FF0088,#8B00FF','135deg,#0088FF,#00CCAA','135deg,#FF5500,#FF0088','135deg,#7F77DD,#0088FF'];
-    const grad = gradients[c.username.charCodeAt(0) % gradients.length];
+    const grad = gradients[userName.charCodeAt(0) % gradients.length];
+    const safeName = escapeHtml(fullName);
+    const safeUser = escapeHtml(userName);
+    const safeUrl = escapeHtml(c.url || '#');
+    const namePreview = safeName.length > 22 ? safeName.slice(0, 22) + '…' : safeName;
     const tags = [];
     if (c.igGender) tags.push(`<span class="plat" style="background:rgba(255,255,255,0.06);color:var(--muted2)">${c.igGender}</span>`);
     if (c.audGender && c.audGenderPct) tags.push(`<span class="plat" style="background:rgba(155,89,182,0.1);color:#cc66ff">Aud ${c.audGender} ${c.audGenderPct}</span>`);
@@ -456,8 +540,8 @@ function renderCreators() {
       <div class="creator-top">
         <div class="avatar" style="background:linear-gradient(${grad})">${ini}</div>
         <div style="min-width:0">
-          <div class="creator-name" title="${c.fullName}">${c.fullName.length>22?c.fullName.slice(0,22)+'…':c.fullName}</div>
-          <div class="creator-handle">@${c.username}</div>
+          <div class="creator-name" title="${safeName}">${namePreview}</div>
+          <div class="creator-handle">@${safeUser}</div>
           <div style="display:flex;gap:6px;margin-top:5px">
             <span class="country-badge ${c.country==='UAE'?'country-uae':'country-ksa'}">${c.country==='UAE'?'🇦🇪 UAE':'🇸🇦 KSA'}</span>
             <span class="plat ${c.platform==='instagram'?'plat-ig':'plat-tt'}">${c.platform==='instagram'?'IG':'TT'}</span>
@@ -466,20 +550,32 @@ function renderCreators() {
       </div>
       <div class="creator-stats">
         <div class="cstat"><div class="cstat-val">${fmt(c.followers)}</div><div class="cstat-label">Followers</div></div>
-        <div class="cstat"><div class="cstat-val">${c.engRate?c.engRate.toFixed(1)+'%':'—'}</div><div class="cstat-label">Eng. Rate</div></div>
+        <div class="cstat"><div class="cstat-val">${Number.isFinite(Number(c.engRate)) ? Number(c.engRate).toFixed(1) + '%' : '—'}</div><div class="cstat-label">Eng. Rate</div></div>
       </div>
       <div class="creator-meta">${tags.join('')}</div>
-      <a href="${c.url}" target="_blank" rel="noopener" class="creator-link">View Profile →</a>
+      <a href="${safeUrl}" target="_blank" rel="noopener" class="creator-link">View Profile →</a>
     </div>`;
   }).join('');
 }
 
 // ── Filter handlers ───────────────────────────────────────────
 function switchTab(name, btn) {
+  const target = document.getElementById('tab-' + name);
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-'+name).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => {
+    b.classList.remove('active');
+    b.setAttribute('aria-selected', 'false');
+    b.setAttribute('tabindex', '-1');
+  });
+  if (target) {
+    target.classList.add('active');
+  }
   btn.classList.add('active');
+  btn.setAttribute('aria-selected', 'true');
+  btn.setAttribute('tabindex', '0');
+  if (target) {
+    target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+  }
 }
 function setActiveChip(group, el) {
   document.querySelectorAll('[id^="'+group+'"]').forEach(b => b.classList.remove('active'));
@@ -519,6 +615,18 @@ function crFilter(type, v, el) {
   renderCreators();
 }
 function crSearch(v) { crSearchVal = v; renderCreators(); }
+
+// Keyboard support for tab navigation.
+document.querySelectorAll('.tab-btn').forEach((btn, index, all) => {
+  btn.addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+    e.preventDefault();
+    const dir = e.key === 'ArrowRight' ? 1 : -1;
+    const next = (index + dir + all.length) % all.length;
+    all[next].focus();
+    all[next].click();
+  });
+});
 
 // ── Init ──────────────────────────────────────────────────────
 renderHero();
