@@ -1758,13 +1758,11 @@ function renderSTInsights() {
     typeSegments[t].push({ name: r.Segment, value: v, market: r.Country, platform: r.Platform });
   });
 
-  const totalSignals = Object.values(typeTotals).reduce((a, b) => a + b, 0);
   const largestType = Object.keys(typeTotals).sort((a, b) => typeTotals[b] - typeTotals[a])[0] || '-';
   const largestTypeVal = typeTotals[largestType] || 0;
 
   document.getElementById('stOverview').innerHTML = `
-    <div class="stat-card top-pink"><div class="stat-val">${fmt(totalSignals)}</div><div class="stat-label">Total Signals</div><div class="stat-sub">Across selected filters</div></div>
-    <div class="stat-card top-blue"><div class="stat-val">${Object.keys(typeTotals).length}</div><div class="stat-label">Segment Types</div><div class="stat-sub">Dimensions represented</div></div>
+    <div class="stat-card top-blue"><div class="stat-val">${Object.keys(typeTotals).length}</div><div class="stat-label">Segment Types</div><div class="stat-sub">Influencer Gender · Influencer Age · Follower Tier · Audience Location (>=20%) · Audience Gender (>=50%) · Audience Age (>=30%)</div></div>
     <div class="stat-card top-green"><div class="stat-val">${esc(largestType)}</div><div class="stat-label">Largest Type</div><div class="stat-sub">${fmt(largestTypeVal)} total</div></div>
   `;
 
